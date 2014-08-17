@@ -1,0 +1,600 @@
+#+OPTIONS: email:t
+* 感知机
+感知机是二类分类的线性分类模型
+** 模型
+假设 $x \in R^n$ ， $y \in \{+1,-1\}$
+$$f(x)=sign(w x + b)$$
+其中
+$$
+\begin{cases}
+sign(x)=1 \qquad  x\ge0\\
+sign(x)=-1 \quad x<0
+\end{cases}
+$$
+几何解释：线性方程 $w \cdot x + b =0$ 对应特征空间 $R^n$ 中的一个超平面，
+其中， $w$ 是超平面的法向量，$b$是超平面的截距。
+这个超平面把特征空间划分为两个部分，位于两部分的点分别被分为正、负两类。
+** 策略
+任一点 $x_0$ 到超平面 $S$ 的距离
+$$\frac{1}{||w||} |w x_0 +b|$$
+对无分类的数据 $(x_i, y_i)$ 来说
+$$-y_i (w x_i +b ) > 0$$
+因此误分类点到平面的距离
+$$-\frac{1}{||w||} y_i (w x_0 +b)$$
+那么，所有误分类点到超平面S的总距离为
+$$-\frac{1}{||w||} \sum_{x_i \in M}y_i (w x_0 +b)$$
+给定训练数据集
+$$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$$
+感知机学习的损失函数定义为
+$$L(w,b)=-\sum_{x_i \in M} y_i (w \cdot x_i + b)$$
+** 算法
+*** 原始形式
+使用梯度下降法，解决以下最优化问题
+$$\min_{w,b}L(w,b)=-\sum_{x_i \in M} y_i (w \cdot x_i + b)$$
+*** 对偶形式
+梯度下降法中，对于误分类点 $(x_i,y_i)$ ，通过
+$$w = w + \eta y_i x_i$$
+$$b = b + \eta y_i$$
+逐步修改 $w,b$ ，设修改n次，则 $w,b$ 关于 $(x_i,y_i)$ 的增量分别是$\alpha _i y_i x_i$ 和 $\alpha _i y_i$ ，
+其中，$\alpha _i = n_i \eta$。最后学习到的$w,b$可以分别表示为
+$$w=\sum_{i=1}^N\alpha_iy_ix_i$$
+$$b=\sum_{i=1}^N\alpha_iy_i$$
+对偶形式的模型表示为
+$$f(x)=sign(\sum_{j=1}^N\alpha_jy_jx_j\cdot x + b)$$
+使用梯度下降法，求解最优的$\alpha=(\alpha_1,\alpha_2,\cdots,\alpha_N)$和b
+** 小结
+感知机定义误分类点到分类超平面的距离之和为代价函数，
+训练的过程就是求解使得代价函数最小的分类超平面的法向量 $w$ 和截距 $b$ 。
+由此也可以看到，对于线性可分的情况，得到的分类超平面并不唯一。
+
+* k近邻
+k近邻法不具有显式的学习过程，k紧邻法实际上利用训练数据集对特征向量空间进行划分，并作为其分类的“模型”。
+k值的选择、距离度量及分类决策规则是k近邻法的三个基本要素。
+** 算法
++ 输入：训练数据集$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$
++ 输出：实例 $x$ 所属的类 $y$
++ 步骤
+  1. 根据给定的距离度量，在训练集中找出与 $x$ 最邻近的k个点，涵盖这k点的邻域记做 $N_k(x)$
+  2. 在 $N_k(x)$ 中根据分类决策规则(如多数表决)决定 $x$ 的类别 $y$:
+     $$y=arg\max_{c_j}\sum_{x_i \in N_k(x)} I(y_i=c_j), \qquad i=1,2,\cdots,N; \qquad j=1,2,\cdots,K$$
+几何解释：k近邻法相当于将特征空间划分为一些子空间，确定子空间里每个点所属的类。
+** 距离度量
+*** Lp距离
+$$Lp(x_i,x_j)=(\sum_{l=1}^n|x_i^{(l)}-x_j^{(l)}|^p)^{\frac{1}{p}}$$
++ p=1时，成曼哈顿距离
++ p=2时，称欧氏距离
++ p=inf时，它氏各个坐标距离的最大值
+** 选择ｋ值
+较小的ｋ值意味着用较小的邻域中的训练实例进行预测，预测结果对近邻的实例点非常敏感。
+ｋ值的减小意味着整体模型变得复杂，容易发生过拟合。
+在应用中，ｋ值一般取一个比较小的数值，采用交叉验证法来选取最优的ｋ值。
+** 小结
+k近邻方法的就是对空间进行划分，每一个子空间对应一个类别，落入子空间的点被归为对应的类别。
+k值的选择、距离度量及分类决策规则是k近邻法的三个基本要素。
+
+* 朴素贝叶斯
+朴素贝叶斯是基于贝叶斯定理与条件独立假设的分类法
+** 原理
+训练数据集$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$，
+朴素贝叶斯法通过训练数据集学习联合概率分布 $$P(X,Y)$$
+先验概率分布 $$P(Y=c_k), \qquad k=1,2,\cdots,K$$
+条件概率分布 $$P(X=x|Y=c_k)=P(X^{(1)}=x^{(1)},\cdots,X^{(n)}=x^{(n)}|Y=c_k), \qquad k=1,2,\cdots,K$$
+条件概率分布有指数量级的参数，其估计实际是不可行的。条件独立性假设
+$$P(X=x|Y=c_k)=P(X^{(1)}=x^{(1)},\cdots,X^{(n)}=x^{(n)}|Y=c_k)=\prod_{j=1}^nP(X^{(j)}=x^{(j)}|Y=c_k)$$
+贝叶斯定理计算后验概率
+$$P(Y=c_k|X=x)=\frac{P(X=x|Y=c_k)P(Y=c_k)}{\sum_k P(X=x|Y=c_k)P(Y=c_k)}$$
+结合条件独立假设，忽略分母，朴素贝叶斯分类器
+$$y=arg\max_{c_k}P(Y=c_k)\prod_j P(X^{(j)}=x^{(j)}|Y=c_k)$$
+** 参数估计方法
+*** 极大似然估计
+先验概率
+$$P(Y=c_k)=\frac{1}{N}\sum_{i=1}^N I(y_i=c_k), \qquad k=1,2,\cdots,K$$
+第j维特征取第l个值的条件概率
+$$P(X^{(j)}=a_{jl}|Y=c_k)=\frac{\sum_{i=l}^N I(x_i^{(j)}=a_{jl},y_i=c_k)}{\sum_{i=1}^N I(y_i=c_k)}$$
+*** 贝叶斯估计
+先验概率
+$$P(Y=c_k)=\frac{\sum_{i=1}^N I(y_i=c_k)+\lambda}{N+K\lambda}, \qquad k=1,2,\cdots,K$$
+第j维特征取第l个值的条件概率
+$$P(X^{(j)}=a_{jl}|Y=c_k)=\frac{\sum_{i=l}^N I(x_i^{(j)}=a_{jl},y_i=c_k)+\lambda}{\sum_{i=1}^N I(y_i=c_k)+S_j\lambda}, \qquad l=1,2,\cdots,S_j$$
+$\lambda=1$ 时称为拉普拉斯平滑
+** 小结
+朴素贝叶斯就是利用训练数据估计先验概率和条件概率，
+再利用贝叶斯公式估计后验概率，利用条件独立性假设简化后验概率的计算。
+朴素贝叶斯分类器的准则是后验概率最大化。
+* 决策树
+决策树模型呈现树形结构，在分类问题中，表示基于特征对实例进行分类的过程。
+** 模型
++ 决策树由节点和有向边组成，节点有两种类型：内部节点和叶节点，内部节点表示一个特征或属性，叶节点表示一个类。
++ 用决策树分类，从根节点开始，对实例的某一特征进行测试，根据测试结果，将实例分配到其子节点(每一个子节点对应着特征的一个取值)，如此递归地对实例进行测试并分配，直至到达叶节点，最后将实例分到叶节点的类中。
++ 决策树的构建过程
+  1. 构建根节点，将所有训练数据都放在根节点
+  2. 选择一个最优特征，按照这一特征将训练数据集分割成子集，使各个子集有一个在当前条件下最好的分类
+  3. 如果这些子集已经能够被基本正确分类，那么构建叶节点，并将这些子集分到所对应的叶节点中去
+  4. 如果还有子集不能被基本正确分类，对这些子集选择新的最优特征，继续对其进行分割
+  5. 如此递归下去，直至所有训练数据子集被基本正确分类，或者没有合适特征为止
+** 特征选择
+特征选择在于选取对训练数据具有分类能力的特征，通常特征选择的准则是信息增益或信息增益比
+*** 信息增益
+**** 熵
+熵越大，随机变量的不确定性就越大
+$$H(X)=-\sum_{i=1}^n p_i log p_i$$
+**** 条件熵
+表示在已知随即变量X的条件下随机变量Y的不确定性
+$$H(Y|X)=\sum_{i=1}^n p_i H(Y|X=x_i)$$
+**** 信息增益
+表示得知特征X的信息而使得类Y的信息的不确定性减少的程度
+$$g(D,A)=H(D)-H(D|A)$$
+**** 信息增益的计算方法
++ 输入：训练数据集D和特征A
++ 输出：特征A对训练数据集D的信息增益g(D,A)
++ 算法：
+  1. 计算数据集D的经验熵H(D)
+     $$H(D)=-\sum_{k=1}^K \frac{|D_k|}{|D|} log_2 \frac{|D_k|}{|D|}$$
+  2. 计算特征A对数据集D的经验条件熵H(D|A)
+     $$H(D|A)=\sum_{i=1}^n \frac{D_i}{D} H(D_i) = -\sum_{i=1}^n \frac{|D_i|}{|D|} \sum_{k=1}^K \frac{|D_{ik}|}{|D_i|} log_2 \frac{|D_{ik}|}{|D_i|}$$
+  3. 计算信息增益
+     $$g(D,A)=H(D)-H(D|A)$$
+*** 信息增益比
+特征A对训练数据集D的信息增益比 $g_R(D,A)$ 定义为其信息增益 $g(D,A)$ 与训练数据集D的经验熵 $H(D)$ 之比
+$$g_R(D,A)=\frac{g(D,A)}{H(D)}$$
+** 停止条件
++ 所有实例属于同一类
++ 特征集为空
++ 信息增益小于阈值 $\epsilon$ 
+** 剪枝
+决策树生成算法递归地产生决策树，直到不能继续下去为止，这样产生的树会出现过拟合现象。
+解决这个问题的办法是考虑决策树的复杂度，对已生成的决策树进行剪枝。
+剪枝从已生成的树上裁掉一些子树或叶节点，并将其根节点或父节点作为新的叶节点，从而简化分类树的模型。
+*** 损失函数
+设树T的叶节点个数为 $|T|$ ，t是树T的叶节点，该节点有 $N_t$ 个样本点，
+其中属于k类的样本点有 $N_{tk}$ 个， $H_t(T)$ 为叶节点t上的经验熵，
+损失函数定义为
+$$C_{\alpha}(T)=\sum_{t=1}^{|T|}N_tH_t(T)+\alpha|T|$$
+等式右边第一项表示模型对训练数据的预测误差，第二项表示模型复杂度， $\alpha$ 是调节因子
+*** 剪枝算法
++ 输入：生成算法产生的整个树T，参数 $alpha$ 
++ 输出：修剪后的子树
++ 算法
+  1. 计算每个节点的经验熵
+  2. 递归地从树的叶节点向上回缩，若回缩后的树的损失函数小于回缩前的，则进行剪枝，将父节点变为新的叶节点
+  3. 重复2，直到不能继续为止
+** 小结
+决策树利用特征选择，选取对分类最优的特征，根据特征的取值将数据集划分为更小的子集，如此递归下去，直到满足停止条件。
+决策树算法容易产生过拟合现象，解决过拟合的方法是对生成的决策树进行剪枝。
+* 逻辑斯蒂回归与最大熵模型
+** 逻辑斯蒂回归
+*** 模型
+$$P(Y=1|x)=\frac{exp(wx+b)}{1+exp(wx+b)}$$
+$$P(Y=0|x)=\frac{1}{1+exp(wx+b)}$$
+逻辑斯蒂回归比较两个条件概率值的大小，将实例x分到概率值较大的那一类
+*** 解释
+一个事件的几率指该事件发生的概率和不发生的概率的比值,
+一个事件的几率越大,其发生的概率就越大
+对逻辑斯蒂回归而言
+$$log\frac{P(Y=1|x)}{1-P(Y=1|x)} = wx$$
+也就是说,事件Y=1的对数几率是输入x的线性函数,
+wx越大,事件Y=1的对数几率越大,事件Y=1的几率越大,事件Y=1发生的概率越大
+*** 参数估计
+可以应用最大似然估计法估计模型参数
+设 $P(Y=1|x)=\pi(x)$ , $P(Y=0|x)=1-\pi(x)$ , 
+似然函数为
+$$\prod_{i=1}^N[\pi(x_i)]^{y_i}[1-\pi(x_i)]^{1-y_i}$$
+对数似然函数为(对上式取对数,代入并化简)
+$$L(w)=\sum_{i=1}^N[y_i(wx_i)-log(1+exp(wx_i))]$$
+用梯度下降法或拟牛顿法对L(w)求极大值,得到w的估计
+*** 多项逻辑斯蒂回归模型
+$$P(Y=k|x)=\frac{exp(w_kx+b)}{1+\sum_{k=1}^{K-1}exp(w_kx+b)}, \qquad k=1,2,\cdots,K-1$$
+$$P(Y=K|x)=\frac{1}{1+\sum_{k=1}^{K-1}exp(w_kx+b)}, \qquad k=1,2,\cdots,K-1$$
+** 最大熵模型
+*** 最大熵原理
+最大熵原理认为,学习概率模型时,在所有可能的概率模型中,熵最大的模型是最好的模型.
+最大熵原理认为,要选择的概率模型首先必须满足已有的事实(约束条件),在没有更多信息的情况下,
+那些不确定的部分都是"等可能的",最大时能够原理通过熵的最大化来表示等可能性.
+*** 最大熵模型
++ 假设分类模型是一个条件概率分布 $P(Y|X)$ ,在满足约束条件的情况下分类模型不唯一,此时选择条件熵最大的模型.
++ 给定一个数据集
+$$T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$$
++ 给定若干约束条件
+$$
+\begin{cases}
+f_i(x,y)=1 \qquad  x与y满足某一事实 \\
+f_i(x,y)=0 \qquad  否则
+\end{cases}
+$$
++ 可以确定联合分布P(X,Y)的经验分布
+$$\tilde{P}(X=x,Y=y)=\frac{v(X=x,Y=y)}{N} \qquad v(X=x,Y=y)表示训练数据中样本(x,y)出现频数$$
++ 可以确定边缘分布P(X)的经验分布
+$$\tilde{P}(X=x)=\frac{v(X=x)}{N} \qquad v(X=x)表示训练数据中输入x出现的频数$$
++ 约束条件的期望值满足
+$$\sum_{x,y}\tilde{P}(x)P(y|x)f_i(x,y)=\sum_{x,y}\tilde{P}(x,y)f_i(x,y)$$
++ 所有满足约束条件的模型集合为C
++ 条件熵为
+$$H(P)=-\sum_{x,y}\tilde{P}(x)P(y|x)logP(y|x)$$
++ 最大熵模型的学习等价于约束最优化问题
+$$\max_{p\in C} H(P)=-\sum_{x,y}\tilde{P}(x)P(y|x)logP(y|x)$$
+$$s.t. \qquad \sum_{x,y}\tilde{P}(x)P(y|x)f_i(x,y)=\sum_{x,y}\tilde{P}(x,y)f_i(x,y) \quad i=1,2,\cdots,n$$
+$$\sum_{y}P(y|x)=1$$
++ 其等价问题是
+$$\min_{p\in C} -H(P)=\sum_{x,y}\tilde{P}(x)P(y|x)logP(y|x)$$
+$$s.t. \qquad \sum_{x,y}\tilde{P}(x)P(y|x)f_i(x,y)-\sum_{x,y}\tilde{P}(x,y)f_i(x,y)=0, \quad i=1,2,\cdots,n$$
+$$1-\sum_{y}P(y|x)=0$$
++ 这是一个约束最优化问题,定义拉格朗日函数
+$$L(P,w)=-H(P)+w_0(1-\sum_{y}P(y|x))+\sum_{i=1}^n w_i (\sum_{x,y}\tilde{P}(x)P(y|x)f_i(x,y)-\sum_{x,y}\tilde{P}(x,y)f_i(x,y))$$
++ 原始问题是 $\min_{p\in C}\max_{w}L(P,w)$ ,对偶问题是 $\max_{w}\min_{P\in C}L(P,w)$ 
++ 令 $L(P,w)$ 对 $P(y|x)$ 的偏导等于0,结合约束条件,得到
+$$P_w(y|x)=\frac{exp(\sum_{i=1}^n w_if_i(x,y))}{\sum_y exp(\sum_{i=1}^n w_if_i(x,y))}$$
++ 将上式带入L(P,w),则L(P,w)以w为变量,求解外部的极大化问题
+$$\max_w L_w(P,w)$$
++ 可以用梯度下降法或拟牛顿法求得 $w^*$ ,则
+$$P^*(y|x)=P_{w^*}(y|x)$$
+** 小结
++ 逻辑斯蒂回归中,wx+b代表了事件发生的对数几率,输入x与事件发生的对数几率成线性关系.事件发生的对数几率越大,则事件发生的概率越大,当事件发生的概率大于0.5时,将x归于正类,否则归于负类.
++ 最大熵模型以条件概率P(y|x)为分类模型,当满足约束条件的分类模型不唯一时,选择熵最大的那个分类模型
+* 支持向量机
++ 支持向量机是一种二类分类模型,它的基本模型是定义在特征空间上的间隔最大的线性分类器.
++ 支持向量机包含由简至繁的模型:线性可分支持向量机,线性支持向量机,非线性支持向量机.
+** 输入空间和特征空间
++ 线性可分和线性支持向量机,其输入空间和特征空间的元素一一对应,并将输入空间中的输入映射为特征空间中的特征向量.
++ 非线性支持向量机利用一个从输入空间到特征空间的非线性映射,将输入映射为特征向量.
++ 支持向量机的学习是在特征空间中进行的
+** 线性可分支持向量机
+*** 函数间隔和几何间隔
+**** 函数间隔
++ 超平面关于样本点 $(x_i,y_i)$ 的函数间隔为
+$$\hat{\gamma}_i = y_i(wx_i+b)$$
++ 超平面关于训练数据集T的函数间隔为
+$$\hat{\gamma} = \min_{i=1,\cdots,N}\hat{\gamma}_i$$
+**** 几何间隔
++ 超平面关于样本点 $(x_i,y_i)$ 的几何间隔为
+$$\gamma_i = \frac{y_i(wx_i+b)}{||w||}$$
++ 超平面关于训练数据集T的几何间隔为
+$$\gamma = \min_{i=1,\cdots,N}\gamma_i$$
+*** 间隔最大化原始问题
++ 几何间隔最大化问题可以表示为约束最优化问题
+$$\max_{w,b} \gamma$$
+$$s.t. \qquad \frac{y_i(wx_i+b)}{||w||} \ge \gamma, \quad i=1,2,\cdots,N$$
++ 可以改写为用函数间隔表示
+$$\max_{w,b} \frac{\hat{\gamma}}{||w||}$$
+$$s.t. \qquad y_i(wx_i+b) \ge \hat{\gamma}, \quad i=1,2,\cdots,N$$
++ 由于函数间隔的改变对上面最优化问题的不等式约束没有影响,故取 $\hat{\gamma} = 1$ ,于是转换为如下问题
+$$\min_{w,b} \frac{1}{2}||w||^2 $$
+$$s.t. \qquad y_i (wx_i+b)-1 \ge 0, \quad i=1,2,\cdots,N$$
+*** 间隔最大化对偶问题
++ 定义拉格朗日函数
+$$L(w,b,\alpha)=\frac{1}{2}||w||^2-\sum_{i=1}^N\alpha_iy_i(wx_i+b)+\sum_{i=1}^N\alpha_i$$
++ 原始问题是
+$$\min_{w,b}\quad\max_{\alpha}L(w,b,\alpha)$$
++ 对偶问题是
+$$\max_{\alpha}\quad\min_{w,b}L(w,b,\alpha)$$
++ $L(w,b,\alpha)$ 分别对w,b求偏导数并令其等于0,得
+$$w=\sum_{i=1}^N\alpha_iy_ix_i$$
+$$\sum_{i=1}^N\alpha_iy_i=0$$
++ 将以上结果代入 $L(w,b,\alpha)$ ,得
+$$\min_{w,b}L(w,b,\alpha)=-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_ix_j)+\sum_{i=1}^N\alpha_i$$
++ 求 $\min_{w,b}L(w,b,\alpha)$ 对 $\alpha$ 的极大
+$$\max_{\alpha}\quad-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_ix_j)+\sum_{i=1}^N\alpha_i$$
+$$s.t. \qquad \sum_{i=1}^N\alpha_iy_i = 0$$
+$$\alpha_i \ge 0, \qquad i=1,2,\cdots,N$$
++ 问题可以转换为
+$$\min_{\alpha}\quad\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_ix_j)-\sum_{i=1}^N\alpha_i$$
+$$s.t. \qquad \sum_{i=1}^N\alpha_iy_i = 0$$
+$$\alpha_i \ge 0, \qquad i=1,2,\cdots,N$$
+*** 线性可分支持向量机学习算法
++ 求解约束最优化问题
+$$\min_{\alpha}\quad\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_ix_j)-\sum_{i=1}^N\alpha_i$$
+$$s.t. \qquad \sum_{i=1}^N\alpha_iy_i = 0$$
+$$\alpha_i \ge 0, \qquad i=1,2,\cdots,N$$
++ 求得最优解 $\alpha^* = (\alpha_1^*,\cdots,\alpha_N^*)^T$ ,计算
+$$w^*=\sum_{i=1}^N\alpha_i^*y_ix_i$$
++ 计算 $b^*$ 
+$$b^* = y_j-w^*x_j = y_j-\sum_{i=1}^N\alpha_i^*y_i(x_ix_j)$$
++ 得到分类超平面
+$$w^*x+b^* = 0$$
++ 分类决策函数
+$$f(x) = sign(w^*x+b^*)$$ 
+*** 支持向量
++ 在线性可分情况下,训练数据集的样本点中与分离超平面距离最近的样本点称为支持向量.
++ 在决定分离超平面时只有支持向量起作用,其他样本点并不起作用.
+** 线性支持向量机
+*** 原始问题
++ 线性不可分意味着某些样本点 $(x_i,y_i)$ 不能满足函数间隔大于等于1的约束条件
++ 为了解决这个问题,可以对每个样本点 $(x_i,y_i)$ 引进一个松弛变量 $\xi_i \ge 0$ ,使函数间隔加上松弛变量大于等于1
+$$y_i(wx_i+b)+\xi_i \ge 1$$
++ 对每一个松弛变量 $\xi_i$ 支付一个代价 $\xi_i$ ,目标函数变为
+$$\frac{1}{2}||w||^2+C\sum_{i=1}^N \xi_i$$
++ 原始问题变为
+$$\min_{w,b,\xi} \frac{1}{2}||w||^2+C\sum_{i=1}^N \xi_i$$
+$$s.t. \qquad y_i(wx_i+b) \ge 1-\xi_i, \quad i=1,2,\cdots,N$$
+$$\xi_i \ge 0, \quad i=1,2,\cdots,N$$
+*** 对偶问题
++ 定义拉格朗日函数
+$$L(w,b,\xi,\alpha,\mu)=\frac{1}{2}||w||^2+C\sum_{i=1}^N \xi_i-\sum_{i=1}^N\alpha_i(y_i(wx_i+b)-1+\xi_i)-\sum_{i=1}^N\mu_i\xi_i$$
++ 原始问题是
+$$\min_{w,b,\xi}\quad\max_{\alpha,\mu}L(w,b,\xi,\alpha,\mu)$$
++ 对偶问题是
+$$\max_{\alpha,\mu}\quad\min_{w,b,\xi}L(w,b,\xi,\alpha,\mu)$$
++ $L(w,b,\xi,\alpha,\mu)$ 对 $w,b,\xi$ 求偏导等于0,得到
+$$w=\sum_{i=1}^N\alpha_iy_ix_i$$
+$$\sum_{i=1}^N\alpha_iy_i=0$$
+$$C-\alpha_i-u_i=0$$
++ 将以上结果代入 $L(w,b,\xi,\alpha,\mu)$ ,得
+$$\min_{w,b,\xi}L(w,b,\xi,\alpha,\mu)=-\frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_ix_j)+\sum_{i=1}^N\alpha_i$$
++ 得到对偶问题
+$$\min_{\alpha} \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_ix_j)-\sum_{i=1}^N\alpha_i$$
+$$s.t. \qquad \sum_{i=1}^N\alpha_iy_i=0$$
+$$0 \le \alpha_i \le C, \quad i=1,2,\cdots,N$$
+*** 线性支持向量机学习算法
++ 选择惩罚参数C>0,构造并求解凸二次规划问题
+$$\min_{\alpha} \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_j(x_ix_j)-\sum_{i=1}^N\alpha_i$$
+$$s.t. \qquad \sum_{i=1}^N\alpha_iy_i=0$$
+$$0 \le \alpha_i \le C, \quad i=1,2,\cdots,N$$
++ 求得最优解 $\alpha^* = (\alpha_1^*,\cdots,\alpha_N^*)^T$ ,计算
+$$w^*=\sum_{i=1}^N\alpha_i^*y_ix_i$$
++ 选择 $\alpha^*$ 的一个分量 $\alpha_j^*$ 满足条件 $0<\alpha_j^*<C$ ,计算 $b^*$ 
+$$b^* = y_j-w^*x_j = y_j-\sum_{i=1}^N\alpha_i^*y_i(x_ix_j)$$
++ 得到分类超平面
+$$w^*x+b^* = 0$$
++ 分类决策函数
+$$f(x) = sign(w^*x+b^*)$$ 
+*** 支持向量
+软间隔的支持向量
+1. 或者在间隔边界上
+2. 或者在间隔边界与分离超平面之间
+3. 或者在分离超平面误分一侧
+** 非线性支持向量机
+*** 非线性可分问题
+对于一个给定的训练数据集 $T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$ ,
+如果能用一个超曲面将正负例正确分开,则称这个问题为非线性可分问题.
+*** 核技巧
+**** 基本思想
+核技巧的基本思想是通过一个非线性变换,将输入空间(欧式空间或离散集合)对应于一个特征空间(希尔伯特空间),
+使得在输入空间中的超曲面模型对应于特征空间中的超平面模型,
+这样,分类问题的学习任务通过在特征空间中求解线性支持向量机就可以完成.
+**** 核函数
++ 定义
+#+BEGIN_QUOTE
+设X是输入空间(欧式空间或离散集合),设H为特征空间(希尔伯特空间),如果一个从X到H的映射
+$$\phi(x):X \to H$$
+使得对所有 $x,z \in X$ ,函数K(x,z)满足条件
+$$K(x,z) = \phi(x) \cdot \phi(z)$$
+则称K(x,z)为核函数, $\phi(x)$ 为映射函数
+#+END_QUOTE
++ 不是所有函数都是核函数,核函数需要满足一些复杂的充要条件(略)
++ 常用核函数
+  1. 多项式核函数 $$K(x,z)=(x\cdot z+1)^p$$
+  2. 高斯核函数 $$K(x,z)=exp(-\frac{||x-z||^2}{2\sigma^2})$$
+**** 核技巧
++ 核技巧的想法是,在学习与预测中,只定义核函数K(x,z),而不显示地定义映射函数 $\phi$ 
++ 在支持向量机的对偶问题中,无论目标函数还是决策函数,都只涉及输入实例与实例之间的内积
++ 在对偶问题的目标函数中内积 $x_ix_j$ 可以用核函数 $K(x_i,x_j)=\phi(x_i)\cdot\phi(x_j)$ 来代替,此时对偶问题的目标函数变为
+$$W(\alpha) = \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jK(x_i,x_j)-\sum_{i=1}^N\alpha_i$$
++ 分类决策函数中的内积也可以用核函数代替,分类决策函数变为
+$$f(x) = sign\left( \sum_{i=1}^N \alpha_i^*y_i\phi(x_i)\cdot\phi(x)+b^*\right)=sign\left( \sum_{i=1}^N \alpha_i^*y_iK(x_i,x)+b^*\right)$$
++ 在核函数给定的条件下,可以利用解线性分类问题的方法求解非线性分类问题的支持向量机
++ 学习是隐式地在特征空间进行的,不需要显式地定义特征空间和映射函数
+*** 非线性支持向量机学习算法
++ 选取适当的核函数K(x,z)和适当的参数C,构造并求解最优化问题
+$$\min_{\alpha} \frac{1}{2}\sum_{i=1}^N\sum_{j=1}^N\alpha_i\alpha_jy_iy_jK(x_i,x_j)-\sum_{i=1}^N\alpha_i$$
+$$s.t. \qquad \sum_{i=1}^N\alpha_iy_i=0$$
+$$0 \le \alpha_i \le C, \quad i=1,2,\cdots,N$$
++ 求得最优解 $\alpha^* = (\alpha_1^*,\cdots,\alpha_N^*)^T$ ,计算 $w^*$ (事实上,由于不知道 $\phi$ , $w^*$ 是算不出来的,此处只是示意 $w^*$ 应该是什么样)
+$$w^*=\sum_{i=1}^N\alpha_i^*y_i\phi(x_i)$$
++ 选择 $\alpha^*$ 的一个分量 $\alpha_j^*$ 满足条件 $0<\alpha_j^*<C$ ,计算 $b^*$ 
+$$b^* = y_j-w^*\phi(x_j) = y_j-\sum_{i=1}^N\alpha_i^*y_iK(x_i,x_j)$$
++ 分类决策函数
+$$f(x) = sign(w^*\phi(x)+b^*)=sign\left( \sum_{i=1}^N\alpha_i^*y_iK(x,x_i)+b^*\right)$$ 
+
+* 提升方法
+** adaboost算法
+adaboost中的ada是Adaptive的简写
++ 输入:训练数据集 $T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$ , 弱学习算法
++ 输出:最终分类器G(x)
++ 步骤:
+  1. 初始化训练数据的权值分布 $$D_1=(w_{11},\cdots,w_{1i},\cdots,w_{1N}), \quad w_{1i}=\frac{1}{N}, \quad i=1,2,\cdots,N$$
+  2. 对 $m=1,2,\cdots,M$ 
+     1. 使用具有权值分布 $D_m$ 的训练数据集学习,得到基本分类器$$G_m(x):X \to {-1,+1}$$
+     2. 计算 $G_m(x)$ 在训练数据集上的分类误差率$$e_m=P(G_m(x_i)\ne y_i)=\sum_{i=1}^N w_{mi}I(G_m(x_i)\ne y_i)$$
+     3. 计算 $G_m(x)$ 的系数$$\alpha_m=\frac{1}{2}log\frac{1-e_m}{e_m}$$
+     4. 更新训练数据集的权值分布$$D_{m+1}=(w_{m+1,1},\cdots,w_{m+1,i},\cdots,w_{m+1,N})$$ $$w_{m+1,i}=\frac{w_{mi}}{Z_m}exp(-\alpha_my_iG_m(x_i)), \quad i=1,2,\cdots,N$$ $$Z_m=\sum_{i=1}^N w_{mi}exp(-\alpha_my_iG_m(x_i))$$
+  3. 构建基本分类器的线性组合$$f(x)=\sum_{m=1}^M\alpha_mG_m(x)$$ 得到最终分类器$$G(x)=sign\left(f(x)\right) = sign\left(\sum_{m=1}^M\alpha_mG_m(x)\right) $$
+** adaboost算法的说明
++ 假设训练数据集具有均匀的权值分布,保证第一步能够在原始数据上学习基本分类器 $G_1(x)$
++ $\sum_{i=1}^Nw_{mi}=1$, $G_m(x)$ 在加权训练数据集上的分类误差率是被 $G_m(x)$ 误分类样本的权值之和
++ adaboost中包含两个权值,一个是训练数据的权值 $w_{mi}$ ,一个是基本分类器的权值 $\alpha_m$ 
+  1. $w_{mi}$ : 被基本分类器 $G_m(x)$ 误分类的样本的权值得以扩大,而被正确分类样本的权值得以缩小.因此,误分类样本在下一轮学习中起更大的作用.
+  2. $\alpha_m$ : 表示 $G_m(x)$ 在最终分类器中的重要性,分类误差率越小的基本分类器在最终分类器中的作用越大
++ 不改变所给的训练数据,而不断改变训练数据的权值分布,使得训练数据在基本分类器的学习中器不同作用,这是adaboost的一个特点
++ 利用基本分类器的线性组合构建最终分类器是adaboost的另一个特点
++ adaboost算法是[[%E5%89%8D%E5%90%91%E5%88%86%E6%AD%A5%E7%AE%97%E6%B3%95][前向分步算法]]的特例
+** 前向分步算法
++ 输入:训练数据集 $T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$,损失函数 $L(y,f(x))$ ,基函数集 ${b(x;\gamma)}$
++ 输出:加法模型 $f(x)$
++ 步骤
+  1. 初始化 $f_0(x)=0$
+  2. 对 $m=1,2,\cdots,M$
+     1. 极小化损失函数$$(\beta_m,\gamma_m)=arg\min_{\beta,\gamma}\sum_{i=1}^N L(y_i,f_{m-1}(x_i)+\beta b(x_i;\gamma))$$ 得到参数 $\beta_m,\gamma_m$
+     2. 更新$$f_m(x)=f_{m-1}(x)+\beta_m b(x;\gamma_m)$$
+  3. 得到加法模型$$f(x)=f_M(x)=\sum_{m=1}^M\beta_m b(x;\gamma_m)$$
+** 回归问题的提升树算法
+提升树算法采用加法模型与前向分步算法,以决策树为基函数
+*** 基本思想
+提升树可以表示为决策树的加法模型
+$$f_M(x)=\sum_{m=1}^MT(x;\Theta_m)$$
+其中 $T(x;\Theta_m)$ 表示决策树, $\Theta_m$ 为决策树参数,M为树的个数
+当给定当前模型 $f_{m-1}(x)$ ,需求解
+$$\hat{\Theta}_m=arg\min_{\Theta_m}\sum_{i=1}^N L(y_i,f_{m-1}(x_i)+T(x_i;\Theta_m))$$
+确定第m棵树的参数
+当采用平方损失函数 $L(y,f(x))=(y-f(x))^2$ 时,其损失变为
+$$L(y,f_{m-1}(x)+T(x;\Theta_m))=[y-f_{m-1}(x)-T(x;\Theta_m)]^2=[r-T(x;\Theta_m)]^2$$
+其中
+$$r=y-f_{m-1}(x)$$
+是当前模型拟合数据的残差,所以, *对回归树提升算法来说,只需要简单地拟合当前模型的残差*
+*** 算法
++ 输入:训练数据集 $T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$
++ 输出:提升树 $f_M(x)$
++ 步骤
+  1. 初始化 $f_0(x)=0$
+  2. 对 $m=1,2,\cdots,M$ 
+     1. 计算残差$$r_{mi}=y_i-f_{m-1}(x_i), \quad i=1,2,\cdots,N$$
+     2. 拟合残差 $r_{mi}$ 学习一个回归树,得到 $T(x;\Theta_m)$
+     3. 更新$$f_m(x)=f_{m-1}(x)+T(x;\Theta_m)$$
+  3. 得到回归问题的提升树$$f_M(x)=\sum_{m=1}^M T(x;\Theta_m)$$
+** 梯度提升算法
++ 当损失函数是平方损失函数和指数损失函数时,每一步优化是很简单的,但对一般损失函数而言,往往每一步优化并不那么容易
++ 梯度提升算法利用"损失函数的负梯度在当前模型的值"作为回归问题提升树算法中的"残差的近似值",拟合一个回归树
+$$-\left[ \frac{\partial L(y_i,f(x_i))}{\partial f(x_i)}\right]_{f(x)=f_{m-1}(x)}$$
++ 如果将输入空间划分为J个互不交互的区域 $R_1,R_2,\cdots,R_J$ ,并且在每个区域上确定输出的常数值 $c_j$ ,树可以表示为$$T(x;\Theta)=\sum_{j=1}^J c_j I(x \in R_j)$$ J是回归树叶节点的个数
+*** 梯度提升算法
++ 输入:训练数据集 $T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$,损失函数 $L(y,f(x))$ 
++ 输出:回归树 $\hat{f}(x)$ 
++ 步骤
+  1. 初始化$$f_0(x)=arg\min_{c}\sum_{i=1}^N L(y_i,c)$$
+  2. 对 $m=1,2,\cdots,M$
+     1. 对 $i=1,2,\cdots,N$ ,计算$$r_{mi}=-\left[ \frac{\partial L(y_i,f(x_i))}{\partial f(x_i)}\right]_{f(x)=f_{m-1}(x)}$$
+     2. 对 $r_{mi}$ 拟合一个回归树,得到第m棵树的叶节点区域 $R_{mj},\quad j=1,2,\cdots,J$
+     3. 对 $j=1,2,\cdots,J$ ,计算$$c_{mj}=arg\min_{c}\sum_{x_i\in R_{mj}}L(y_i,f_{m-1}(x_i)+c)$$
+     4. 更新$$f_m(x)=f_{m-1}(x)+\sum_{j=1}^J c_{mj}I(x \in R_{mj})$$
+  3. 得到回归树$$\hat{f}(x)=f_M(x)=\sum_{m=1}^M \sum_{j=1}^J c_{mj}I(x \in R_{mj})$$
+
+
+** 小结
++ adaboost算法的每一轮迭代都确定当前弱分类器的权值(错误率越低,权值越高),以及下一轮迭代中训练集的权值(上一轮迭代中错分的训练样本增加权重,分对的点减小权重).最终的分类器是每一轮弱分类器的线性组合.
++ adaboost算法是前向分步算法的一个特例
++ 回归问题的提升树算法采用加法模型和前向分步模型,其损失函数定义为平方损失函数,恰好是上一轮迭代的残差,因此只需要在下一轮迭代中对残差进行拟合.
++ 梯度提升算法简化了损失函数为其他损失函数的情况,利用损失函数的负梯度在当前模型的值作为残差的近似.
+* EM算法及其推广
+** EM算法
++ 输入:观测变量数据Y,隐变量数据Z,联合分布 $P(Y,Z|\theta)$ ,条件分布 $P(Z|Y,\theta)$
++ 输出:模型参数 $\theta$
++ 步骤:
+  1. 选择参数的初值 $\theta^{(0)}$ ,开始迭代
+  2. E步:记 $\theta^{(i)}$ 为i次迭代参数 $\theta$ 的估计值,在第i+1次迭代的E步,计算$$Q(\theta,\theta^{(i)})=E_Z[logP(Y,Z|\theta)|Y,\theta^{(i)}]=\sum_Z logP(Y,Z|\theta)P(Z|Y,\theta^{(i)})$$ 这里, $P(Z|Y,\theta^{(i)})$ 是在给定观测数据Y和当前参数估计 $\theta^{(i)}$ 下隐变量数据Z的条件概率分布
+  3. M步:求使 $Q(\theta,\theta^{(i)})$ 极大化的 $\theta$ ,确定第i+1次迭代的参数的估计值 $\theta^{(i+1)}$ $$\theta^{(i+1)}=arg\max_{\theta}Q(\theta,\theta^{(i)})$$
+  4. 重复第2步和第3步,直到收敛.
+** EM算法的推导
++ 我们面对一个含有隐变量的概率模型,目标是极大化观测数据Y关于参数 $\theta$ 的对数似然函数$$L(\theta)=logP(Y|\theta)=log\sum_ZP(Y,Z|\theta)=log\left( \sum_ZP(Y|Z,\theta)P(Z|\theta)\right)$$
++ 假设在第i次迭代后 $\theta$ 的估计值是 $\theta^{(i)}$ ,我们希望新估计值使 $L(\theta)$ 增加,即 $L(\theta)>L(\theta^{(i)})$ 并逐步达到极大值,因此考虑两者的差$$L(\theta)-L(\theta^{(i)})=log\left( \sum_ZP(Y|Z,\theta)P(Z|\theta)-logP(Y|\theta^{(i)}) \right)$$
++ 利用Jensen不等式得到其下界 $$L(\theta)-L(\theta^{(i)})=log\left( P(Y|Z,\theta^{(i)})\frac{P(Y|Z,\theta)P(Z|\theta)}{P(Y|Z,\theta^{(i)})} \right)-logP(Y|\theta^{(i)})$$ $$\qquad \qquad \qquad \qquad \ge \sum_ZP(Z|Y,\theta^{(i)})log\frac{P(Y|Z,\theta)P(Z|\theta)}{P(Z|Y,\theta^{(i)})}-logP(Y|\theta^{(i)})$$ $$\qquad =\sum_ZP(Z|Y,\theta^{(i)})log\frac{P(Y|Z,\theta)P(Z|\theta)}{P(Z|Y,\theta^{(i)})P(Y|\theta^{(i)})}$$
++ 令$$B(\theta,\theta^{(i)})=L(\theta^{(i)})+\sum_ZP(Z|Y,\theta^{(i)})log\frac{P(Y|Z,\theta)P(Z|\theta)}{P(Z|Y,\theta^{(i)})P(Y|\theta^{(i)})}$$ 则 $$L(\theta) \ge B(\theta,\theta^{(i)})$$ 即函数 $B(\theta,\theta^{(i)})$ 是 $L(\theta)$ 的一个下界,且可知$$L(\theta^{(i)})=B(\theta^{(i)},\theta^{(i)})$$ 因此任何可以使 $B(\theta,\theta^{(i)})$ 增大的 $\theta$ 也可以使 $L(\theta)$ 增大
++ 为了使 $L(\theta)$ 尽可能增大,选择 $\theta^{(i+1)}$ 使 $B(\theta,\theta^{(i)})$ 达到极大,即$$\theta^{(i+1)}=arg\max_{\theta}B(\theta,\theta^{(i)})$$
++ 现在求 $\theta^{(i+1)}$ 的表达式,有$$\theta^{(i+1)}=arg\max_{\theta}\left( L(\theta^{(i)})+\sum_ZP(Z|Y,\theta^{(i)})log\frac{P(Y|Z,\theta)P(Z|\theta)}{P(Z|Y,\theta^{(i)})P(Y|\theta^{(i)})} \right)$$ $$=arg\max_{\theta}\left( \sum_ZP(Z|Y,\theta^{(i)})log(P(Y|Z,\theta)P(Z|\theta)) \right)$$ $$=arg\max_{\theta}\left( \sum_ZP(Z|Y,\theta^{(i)})logP(Y,Z|\theta) \right) $$ $$ =arg\max_{\theta}Q(\theta,\theta^{(i)}) $$
++ EM算法是通过不断求解下界的极大化逼近求解对数似然函数极大化的算法
++ EM算法不能保证找到全局最优值
+
+** 高斯混合模型参数估计的EM算法
++ 输入:观测数据 $y_1,y_2,\cdots,y_N$ ,高斯混合模型
++ 输出:高斯混合模型参数
++ 步骤
+  1. 取参数的初值开始迭代
+  2. E步:依据当前模型参数,计算分模型k对观测数据 $y_j$ 的响应度$$\hat{\gamma}_{jk}=\frac{\alpha_k\phi(y_j|\theta_k)}{\sum_{k=1}^K \alpha_k\phi(y_j|\theta_k)}, \qquad j=1,2,\cdots,N; k=1,2,\cdots,K$$
+  3. M步:计算新一轮迭代的模型参数$$\hat{\mu}_k=\frac{\sum_{j=1}^N \hat{\gamma}_{jk}y_j}{\sum_{j=1}^N \hat{\gamma}_jk}, \qquad k=1,2,\cdots,K$$ $$\hat{\sigma}_k^2=\frac{\sum_{j=1}^N \hat{\gamma}_{jk}(y_j-\mu_k)^2}{\sum_{j=1}^N \hat{\gamma}_{jk}}, \qquad k=1,2,\cdots,K$$ $$\hat{\alpha}_k = \frac{\sum_{j=1}^N \hat{\gamma}_{jk}}{N}, \qquad k=1,2,\cdots,K$$
+  4. 重复第2步和第3步,直到收敛
+** 高斯混合模型参数估计的EM算法的推导
+*** 高斯混合模型
+高斯混合模型指具有如下形式的概率分布模型:
+$$P(y|\theta)=\sum_{k=1}^K \alpha_k\phi(y|\theta_k)$$
+其中, $\alpha_k \ge 0$ , $\sum_{k=1}^K \alpha_k = 1$ , $\phi(y|\theta_k)$ 是高斯分布密度, $\theta_k = (\mu_k, \sigma_k^2)$ ,
+$$\phi(y|\theta_k)=\frac{1}{\sqrt{2\pi}\sigma_k}exp(-\frac{(y-\mu_k)^2}{2\sigma_k^2})$$
+*** 推导
+还是见书吧,有一点不明白,高斯混合分布明明是多个高斯分布的加权和,为什么可以把它当做首先依概率 $\alpha_k$ 选择第k个高斯分布模型,然后依第k个分布模型的概率分布 $\phi(y|\theta_k)$ 生成观测数据 $y_j$ ?
+** 小结
++ EM算法是是含有隐变量的概率模型极大似然估计
++ EM算法共分为两步,E步求期望(称Q函数),M步极大化Q函数得到新的参数估计
++ 对Q函数的极大化就等价于对极大似然估计下限的极大化,每次迭代后均提高观测数据的似然函数值
++ 在一般条件下EM算法是收敛的,但不能保证收敛到全局最优
+* 隐马尔可夫模型
+隐马尔可夫模型是关于时序的概率模型,描述由一个隐藏的马尔可夫链生成不可观测的状态随机序列,再由各个状态生成一个观测而产生观测随机序列的过程
+** 隐马尔可夫模型
++ 设Q是所有可能的状态集合,V是所有可能的观测集合$$Q=\{q_1,q_2,\cdots,q_N\},\qquad V=\{v_1,v_2,\cdots,v_M\}$$ N是可能的状态数,M是可能的观测数
++ I是长度为T的状态序列,O是对应的观测序列$$I=(i_1,i_2,\cdots,i_T), \qquad O=(o_1,o_2,\cdots,o_T)$$
++ A是状态转移概率矩阵$$A=\left[ a_{ij} \right]_{N*N}$$ 其中$$a_{ij}=P(i_{t+1}=q_j|i_t=q_i), \qquad i=1,2,\cdots,N; j=1,2,\cdots,N$$ 是在时刻t处于状态 $q_i$ 的条件下在时刻t+1转移到状态 $q_j$ 的概率
++ B是观测概率矩阵$$B=\left[ b(k) \right]_{N*M}$$ 其中,$$b_j(k)=P(o_t=v_k|i_t=q_j),\qquad k=1,2,\cdots,M; j=1,2,\cdots,N$$ 是时刻t处于状态 $q_j$ 的条件下生成观测 $v_k$ 的概率
++ $\pi$ 是初始状态概率向量$$\pi=(\pi_i)$$ 其中,$$\pi_i = P(i_1=q_i),\qquad i=1,2,\cdots,N$$ 是时刻t=1处于状态 $q_i$ 的概率
++ 隐马尔可夫模型由初始状态概率向量 $\pi$ ,状态转移概率矩阵A和观测概率矩阵B决定,隐马尔可夫模型 $\lambda$ 可以用三元符号表示$$\lambda=(A,B,\pi)$$
+*** 隐马尔可夫模型的两个基本假设
+1. 齐次马尔可夫性假设,即假设隐马尔可夫链在任意时刻t的状态只依赖于其前一时刻的状态,与其他时刻的状态及观测无关,也与时刻t无关
+2. 观测独立性假设,即假设任意时刻的观测只依赖于该时刻的马尔可夫链的状态,与其他观测及状态无关
+*** 隐马尔可夫模型的3个基本问题
+1. [[概率计算算法][概率计算问题]]. 给定 $\lambda=(A,B,\pi)$ 和观测序列 $O=(o_1,o_2,\cdots,o_T)$ ,计算在模型 $\lambda$ 下观测序列O出现的概率 $P(O|\lambda)$
+2. [[学习算法][学习问题]]. 已知观测序列 $O=(o_1,o_2,\cdots,o_T)$ ,估计模型 $\lambda=(A,B,\pi)$ 参数,使得在该模型下观测序列概率 $P(O|\lambda)$ 最大
+3. [[预测算法][预测问题]]. 已知模型 $\lambda=(A,B,\pi)$ 和观测序列 $O=(o_1,o_2,\cdots,o_T)$ ,求对给定观测序列条件概率 $P(I|O)$ 最大的状态序列 $I=(i_1,i_2,\cdots,i_T)$ .即给定观测序列,求最有可能的对应的状态序列
+** 概率计算算法
+*** 前向概率
+给定隐马尔可夫模型 $\lambda$ ,定义到时刻t部分观测序列为 $o_1,o_2,\cdots,o_t$ 且状态为 $q_i$ 的概率为前向概率,记作$$\alpha_t(i)=P(o_1,o_2,\cdots,o_t,i_t=q_i|\lambda)$$
+*** 观测序列概率的前向算法
++ 输入:隐马尔可夫模型 $\lambda$ ,观测序列O
++ 输出:观测序列概率 $P(O|\lambda)$
++ 步骤
+  1. 初值$$\alpha_1(i)=\pi_ib_i(o_1),\qquad i=1,2,\cdots,N$$
+  2. 递推,对 $t=1,2,\cdots,T-1$ ,$$\alpha_{t+1}(i)=\left[ \sum_{j=1}^N\alpha_t(j)a_{ji} \right]b_i(o_{t+1}),\qquad i=1,2,\cdots,N$$
+  3. 终止$$P(O|\lambda)=\sum_{i=1}^N\alpha_T(i)$$
+
+*** 前向算法递推公式的推导
+1. $$\alpha_t(j)=P(o_1,o_2,\cdots,o_t,i_t=q_j)$$
+2. $$a_{ji}=P(i_{t+1}=q_i|i_t=q_j)$$
+3. $$\alpha_t(j)a_{ji}=P(o_1,o_2,\cdots,o_t,i_t=q_j,i_{t+1}=q_i)$$
+4. $$\sum_{j=1}^N \alpha_t(j)a_{ji}=P(o_1,o_2,\cdots,o_t,i_{t+1}=q_i)$$
+5. $$b_i(o_{t+1})=P(o_{t+1}|i_{t+1}=q_i)$$
+6. $$\left[ \sum_{j=1}^N \alpha_t(j)a_{ji} \right] b_i(o_{t+1})=P(o_1,o_2,\cdots,o_{t+1},i_{t+1}=q_i)$$
+*** 后向概率
+给定隐马尔可夫模型 $\lambda$ ,定义在时刻t状态为 $q_i$ 的条件下,从t+1到T的部分观测序列为 $o_{t+1},o_{t+2},\cdots,o_T$ 的概率为后向概率,记作$$\beta_t(i)=P(o_{t+1},o_{t+2},\cdots,o_T|i_t=q_i,\lambda)$$
+*** 观测序列概率的后向算法
++ 输入:隐马尔可夫模型 $\lambda$ ,观测序列O
++ 输出:观测序列概率 $P(O|\lambda)$
++ 步骤
+  1. $$\beta_T(i)=1,\qquad i=1,2,\cdots,N$$
+  2. 对 $t=T-1,T-2,\cdots,1$ $$\beta_t(i)=\sum_{j=1}^N a_{ij}b_j(o_{t+1})\beta_{t+1}(j),\qquad i=1,2,\cdots,N$$
+  3. $$P(O|\lambda)=\sum_{i=1}^N \pi_ib_i(o_1)\beta_1(i)$$
+
+*** 后向算法递推公式的推导
+1. $$\beta_{t+1}(j)=P(o_{t+2},o_{t+3},\cdots,o_T|i_{t+1}=q_j,\lambda)$$
+2. $$b_j(o_{t+1})=P(o_{t+1}|i_{t+1}=q_j)$$
+3. $$b_j(o_{t+1}) \beta_{t+1}(j)=P(o_{t+1},o_{t+2},\cdots,o_T|i_{t+1}=q_j,\lambda)$$
+4. $$a_{ij}=P(a_{t+1}=q_j|a_t=q_i)$$
+5. $$a_{ij} b_j(o_{t+1}) \beta_{t+1}(j)=P(o_{t+1},o_{t+2},\cdots,o_T,i_{t+1}=q_j|i_t=q_i,\lambda)$$
+6. $$\sum_{j=1}^N a_{ij} b_j(o_{t+1}) \beta_{t+1}(j)=P(o_{t+1},o_{t+2},\cdots,o_T|i_t=q_i,\lambda)$$
+*** 一些概率与期望的计算
++ 已知$$\alpha_t(i)=P(o_1,o_2,\cdots,o_t,i_t=q_i|\lambda)$$ $$\beta_t(i)=P(o_{t+1},o_{t+2},\cdots,o_T|i_t=q_i,\lambda)$$
++ 则有$$\alpha_t(i)\beta_t(i) = P(i_t=q_i,O|\lambda)$$ $$\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j) = P(i_t=q_i,i_{t+1}=q_j,O|\lambda)$$
++ 给定模型 $\lambda$ 和观测模型O,在时刻t处于状态 $q_i$ 的概率$$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum_{j=1}^N \alpha_t(j)\beta_t(j)}$$
++ 给定模型 $\lambda$ 和观测模型O,在时刻t处于状态 $q_i$ 且在时刻t+1处于状态 $q_j$ 的概率$$\xi(i,j)=P(i_t=q_i,i_{t+1}=q_j|O,\lambda)=\frac{\alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)}{\sum_{i=1}^N \sum_{j=1}^N \alpha_t(i)a_{ij}b_j(o_{t+1})\beta_{t+1}(j)}$$
++ 在观测O下状态i出现的期望值$$\sum_{t=1}^T\gamma_t(i)$$
++ 在观测O下由状态i转移的期望值$$\sum_{t=1}^{T-1}\gamma_t(i)$$
++ 在观测O下由状态i转移到状态j的期望值$$\sum_{t=1}^{T-1}\xi_t(i,j)$$
+** 学习算法
+*** 监督学习算法
+假设已训练数据包含S个长度相同的观测序列和对应的状态序列 $\{(O_1,I_1),(O_2,I_2),\cdots,(O_S,I_S)\}$ ,那么可以用极大似然估计法来估计隐马尔可夫模型的参数
+1. 转移概率 $a_{ij}$ . 设样本中时刻t处于状态i时刻t+1转移到j的频数为 $A_{ij}$ ,则$$\hat{a}_{ij}=\frac{A_{ij}}{\sum_{j=1}^N A_{ij}},\qquad i=1,2,\cdots,N; j=1,2,\cdots,N$$
+2. 观测概率 $b_j(k)$ . 设样本中状态为j并观测为k的频数是 $B_{jk}$ ,那么$$\hat{b}_j(k)=\frac{B_{jk}}{\sum_{k=1}^M B_{jk}},\qquad j=1,2,\cdots,N; k=1,2,\cdots,M$$
+3. 初始状态概率 $\pi_i$ 的估计 $\hat{\pi}_i$ 为S个样本中初始状态为 $q_i$ 的频率
+*** Baum-Welch算法(非监督学习)推导
++ 假设给定训练数据只包含S个长度为T的观测序列 $\{O_1,O_2,\cdots,O_S\}$ 而没有对应的状态序列,目标是学习隐马尔可夫模型 $\lambda=(A,B,\pi)$ 的参数
++ 将观测序列数据看做观测数据O,状态序列数据看作隐数据I,那么隐马尔可夫模型事实上是一个含有隐变量的概率模型$$P(O|\lambda)=\sum_I P(O|I,\lambda)P(I|\lambda)$$ 它的参数学习可以由EM算法实现
++ EM算法的E步:求Q函数 $Q(\lambda,\lambda^{(i)})$ $$Q(\lambda,\lambda^{(i)})= \sum_I logP(O,I|\lambda)P(I|O,\lambda^{(i)}) = \sum_I logP(O,I|\lambda)\frac{P(O,I|\lambda^{(i)})}{P(O|\lambda^{(i)})}$$
++ 由于 $\frac{1}{P(O|\lambda^{(i)})}$ 对 $\lambda$ 而言是常数,故略去该部分$$Q(\lambda,\lambda^{(i)})=\sum_I logP(O,I|\lambda)P(O,I|\lambda^{(i)})$$
++ $$P(O,I|\lambda)=\pi_{i_1}b_{i_1}(o_1)a_{i_1i_2}b_{i_2}(o_2)\cdots a_{i_{T-1}i_T}b_{i_T}(o_T)$$
++ 于是,函数 $Q(\lambda,\lambda^{(i)})$ 可以写成$$Q(\lambda,\lambda^{(i)})=\sum_I log\pi_{i_1}P(O,I|\lambda^{(i)})+\sum_I\left( \sum_{t=1}^{T-1}loga_{i_ti_{t+1}} \right)P(O,I|\lambda^{(i)})+\sum_I\left( \sum_{t=1}^Tlogb_{i_t}(o_t) \right)P(O,I|\lambda^{(i)})$$
++ EM算法的M步:极大化Q函数求模型参数A,B, $\pi$ (略)
+*** Baum-Welch算法
++ 输入:观测数据 $O=(o_1,o_2,\cdots,o_T)$
++ 输出:隐马尔可夫模型参数
++ 步骤
+  1. 初始化. 对n=0,选取 $a_{ij}^{(0)},b_j(k)^{(0)},\pi_i^{(0)}$ ,得到模型 $\lambda^{(0)}=(A^{(0)},B^{(0)},\pi^{(0)}))$
+  2. 递推.对 $n=1,2,\cdots,N$ $$a_{ij}^{(n+1)}=\frac{\sum_{t=1}^{T-1}\xi_t(i,j)}{\sum_{t=1}^{T-1}\gamma_t(i)}$$ $$b_j(k)^{(n+1)}=\frac{\sum_{t=1,o_t=v_k}^T \gamma_t(j)}{\sum_{t=1}^T \gamma_t(j)}$$ $$\pi^{(n+1)}=\gamma_1(i)$$ 右端各值按观测 $O=(o_1,o_2,\cdots,o_T)$ 和模型 $\lambda^{(n)}=(A^{(n)},B^{(n)},\pi^{(n)})$ 计算
+  3. 终止.得到模型参数 $\lambda^{(n+1)}=(A^{(n+1)},B^{(n+1)},\pi^{(n+1)})$
+** 预测算法
+*** 近似算法
++ 近似算法的想法是,在每个时刻t选择在该时刻最有可能出现的状态 $i_t^*$ ,从而得到一个状态序列 $I^*=(i_1^*,i_2^*,\cdots,i_T^*)$ ,将它作为预测结果
++ 给定隐马尔可夫模型 $\lambda$ 和观测序列O,在时刻t处于状态 $q_i$ 的概率是$$\gamma_t(i)=P(i_t=q_i|O,\lambda)=\frac{P(i_t=q_i,O|\lambda)}{P(O|\lambda)}=\frac{\alpha_t(i)\beta_t(i)}{\sum_{j=1}^N \alpha_t(j)\beta_t(j)}$$ 在每一时刻t最有可能的状态 $i_t^*$ 是$$i_t^*=arg\max_{1 \le i \le N}[\gamma_t(i)],\qquad t=1,2,\cdots,T$$ 从而得到状态序列 $I^*=(i_1^*,i_2^*,\cdots,i_T^*)$
+*** 维特比算法
++ 根据动态规划原理,如果最优路径在时刻 $t$ 通过节点 $i_t^*$ ,从 $i_t^*$ 到终点 $i_T^*$ 的任一路段一定是分所有可能路段中最优的.如若不是,从 $i_t^*$ 到终点 $i_T^*$ 就存在另一条更好的路径
++ 定义在时刻 $t$ 状态为 $i$ 的所有单个路径 $(i_1,i_2,\cdots,i_t)$ 中概率最大的值为$$\sigma_t(i)=\max_{i_1,i_2,\cdots,i_{t-1}}P(i_t=i,i_{t-1},\cdots,i_1,o_t,\cdots,o_1|\lambda), \qquad i=1,2,\cdots,N$$ 由定义可得 $\sigma$ 的递推公式$$\sigma_{t+1}(i)=\max_{1 \le j \le N}[\sigma_t(j)a_{ji}b_i(o_{t+1})],\qquad i=1,2,\cdots,N; t=1,2,\cdots,T-1$$
++ 定义在时刻 $t$ 状态为 $i$ 的所有单个路径 $(i_1,i_2,\cdots,i_t)$ 中概率最大的路径的第 $t-1$ 个结点为$$\psi_t(i)=arg\max_{1 \le j \le N}[\sigma_{t-1}(j)a_{ji}],\qquad i=1,2,\cdots,N$$
+**** 维特比算法
++ 输入:模型 $\lambda=(A,B,\pi)$ 和观测 $O=(o_1,o_2,\cdots,o_T)$
++ 输出:最有路径 $I^* = (i^*_1,i^*_2,\cdots,i^*_T)$
++ 步骤:
+  1. 初始化$$\sigma_1(i)=\pi_ib_i(o_1),\qquad i=1,2,\cdots,N$$ $$\psi_1(i)=0,\qquad i=1,2,\cdots,N$$
+  2. 递推. 对 $t=2,3,\cdots,T$ $$\sigma_t(i)=\max_{1 \le j \le N}[\sigma_{t-1}(j)a_{ji}b_i(o_t)],\qquad i=1,2,\cdots,N$$ $$\psi_t(i)=arg\max_{1 \le j \le N}[\sigma_{t-1}(j)a_{ji}],\qquad i=1,2,\cdots,N$$
+  3. 终止 $$P^* = \max_{1 \le i \le N}\sigma_T(i)$$ $$i^*_T = arg\max_{1 \le i \le N}[\sigma_T(i)]$$
+  4. 最优路径回溯.对 $t=T-1,T-2,\cdots,1$ $$i_t^*=\psi_{t+1}(i^*_{t+1})$$
