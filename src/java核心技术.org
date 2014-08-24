@@ -1,0 +1,2150 @@
+* java基本的程序设计结构
+** 注释
+#+BEGIN_SRC java
+// comment
+
+/*
+comment
+*/
+
+/** 
+comment
+*/
+#+END_SRC
+** java基本数据类型
+| 类型    | 存储(字节) |
+|---------+------------|
+| int     |          4 |
+| short   |          8 |
+| long    |          8 |
+| byte    |          1 |
+|---------+------------|
+| float   |          4 |
+| double  |          8 |
+|---------+------------|
+| char    |            |
+|---------+------------|
+| boolean |            |
++ java中整型的范围与运行java代码的机器无关
++ 长整型有一个后缀L,float类型有一个后缀F
++ 十六进制有一个前缀0x,八进制有一个前缀0
++ 在很多情况下,float类型的精度很难满足需求
++ 强烈建议不在程序中使用char类型(编码的原因)
++ 整型值和布尔值之间不能相互转换
+#+END_SRC
+** 变量
+#+BEGIN_SRC java
+double salary;
+int i,j;
+final double CONS
+#+END_SRC
++ 在java中,使用关键字final声明常量
+** 运算符
+| 类型          | 运算符                |
+|---------------+-----------------------|
+| 算术运算符    | + - * / %             |
+| 自增/减运算符 | ++ --                 |
+| 关系运算符    | == != < <= > >=       |
+| 布尔运算符    | && \vert\vert !       |
+| 三元运算符    | :?                    |
+| 位运算符      | & \vert ~ ^ >> << >>> |
++ 自动类型转换
+  1. 如果两个操作数中有一个是double类型的,把另一个也转换为double类型
+  2. 否则,如果两个操作数中有一个是float类型的,把另一个也转换为float类型
+  3. 否则,如果两个操作数中有一个是long类型的,把另一个也转换为long类型
+  4. 否则,两个操作数都将被转换为int类型
++ 强制类型转换
+#+BEGIN_SRC java
+double x = 3.14;
+int nx = (int)x;
+#+END_SRC
+** 字符串
++ java没有内置的字符串类型,而是在标准库中提供了一个预定义类String
++ 每个用双引号括起来的字符串都是String类的一个实例
++ String类没有提供用于修改字符串的方法,String类对象也称为不可变字符串,其好处是可以让字符串共享
++ 实际上某些情况下字符串常量是不共享的,因此 *不要* 使用==运算符测试字符串的相等性
+*** String重要方法方法
+#+BEGIN_SRC java
+java.lang.String
+
+//返回给定位置的代码单元
+char charAt(int index)                            
+
+//按字典序比较,若字符串位于other之前,返回负数,之后返回正数,相等返回0
+int compareTo(String other)
+
+//如果字符串以suffix结尾,返回true
+boolean endsWith(String suffix)
+
+//如果字符串与other相等,返回true
+boolean equals(Object other)
+
+//如果字符串与other相等(忽略大小写),返回true
+boolean equalsIgnoreCase(Object other)
+
+//返回字符串长度
+int length()
+
+//用new代替原始字符串中的old,可以用String或StringBuilder对象作为CharSequence参数
+String replace(CharSequence old,CharSequence new)
+
+//返回子串
+String substring(int beg)
+String substring(int beg, int end)
+
+//将原始字符串中所有大小写字母改成小(大)写字母
+String toLowerCase()
+String toUpperCase()
+
+//删除原始字符串头部和尾部的空格
+String trim()
+#+END_SRC
+*** 构建字符串
++ 采用字符串连接的方式构建字符串效率低,每次连接字符串都会构建一个新的String对象,既耗时由浪费空间
++ StringBuilder可以避免这个问题
+#+BEGIN_SRC java
+StringBuilder builder = new StringBuilder();
+builder.append(str1);
+builder.append(str2);
+String completeString = builder.toString();
+#+END_SRC
+*** StringBuilder重要方法
+#+BEGIN_SRC java
+java.lang.StringBuilder
+
+int length()                                 //返回构建器中字符数量       
+StringBuilder append(String str)             //追加一个字符串             
+StringBuilder append(char c)                 //追加一个字符               
+void setCharAt(int i, char c)                //将第i个字符设置为c         
+StringBuilder insert(int offset, String str) //在offset位置插入一个字符串 
+StringBuilder insert(int offset, char c)     //在offset位置插入一个字符   
+StringBuilder delete(int beg, int end)       //删除偏移量从beg到end-1的字符 
+String toString()                            //返回一个与构建器内容相同的字符串
+#+END_SRC
+
+** 输入输出
+*** 标准输出
+#+BEGIN_SRC java
+System.out.println("sth");
+#+END_SRC
+*** 格式化输出
+#+BEGIN_SRC java
+System.out.printf("hello %s, next year you'll be%s",name,age);
+#+END_SRC
+*** 标准输入
+**** 使用Scanner
+#+BEGIN_SRC java
+import java.util.Scanner;
+Scanner in = new Scanner(System.in);
+String s1 = in.nextLine();//读取一行
+String s2 = in.next();    //读取一个单词
+int i = in.nextInt();     //读取一个整数
+double= in.nextDouble();  //读取一个浮点数
+#+END_SRC
+**** 使用Console
+#+BEGIN_SRC java
+Console cons = System.console();
+String str = cons.readLine("prompt");
+char[] passwd = cons.readPassword("password");
+#+END_SRC
+*** 读文件
+#+BEGIN_SRC java
+import java.util.Scanner;
+Scanner in = new Scanner(new File("filename.ext"));
+#+END_SRC
+*** 写文件
+#+BEGIN_SRC java
+PrintWriter out = new PrintWriter("filename.ext")
+out.print("sth");
+out.println("sth");
+out.printf("%s","sth");
+#+END_SRC
+** 控制流程
+*** 条件语句
+#+BEGIN_SRC java
+if(condition)
+    ...
+else if(conditon)
+    ...
+else
+    ...
+#+END_SRC
+*** 循环语句
+**** while循环
+#+BEGIN_SRC java
+while(conditon)
+    ...
+#+END_SRC
+**** do-while循环
+#+BEGIN_SRC java
+do
+    ...
+while(condition);
+#+END_SRC
+**** for循环
+#+BEGIN_SRC java
+for(int i=0; i<10; i++)
+    ...
+#+END_SRC
+#+BEGIN_SRC java
+for (variable: collection)
+    ...
+//collection必须是一个数组或者是一个实现了Iterable接口的对象
+#+END_SRC
+*** switch语句
+#+BEGIN_SRC java
+switch(var){
+    case case1:
+        ...
+        break;
+    case case2:
+        ...
+        break;
+    default:
+        ...
+}
+#+END_SRC
++ case标签必须是整数或枚举常量,不能测试字符串
+*** break和continue
+**** 带标签的break
++ 用于跳出多重嵌套循环
++ 标签必须放在希望跳出的最外层循环之前,紧跟一个冒号
++ 执行带标签的break将跳转到带标签语句块末尾
+**** 带标签的continue
++ 执行带标签的break将跳转到带标签语句块首部
+** 数组
+*** 初始化数组
+#+BEGIN_SRC java
+int[] a = new int[100];
+int[] a = {1,2,3,4,5};
+new int[]{1,2,3,4,5};     #匿名数组
+#+END_SRC
++ 使用a.length获取数组长度
+*** Arrays重要方法
+#+BEGIN_SRC java
+java.util.Arrays
+
+/*返回与a类型相同的数组,如果length值大于a.length,结果为0或false,
+如果length值小于a.length,数组中将只有前面length个数据元素的拷贝*/
+static type copyOf(type[] a, int length)
+
+//结果为a中[beg,end-1)的拷贝,如果end大于a.length,结果为0或false
+static type copyOf(type[] a, int beg, int end)
+
+//返回数组的字符串表示,括号包围,逗号分隔
+static String toString(type[[] a)
+
+//用优化的快速排序算法对数组进行排序
+static void sort(type[] a)
+
+//用二分搜索算法查找值v
+static int binarySearch(type[] a, type v)
+
+//用二分搜索算法查找值v
+static int binarySearch(type[] a, int beg, int end, type v)
+
+//将数组所有元素设置为v
+static void fill(type[] a, type v)
+
+//如果两个数组大小相同,且下标相同的元素都对应相等,返回true
+static boolean equals(type[] a, type[] b)
+#+END_SRC
+*** 多维数组
+#+BEGIN_SRC java
+int[][] multiArray = new int[2][2];
+int[][] multiArray = {{1,2},{3,4}};
+#+END_SRC
++ java实际上没有多维数组,只有一维数组,多为数组被解释为"数组的数组"
++ 因此,可以方便地构造不规则数组
+* 对象与类
+** 使用现有类
+*** java.util.GregorianCalendar
+#+BEGIN_SRC java
+java.util.GregorianCalendar
+
+//构造一个日历对象,用来表示默认地区默认时区的当前时间
+GregorianCalendar()
+//用给定的日期和时间构造一个Gregorian日历对象
+GregorianCalendar(int year,
+                  int month,
+                  int day)
+GregorianCalendar(int year,
+                  int month,
+                  int day,
+                  int hour,
+                  int minutes,
+                  int seconds)
+
+int get(int field)                     //返回给定域的值,如Calendar.YEAR(MONTH)
+void set(int field, int value)         //设置特定域的值
+void set(int year, int month, int day) //将日期域设为新值
+void add(int field, int amount)        //对特定域进行增加制定数量的时间
+int getFirstDayOfWeek()                //获得当前用户所在地区一个星期中的第一天
+void setTime(Date time)                //将日历设置为指定时间点
+Date getTime()                         //获得这个日历对象当前值所表达的时间点
+void set(int year, int month, int day, int hour, int minutes, int seconds)
+//将日期域和时间域设为新值
+#+END_SRC
+** 用户自定义类
+#+BEGIN_SRC java
+class ClassName{
+    constructor1
+    constructor2
+    ...
+    method1
+    method2
+    ...
+    field1
+    field2
+    ...
+}
+#+END_SRC
++ 可以认为java编译器内置了make功能,当java编译器发现a.java使用了b类时会查找b.class文件,如果没有找到,会自动搜索b.java并对其进行编译,如果b.java版本比已有的b.class新,java编译器会自动重新编译这个文件.
++ 在每一个方法中,关键字this表示隐式参数.
++ 为了封装实例域,应该提供三项内容:一个私有的实例域,一个公有的访问器,一个公有的更改器.
++ 一个方法可以访问所属类的 *所有对象* 的私有数据,即不仅可以访问所绑定对象的私有域,还可以访问其他对象的私有域.
++ 可以将实例域定义为final,在构造器执行之后,这个域的值被设置,并在后面的操作中不能在进行修改.
+** 静态域与静态方法
+使用static修饰符
++ 静态域:类的所有实例共享一个静态域,即使没有对象实例,静态域也存在,它属于类而不属于任何独立对象
++ 静态方法:可以认为静态方法是没有this参数的方法,因此静态方法不能操作对象,因此不能在静态方法中访问实例域.
++ 在以下两种情况下使用静态方法
+  1. 一个方法不需要访问对象状态,所需参数都是通过显示参数提供
+  2. 一个方法只需要访问类的静态域
++ 静态方法常用于factory方法,产生不同风格的格式对象.
+** 方法参数
++ java程序设计语言总是采用值调用,即方法所得到的是参数值的一个拷贝
++ 方法参数公有两种类型:基本数据类型 对象引用
++ 一个方法不能修改一个基本数据类型的实参
+#+BEGIN_SRC java
+public static void tripleValue(double x){  //并不会改变参数的值
+    x = 3*x;
+}
+#+END_SRC
++ 一个方法可以改变一个对象实参的状态
+#+BEGIN_SRC java
+public static void tripleSalary(Employee x){
+    //x是Employee类型的对象,可以在方法中改变该对象的状态
+    x.raiseSalary(200)
+}
+#+END_SRC
++ 一个方法不能实现让对象实参引用一个新对象
+#+BEGIN_SRC java
+public static void swap(Employee x, Employee y){  //实参所引用的对象并没有得到交换
+    Employee tmp = x;
+    x = y;
+    y = tmp;
+}
+#+END_SRC
+** 对象构造
+*** 对象初始化步骤
+1. 所有数据被初始化为默认值(0,false,null)
+2. 按照在类声明中出现的顺序,依次执行所有[[域初始化][域初始化语句]]和[[初始化块][初始化块]]
+3. 如果构造器第一行[[调用另一个构造器][调用了第二个构造器]],则执行第二个构造器主体
+4. 执行这个[[构造器][构造器]]主体
+*** 域初始化
+可以在类定义中,直接将一个值赋给任何域
+#+BEGIN_SRC java
+class Employee{
+    ...
+    private String name = "";
+}
+#+END_SRC
+*** 初始化块
+在一个类声明中,可以包含多个代码块,只要构造类的对象,这些块就会被执行
+#+BEGIN_SRC java
+class Employee{
+    constructor
+    ...
+    method
+    ...
+    {
+        id = nextID;
+        ...
+    }
+}
+#+END_SRC
+*** 构造器
++ 构造器可以重载,如果编译器找不到匹配的参数或找出多个可能的匹配,会产生编译时错误
++ 默认构造器是指没有参数的构造器,如果在类中没有编写构造器,系统会提供一个默认构造器,如果类中至少编写了一个构造器,系统就不会在提供默认构造器.
+*** 调用另一个构造器
+如果构造器的第一个语句形如this(...),这个构造器将调用同一个类的另一个构造器
+#+BEGIN_SRC java
+public Employee(double s){
+    this("Employee #" + nextId, s);
+    nextId++;
+}
+#+END_SRC
+** 包
++ 一个类可以使用所属包中的所有类,以及其他包中的公有类
++ 访问另一个包中公有类的方式
+  1. 在每个类名之前添加完整的包名
+  2. 使用import语句导入一个特定的类或者整个包
+#+BEGIN_SRC java
+//在每个类名之前添加完整的包名
+java.util.Date today = new java.util.Date();
+
+//使用import语句导入整个包,注意只能使用*号导入一个包,不能同时导入多个包
+import java.util.*;
+
+//使用import语句导入一个特定的类
+import java.util.Date;
+#+END_SRC
++ 如果导入的两个或多个包中的类有名字冲突,会出现一个编译错误.有两种解决方式
+  1. 增加一个特定的import语句来解决
+  2. 在每个类名前加上完整包名
+#+BEGIN_SRC java
+import java.util.*;
+import java.sql.*;      //都含有Date类,出现编译异常
+
+解决1:
+import java.util.*;
+import java.sql.*;
+import java.util.Date;  //增加一个特定的import语句来解决
+
+解决2:
+java.util.Date deadline = new java.util.Date();
+java.sql.Date today = new java.sql.Date(..);   //在每个类名前加上完整包名
+#+END_SRC
++ 可以通过静态导入来导入静态方法和静态域
+#+BEGIN_SRC java
+import static java.lang.System.out;
+#+END_SRC
++ 想要将一个类放入包中,必须将包名放在源文件的开头,包中定义类的代码之前.
++ 将包中的文件放到与完整包名匹配的子目录中
+#+BEGIN_SRC java
+package com.horstmann.corejava;
+...
+#+END_SRC
++ 如果没有在源文件中放置package语句,这个源文件中的类就被放置在一个默认包中
++ 没有制定public或private的方法或者域可以被同一个包中的所有方法访问,称包作用域.
+** 类路径
+为了使类能够被多个程序共享,需要做到以下几点
+1. 把类放到一个目录中
+2. 把jar文件放到一个目录中
+3. 设置类路径,类路径是所有包含类文件的路径的集合
+   + 用-classpath指定类路径
+   + 通过设置CLASSPATH环境变量指定类路径
+#+BEGIN_SRC bash
+java -classpath ... prog.java
+export CLASSPATH=...:..:...
+#+END_SRC
+
+** 小结
+实例域是实例拥有数据,静态域是类拥有的数据;所有方法都属于类:普通方法与特定实例绑定,并且由实例调用;静态方法不与任何实例绑定,可以由类或实例调用.
+* 继承
+** 类,超类和子类
+#+BEGIN_SRC java
+class Manager extends Employee{
+    添加方法和域
+}
+#+END_SRC
++ extends表示正在构造的新类派生于一个已经存在的类,已存在的类称为超类,新类称为子类
++ 可以在子类中定义方法覆盖超类中的同名方法
++ 在子类中定义方法覆盖超类中的同名方法时,子类依然继承了超类中的同名方法,只是超类中的方法被子类中的方法覆盖了,若要访问超类中的同名方法,使用super.method()
++ 子类虽然继承了超类的私有域,但是子类的方法不能直接访问超类的私有域,只有超类的方法才能访问私有部分
++ 在子类构造器中调用超类的构造器super(...),使用super调用构造器的语句必须是子类构造器的第一条语句
++ 如果子类构造器没有显式调用超类的构造器,则将自动地调用超类默认构造器,如果超类没有不带参数的构造器且在在子类中没有显式调用超类的其他构造器,则java编译器将报错
+*** 多态
++ 在java中,对象变量是多态的,一个Employee变量既可以引用一个Employee类对象,也可以引用一个Employee类的任何子类对象.
+#+BEGIN_SRC java
+Employee e;
+e = new Employee(...);
+e = new Manager(...);
+#+END_SRC
++ 然而,不能将一个超类的引用赋给子类的变量
+*** 动态绑定
+调用对象方法的执行过程
+1. 编译器查看对象的 *声明类型* 和方法名
+2. 编译器查看调用方法时提供的参数类型(重载解析)
+3. 如果是private方法,static方法,final方法或构造器,编译器将可以确定调用哪个方法(静态绑定)
+4. 如果调用的方法依赖于隐式参数的实际类型,在运行时实现动态绑定,虚拟机调用对象 *实际类型* 中的方法(如果实际类型中没有定义这个方法,将在其超类中寻找)
+*** 阻止继承
++ 如果在定义类的时候使用了final修饰符,表明这个类是final类,该类不能被继承
++ 类中的方法也可以被声明为final,这样做,子类就不能覆盖这个方法
+*** 强制类型转换
+#+BEGIN_SRC java
+Employee boss = new Manager(...);
+Manager boss = (Manager)boss;
+#+END_SRC
++ 强制类型转换的唯一原因是:在暂时护士对象的实际类型之后,使用对象的全部功能
++ 只能在继承层次内进行类型转换
++ 在将超类转换成子类之前,应该使用instanceof进行检查
++ 如果试图在继承链上进行向下的类型转换,并且"谎报"有关对象包含的内容,将产生ClassCastException异常
+*** 抽象类
+从某种角度看,祖先类更加通用,人们只将它作为派生其他类的积累,而不想作为想使用的特定的实例类
+#+BEGIN_SRC java
+abstract class Person{
+    public abstract String getDescription();
+}
+#+END_SRC
++ 使用abstract关键字将一个方法变为抽象方法,就不需要实现这个方法了
++ 抽象方法充当着占位的角色,它们的具体实现在子类中.
++ 包含抽象方法的类本身必须被声明为抽象方法
++ 除了抽象方法,抽象类还可以包含具体数据和具体方法
++ 类即使不含有抽象方法,也可以将类声明为抽象类
++ 抽象类不能被实例化,但可以定义一个抽象类的对象变量,引用非抽象子类的对象
+*** 受保护的访问
+使用protected关键字声明的方法或域,对本包和所有子类可见
+#+BEGIN_EXAMPLE
+将超类Employee中的hireDay声明为protected,而不是私有的,Manager中的方法就可以直接访问它
+
+不过,Manager类中的方法只能够访问Manager对象中的hireDay域,
+而不能访问其他Employee对象中的这个域
+#+END_EXAMPLE
+java中用于控制可见性的4个访问修饰符:
+1. 仅对本类可见 private
+2. 对所有类可见 public
+3. 对本包和所有子类可见 protected
+4. 对本包可见 默认
+
+** object 所有类的超类
+#+BEGIN_SRC java
+java.lang.Object
+
+//返回包含对象信息的类对象
+Class getClass()
+
+/*比较两个对象是否相等,如果两个对象指向同一块存储区域,
+方法返回true,否则返回flase,在自定义类中,应该覆盖这个*/
+boolean equals(Object otherObject)
+
+//返回描述该对象值的字符串,在自定义类中,应该覆盖这个方法
+String toString()
+
+/*创建一个对象的副本,java运行时将为新实例分配存储空间,
+并将当前对象复制到这块存储区域中*/
+Object clone()
+#+END_SRC
+#+BEGIN_SRC java
+java.lang.Class
+
+String getName()      //返回这个类的名字
+Class getSuperclass() //以Class对象的形式返回这个类的超类信息
+#+END_SRC
+** 泛型数组列表
+#+BEGIN_SRC java
+java.util.ArrayList<T>
+
+ArrayList<T>()                    //构造一个空数组列表
+ArrayList<T>(int initialCapacity) //用指定容量构造一个空数组列表
+boolean add(T obj)                //在数组列表的尾端添加一个元素,永远返回true
+int size()                        //返回存储在数组列表中的当前元素数量
+void trimToSize()                 //将数组列表的存储容量削减到当前尺寸
+T get(int index)                  //获得指定位置的元素值
+void add(int index, T obj)        //在指定位置插入元素
+T remove(int index)               //删除一个元素,返回被删除的元素
+void set(int index, T obj)
+//设置数组列表指定位置的元素值,这个操作将覆盖这个位置原有的内容
+void ensureCapacity(int capacity)
+//确保数组列表在不重新分配存储空间的情况下就能保存给定数量的元
+
+#+END_SRC
+** 对象包装器
++ 有时,需要将int这样的基本类型转换为对象,所有基本类型都有一个与之对应的类,通常这些类称为包装器.
++ 包装器在很多情况下可以自动打包,拆包
+#+BEGIN_SRC java
+list.add(3) 将自动变换成 list.add(new Integer(3))
+int n = list.get(i) 将自动变换成 int n = list.get(i).intValue()
+
+在算数表达式中也能够自动打包和拆包:
+Integer n = 3;
+n++;
+#+END_SRC
+#+BEGIN_SRC java
+java.lang.Integer
+
+int intValue()                              //回Integer对象的int值
+static String toString(int i)               //返回数值i的十进制字符串表示
+static String toString(int i,int radix)     //返回数值i的radix进制字符串表示
+static int parseInt(String s)               //返回字符串s表示的整数值
+static int parseInt(String s, int radix)    //返回字符串s表示的整数值
+static Integer valueOf(String s)            //返回字符串s表示的整型数值对应的包装器对象
+static Integer valueOf(String s, int radix) //返回字符串s表示的整型数值对应的包装器对象
+#+END_SRC
+** 参数数量可变的方法
+#+BEGIN_SRC java
+//定义:
+public static double max(double... values){
+    double largest = Double.MIN_VALUE;
+    for (double v : values)
+        if(v>largest)
+            largest = v;
+    return largest;
+}
+//调用:
+double m = max(3.1,40.4,-5);
+
+/*实际上,max接收的是一个values[]数组,其中保存着所有的参数
+编译器需要对max的每次调用进行转换,将参数绑定的数组上,
+此处是将new double[]{3.1,40.4,5}传递给max方法
+相当于*/
+double m = max(new double[]{3.1,40.4,5})
+#+END_SRC
+** 枚举类
+#+BEGIN_SRC java
+pubic enum Size {SMALL, MEDIUM, LARGE, EXTRA_LARGE};
+#+END_SRC
+实际上,这个声明定义的类型是一个类,它刚好有4个实例.
+如果需要的话,可以在枚举类型中添加一些构造器,方法或域
+#+BEGIN_SRC java
+enum Size{
+    SMALL("S"), MEDIUM("M"), LARGE("L"), EXTRA_LAREGE("XL");
+    private Size(String abbreviation) {this.abbreviation = abbreviation;}
+    public String getAbbreviation(){return abbreviation;}
+    private String abbreviation;
+}
+
+String abbrev = Size.SMALL.getAbbreviation();
+#+END_SRC
+所有枚举类型都是Emnum类的子类
+#+BEGIN_SRC java
+java.lang.Enum
+
+//返回枚举常量名
+String toString()
+
+//返回枚举常量在enum声明中的位置,从0开始计数
+int ordinal()
+
+//如果枚举常量出现在other之前,返回一个负值,若this==other,返回0,否则,返回正值
+int compareTo(E other)
+
+//返回指定名字,给定类的枚举常量
+static Enum valueOf(Class enumClass, String name)
+#+END_SRC
+** 反射
+能够分析类的能力的程序被称为反射
+*** 利用反射分析类的能力
+#+BEGIN_SRC java
+java.lang.Class
+
+static Class forName(String className)  //返回描述类名为className的Class对象        
+Object newInstance()                    //返回这个类的新实例                        
+Field[] getFields()                     //返回此类和超类的的公有域                  
+Field[] getDeclaredFields()             //返回此类的全部域                          
+Method[] getMethods()                   //返回所有公有方法,包括从超类继承来的公有方法
+Method[] getDeclaredMethods()           //返回全部方法,但不包括从曹磊继承的方法     
+Constructor[] getConstructors()         //返回此类的公有构造器                      
+Constructor[] getDeclaredConstructors() //返回此类的所有构造器                      
+#+END_SRC
+#+BEGIN_SRC java
+java.lang.reflect.Constructor(Method Field)
+
+//构造一个这个构造器所属类的新实例
+Object newInstance(Object[] args)
+
+//返回构造器(方法 域名)的Class对象
+Class getDeclaringClass()
+
+//返回一个用于描述构造器(方法 域名)修饰符的整型数值
+int getModifiers()
+
+//返回描述构造器(方法 域名)的字符转
+String getName()
+
+//用在Constructor和Method类中,返回一个描述参数类型的Class对象数组
+Class[] getParameterTypes()
+
+//用在Method类中,返回一个用于描述返回类型的Class对象
+Class getReturnType()
+#+END_SRC
+#+BEGIN_SRC java
+java.lang.reflect.Modifier
+
+static boolean isAbstract(int modifiers)
+static boolean isFinal(int modifiers)   
+...                                     
+#+END_SRC
+*** 在运行时使用反射分析对象
+#+BEGIN_SRC java
+java.lang.reflect.AccessibleObject
+
+/*为反射对象设置可访问标志,flag为true表明屏蔽java语言的访问检查,
+使得对象的私有属性也可以被查询和设置*/
+void setAccessible(boolean flag)
+
+//返回反射对象的可访问标志的值
+boolean isAccessible()
+
+//设置对象数组可访问标志的快捷方法
+static void setAccessible(AccessibleObject[] array, boolean flag)
+#+END_SRC
+#+BEGIN_SRC java
+java.lang.Class
+
+Field getField(String name)         //返回指定名称的公有域
+Field getDeclaredField(String name) //返回指定名称的域    
+#+END_SRC
+#+BEGIN_SRC java
+java.lang.reflect.Field
+
+Object get(Object obj)               //返回obj对象中Field对象表示的值            
+void set(Object obj,Object newValue) //用newValue设置obj对象中用Field对象表示的域
+#+END_SRC
+* 接口与内部类
+** 接口
+java不允许多继承,因为多继承会让语言本身变得非常复杂,效率也会降低,java利用接口机制来实现多继承的大部分功能
+#+BEGIN_SRC java
+public interface Comparable{
+    int compareTo(Object other);
+}
+#+END_SRC
++ 接口中的所有方法自动属于public,因此在接口中声明方法时,不必提供关键字public
++ 接口中不能含有实例域,静态方法,可以包含常量
++ 不能在接口中实现方法
++ 不能使用new实例化一个接口
++ 可以声明接口类型的变量,用于引用实现了接口的类对象
++ 接口可以继承
++ 每个类可以实现多个接口
+** 对象克隆
++ 当拷贝一个变量时,原始变量与拷贝变量引用同一个对象(浅拷贝)
++ 如果原始对象与浅克隆对象共享的子对象是不可变的,将不会产生任何问题
++ clone方法是Object类的protected方法,用户在代码中无法直接调用,只有Employee类才能克隆Employee对象
++ 可以重新定义public访问修饰符的clone方法,并实现Cloneable接口
++ Cloneable接口是java提供的几个标记接口之一,标记接口中没有定义任何方法,使用它的唯一目的是可以用instanceof进行类型检查
+** 接口与回调
++ 回调是一种常见的程序设计模式,可以指出某个特定事件发生时应该采取的动作(比如各种Listener)
++ 很多程序设计语言中通过提供一个函数表示要采取的动作,java是通过提供一个对象来表示要采取的动作
++ 由于对象可以携带附加信息,所以传递一个对象比传递一个函数灵活
++ 当然,程序需要知道调用对象的哪一个方法,因此通常所传递的对象需要实现某个特定的接口
+** 内部类
+使用内部类的主要原因
+1. 内部类方法可以访问该类定义所在作用域中的数据,包括私有数据
+2. 内部类可以对同一个包中的其他类隐藏起来
+3. 想要定义一个回调函数又不想编写大量代码时,使用匿名内部类比较便捷
+*** 内部类
+#+BEGIN_SRC java
+public class TalkingClock{
+    public TalkingClock(int interval, boolean beep){..}
+
+    private int interval;
+    private int beep;
+
+    public class TimePrinter implements ActionListener{...}  //内部类
+}
+#+END_SRC
++ 内部类既可以访问自身的数据域,也可以访问创建它的外围对象的数据域
++ 在内部类中使用OuterClass.this引用外围类
+#+BEGIN_SRC java
+if(beep) Toolkit.getDefaultToolkit().beep();
+等价于
+if(TalkingClock.this.beep) Toolkit.getDefaultToolkit().beep();
+#+END_SRC
++ 在外部类中定义内部类的对象
+#+BEGIN_SRC java
+new TimePrinter();
+等价于
+this.new TimePrinter();
+#+END_SRC
++ 在外部类的外部定义公有内部类的对象
+#+BEGIN_SRC java
+TalkingClock jabberer = new TalkingClock(1000,true);
+TalkingClock.TimerPrinter listener = jabberer.new TimePrinter();
+#+END_SRC
+*** 局部内部类
++ 在一个局部的块(比如方法)中定义的内部类称局部内部类,局部内部类不能用public或private访问修饰符,块之外的方法不能访问到这个内部类
++ 局部内部类不仅可以访问外部类,还可以访问final局部变量
++ 由于局部变量在生命周期结束后会被销毁,因此内部类会建立一份局部变量的拷贝.为了使得局部变量和局部内部类中建立的拷贝保持一致,所以局部内部类可以访问的局部变量必须是final类型的
++ 如果需要在局部内部类中访问一个可变的局部变量,可以使用一个长度为1的final数组
+*** 匿名内部类
+#+BEGIN_SRC java
+public void start(){
+    ActionListener listener = new ActionListener(){
+        ...
+    }
+    ...
+}
+#+END_SRC
++ 如果new后面跟的是接口的名字,其含义是创建一个实现该接口的类的对象
++ 如果new后面跟的是类的名字,其含义是创建一个继承了该类的派生类的对象
++ 由于构造器的名字必须与类名相同,而匿名类没有类名,所以匿名类没有构造器,构造器参数将传递给超类
+*** 静态内部类
+声明为static,静态内部类的对象除了不能访问外部类对象,与其他内部类完全一样
+** 代理
+#+BEGIN_SRC java
+java.lang.reflect.InvocationHandler   //调用处理器
+
+//定义了代理对象调用方法时希望执行的动作
+Object invoke(Object proxy, Method method, Object[] args)
+#+END_SRC
+#+BEGIN_SRC java
+java.lang.reflect.Proxy   //代理
+
+//构造一个实现指定接口的代理类的实例,所有方法都将调用给定处理器对象的invoke方法
+static Object getProxyInstance(ClassLoader loader, Class[] interfaces, 
+                               InvocationHandler handler)
+
+//返回实现指定接口的代理类
+static Class getProxyClass(ClassLoader loader, Class[] interfaces)
+
+//如果c是一个代理类,返回true
+static boolean isProxyClass(Class c)
+#+END_SRC
++ 首先获得代理对象,传入类加载器,接口的类,以及调用处理器
++ 由代理对象调用某方法时,会调用调用处理器的invoke方法,并向其传递Method对象和原始的调用参数,可以在invoke方法中实现调用前的预处理,调用,调用后的善后,即所谓的代理
++ 常见形式
+#+BEGIN_SRC java
+public interface I{...} //定义接口
+
+public class C implements I{...} //定义实现接口的类,其对象需要被代理
+
+public class MyProxy implements InvocationHandler{
+    private Object target; 
+    public Object bind(Object target){  //传入被代理的对象
+        this.target = target;
+        //生成代理对象
+        proxy = Proxy.newProxyInstance(target.getClass().getClassLoader(), 
+                target.getClass().getInterfaces(), this);
+        return proxy;
+    }
+
+    public Object invoke(Object proxy, Method method, Object[] args) 
+        throws Throwable
+    {
+        //在这里预处理
+        Object result = method.invoke(target,args); //调用方法
+        //在这里善后
+        return result;
+    }
+}
+
+MyProxy proxy = new MyProxy();  
+I i = (I)proxy.bind(new C());
+I.method();  //调用方法时,将调用调用处理器的invoke方法
+#+END_SRC
+* 异常,日志,断言和调试
+** 处理异常
+*** 异常结构
+#+BEGIN_EXAMPLE
++ Throwable
+  - Error
+  - Exception
+    + Runtime Exception
+    + 其他异常
+#+END_EXAMPLE
++ Error层次结构描述了java运行时系统的内部错误和资源耗尽错误
++ Exception层次结构中
+  1. 由程序错误导致的异常属于RuntimeException 常见的RuntimeException异常:
+     - 错误的类型转换
+     - 数组访问越界
+     - 访问空指针
+  2. 程序本身没有问题,但由于像IO错误这类问题导致的异常属于其他异常 常见的其他异常:
+     - 试图在文件尾部后读取数据
+     - 试图打开一个错误的URL
++ 将派生于Error类或RuntimeException类的所有异常称为未检查异常
++ 将所有其他的异常称为已检查异常
+*** 声明已检查异常
++ 方法应该在其首部声明所有可能抛出的异常
+#+BEGIN_SRC java
+public Image loadImage(String s) throws IOException,MalformURLException
+{
+    ...
+}
+#+END_SRC
++ 需要声明异常的情况
+  1. 调用一个抛出已检查异常的方法
+  2. 程序运行时发现错误,且利用throw语句抛出一个已检查异常
++ 总之,一个方法必须声明所有可能抛出的已检查异常,而未检查异常要么不可控制,要么就应该避免发生.
++ 如果方法没有声明所有可能发生的已检查异常,编译器就会给出一个错误消息
+*** 抛出异常
++ 对于已存在的异常类
+  1. 找到一个合适的异常类
+  2. 创建这个类的一个对象
+  3. 将对象抛出
+#+BEGIN_SRC java
+throw new EOFException();
+//或
+EOFException e = new EOFException();
+throw e;
+
+//如
+while(...){
+    if(!in.hasNext()){
+        if(n<len)
+            throw new EOFException();
+    }
+}
+#+END_SRC
++ 如果任何标准异常类都没有充分描述清除问题,需要创建自己的异常类,定义一个派生于Exception或派生于Exception子类的类.习惯上,定义的类应该包含两个构造器,一个默认构造器,一个带有详细描述信息的构造器
+*** 捕获异常
+#+BEGIN_SRC java
+try{
+    //需要执行的代码
+}
+catch(Exception1 e1){
+    //对Exception1的处理
+}
+catch(Exception2 e2){
+    //对Exception2的处理
+}
+...
+finally{
+    //不管是否有异常被捕获,这里的代码都会被执行
+}
+#+END_SRC
++ 如果在try语句块中的代码抛出了一个在catch子句中说明的异常类,那么
+  1. 程序将跳过try语句块的其余代码
+  2. 程序将执行catch子句中的处理器代码
++ 如果在try语句块中的代码没有抛出异常,那么程序将跳过catch子句
++ 如果方法中任何代码抛出了一个在catch子句中没有声明的异常类型,这个方法就会立刻退出
++ 强烈建议独立使用try/catch和try/finally语句块,内层的try语句确保善后工作,外层的try语句确保报告错误
+#+BEGIN_SRC java
+try{
+    try{
+        ...
+    }
+    finally{
+        in.close();
+    }
+}
+catch(IOException e){
+    ...
+}
+#+END_SRC
+*** 分析堆栈跟踪(stack trace)元素
++ 可以调用Throwable类的printStackTrace方法访问堆栈跟踪的文本描述信息
++ 可以调用getStackTrace方法获得一个StackTraceElement对象的数组,并在程序中进行分析
+#+BEGIN_SRC java
+Throwable t = new Throwable();
+StackTraceElement[] frames = t.getStackTrace();
+for(StackTraceElement frame:frames){
+    ...
+}
+#+END_SRC
+#+BEGIN_SRC java
+java.lang.StackTraceElement
+
+String getFileName()     //返回源文件名                                    
+int getLineNumber()      //返回这个元素运行时对应的源文件行数              
+String getClassName()    //返回这个元素运行时对应的类的全名                
+String getMethodName()   //返回这个元素运行时对应的方法名                  
+boolean isNativeMethod() //如果这个元素运行时在一个本地方法中,返回true     
+String toString()        //返回一个包含类名,方法名,文件名和行数的格式化字符
+#+END_SRC
+** 断言
++ 断言机制允许在测试期间向代码中插入一些检查语句,当代码发布时,这些检查语句将被自动地移走
+#+BEGIN_SRC java
+assert x>= 0;
+#+END_SRC
++ 对条件进行检测,如果结果为false,则抛出AssertionError异常
++ 默认情况下,断言被禁用.可以在运行程序时使用-enableassertions或-ea选项启用
+#+BEGIN_SRC bash
+java -enableassertions MyApp
+#可以在某个类或者包中使用断言
+java -ea:MyClass -ea:com.mycompany.mylib ... MyApp
+#可以用-disableassertions或-da禁用某个特定类和包的断言
+java -ea:... -da:MyClasss MyApp
+#+END_SRC
++ 在启用或禁用断言时不必重新编译程序
+** 记录日志
+*** 日志记录器
++ 创建日志记录器
+#+BEGIN_SRC java
+Logger mylogger = Logger.getLogger("com.mycompany.myapp");
+#+END_SRC
++ 通常,有以下7个日志记录器级别
+  1. SEVERE
+  2. WARNING
+  3. INFO
+  4. CONFIG
+  5. FINE
+  6. FINER
+  7. FINEST
++ 默认情况下,只记录前三个级别,可以设置其他的级别
+#+BEGIN_SRC java
+logger.setLevel(Level.FINE);  //开启FINE和更高级别的记录
+logger.setLevel(Level.ALL)    //开启所有级别的记录
+logger.setLevel(Level.OFF)    //关闭所有级别的记录
+#+END_SRC
++ 记录日志
+#+BEGIN_SRC java
+logger.warning(message);
+logger.log(Level.FINE,message);
+#+END_SRC
++ 默认日志记录将显示类名,方法名
+*** 修改日志管理器配置
++ 配置文件存在于jre/lib/logging.properties
++ 要想使用另一个配置文件,使用下列命令
+#+BEGIN_SRC bash
+java -Djava.util.logging.config.file=configFile MainClass
+#+END_SRC
+*** 处理器
++ 与日志记录器一样,处理器也有日志记录级别,对于一条要被记录的日志,它的日志级别必须高于日志记录器和处理器的阈值
++ 在默认情况下,日志记录其将记录发送到自己的处理器和父处理器.如果不想两次看到这些记录,应该将useParentHandlers属性设为false
+#+BEGIN_SRC java
+logger.setUseParentHandlers(false);
+Handler handler = new ConsoleHandler();
+handler.setLevel(Level.FINE);
+logger.addHandler(handler);
+#+END_SRC
++ 可以通过扩展Handler类或StreamHandler类自定义处理器
+*** 过滤器
++ 默认情况下,过滤器根据日志级别进行过滤,每个日志记录器和处理器都可以有一个可选的过滤器来完成附加的过滤
++ 想要将一个过滤器安装到一个日志记录器或处理器中,只要调用setFilter方法
++ 每个日志记录器和处理器同一时刻最多只能有一个过滤器
++ 可以通过实现Filter接口自定义过滤器
+*** 格式化器
++ ConsoleHandler类和FileHandler类可以生成文本和XML格式的日志记录
++ 可以自定义格式,需要扩展Formatter类并覆盖String format(LogRecord record)方法
++ 调用setFormatter方法就爱那个格式化器安装到处理器中
+* 泛型程序设计
++ 泛型程序设计意味着编写的代码可以被很多不同类型的对象所重用
++ 在泛型出现之前,使用Object变量,对具体类型进行操作时需要进行强制类型转换,且没有类型错误检查
++ 泛型使用类型参数来指示元素的类型,编译器可以很好地利用这个参数,get的时候不需要进行强制类型转换,add的时候可以进行类型检查,避免插入错误类型的对象
++ 类型参数使得程序具有更好的可读性和安全性
+** 泛型类
+#+BEGIN_SRC java
+public class MyClass<T,U>{
+    ...
+}
+#+END_SRC
+用具体的类型替换类型变量,就可以实例化泛型类型
+#+BEGIN_SRC java
+MyClass<String,String>()
+#+END_SRC
+泛型类可以看做普通类的工厂
+** 泛型方法
+#+BEGIN_SRC java
+class MyClass{
+    public static <T> T getMiddle(T[] a){
+        ...
+    }
+}
+#+END_SRC
++ 类型变量放在修饰符后,返回类型前
++ 调用一个泛型方法,在方法名前的尖括号中放入具体类型
+#+BEGIN_SRC java
+String[] names={"zoe","chao"};
+String middle = MyClass.<String>getMiddle(names);
+#+END_SRC
+** 限定类型变量
+#+BEGIN_SRC java
+//将T限定为实现了Comparable接口和Serializable接口
+public static <T extends Comparable & Serializable> T min(T[] a){
+    ...
+}
+#+END_SRC
++ 用逗号分隔类型变量,用&分隔限定类型
++ 限定中最多有一个类,可以有多个接口
++ 如果限定中有一个类,它必须是限定类表中的第一个
+** 类型擦除
+虚拟机没有泛型类型对象,所有对象都属于普通类.因此在程序编译是需要对泛型类型对象进行转换,即类型擦除.
++ 无论何时定义一个泛型类型,都自动提供了一个相应的原始类型
++ 原始类型的名字就是删去类型参数后的泛型类型名
++ 擦除类型变量,并替换为限定类型(无限定类型的变量用Object)
+#+BEGIN_SRC java
+//源代码
+public class MyClass<T,U,W extends Comparable,V extends Comparable&Serializable>{
+    public T first;
+    public U second;
+    public W third;
+    public V fourth;
+}
+//转换后
+public class MyClass{           //原始类型名就是MyClass
+    public Object first;        //擦除了类型变量T,替换为了Object
+    public Object second;       //擦除了类型变量U,替换为了Object
+    public Comparable third;    //擦除了类型变量W,替换为了限定类型Comparable
+    public Comparable fourth;   //擦除了类型变量V,替换为了第一个限定类型Comparable
+}
+#+END_SRC
++ 当程序调用泛型方法时,编译器插入强制类型转换
+#+BEGIN_SRC java
+Pair<Employee> buddies = ...;
+/*类型擦除后,getFirst的返回类型将是Object,编译器自动插入Employee强制类型转换
+  编译器把这个方法调用翻译为两条虚拟机指令
+  1. 对原始方法Pair.getFirst的调用
+  2. 将返回的Object类型强制转换为Employee类型
+*/
+Employee buddy = buddies.getFirst();   //方法返回类型强制转换
+Employee buddy = buddies.first;        //属性类型强制转换
+#+END_SRC
+** 约束与局限
+以下的限制大都是由类型擦除引起的
++ 不能用基本类型实例化类型参数
++ 运行时类型查询只适用于原始类型
+#+BEGIN_SRC java
+if(a instanceof Pair<String>)
+//等效于
+if(a instanceof Pair)  //Pair是Pair<String>的原始类型
+#+END_SRC
++ 不能抛出也不能捕获泛型类型实例
+#+BEGIN_SRC java
+public static <T extends Throwable> void doWork(T t)
+{
+    try{
+        ...
+    }
+    catch(T e){    //错误!!
+        ...
+    }
+}
+/* 可以在异常声明中使用限定类型 */
+public static <T extends Throwable> void doWork(T t)
+{
+    try{
+        ...
+    }
+    catch(Throwable e){
+        ...
+    }
+}
+#+END_SRC
++ 参数类型的数组不合法
++ 不能实例化类型变量
+#+BEGIN_SRC java
+new T(...)  //错误!!
+new T[...]  //错误!!
+#+END_SRC
++ 不能在静态域或方法中引用类型变量
+** 泛型类型的继承规则
++ 假设Manager类继承了Employee类
++ ArrayList<T>实现了List<T>
++ ArrayList<Manager>与ArrayList<Employee>没有任何继承关系
++ ArrayList<Manager>类型的对象可以被List<Manager>类型引用
+** 通配符类型
++ <? extends Class/Interface> 表示类型参数是Class/Interface的子类
++ <? super Class/Interface> 表示类型参数是Class/Interface的超类
++ 带有超类型限定的通配符可以向泛型对象写入
++ 带有子类型限定的通配符可以从泛型对象读取
+#+BEGIN_SRC java
+/*Pair<? extends Employee>的setFirst方法不能被调用
+  因为编译器只知道需要某个Employee的子类型,但不知道具体是什么类型
+*/
+? extends Employee getFirst()
+void setFirst(? extends Employee)
+
+/*编译器不知道setFirst方法的确切类型,但是可以传入任意Manager的对象及子类的对象
+  这样可以保证一个更具体的对象赋值给了一个更抽象的对象
+  如果调用getFirst,返回对象将不会得到保证,只能把它赋给一个Object类型
+*/
+void setFirst(? super Manager)
+? super Manager getFirst()
+#+END_SRC
+* 集合
+** 集合接口
++ java集合类库将接口与实现分离
++ 在java类库中,集合类的基本接口是Collection接口
+#+BEGIN_SRC java
+public interface Collection<E>
+{
+    boolean add(E element);
+    Iterator<E> iterator();
+}
+#+END_SRC
++ add方法用于向集合中添加元素,如果添加元素确实改变了集合,就返回true,否则返回false
++ iterator方法用于返回一个实现了Iterator接口的对象
++ Iterator接口包含3个方法
+  1. next. 通过反复调用next,可以逐个访问集合中的元素
+  2. hasNext. 道道集合末尾,next将抛出NoSuchElementException,因此,需要调用next之前调用hasNext方法
+  3. remove. remove方法将删除上次调用next方法时返回的元素.如果调用remove之前没有调用next将是不合法的.
+#+BEGIN_SRC java
+public interface Iterator<E>
+{
+    E next();
+    boolean hasNext();
+    void remove();
+}
+#+END_SRC
++ for each循环可以与任何实现了Iterable接口的对象一起工作,Collection接口扩展了Iterable接口,因此对于标准类库中的任何集合都可以使用for each循环
+#+BEGIN_SRC java
+public interface Iterable<E>
+{
+    Iterator<E> iterator();
+}
+#+END_SRC
++ 如果实现Collection接口,需要实现很多方法是一件很烦人的事,java类库提供了AbstractCollection,它将size和iterator抽象化了,但提供了其他方法.
+#+BEGIN_SRC java
+java.util.Collection<E>
+
+Iterator<E> iterator             //返回一个迭代器
+int size()                       //返回元素个数
+boolean isEmpty()                //判断集合是否为空
+boolean contains(Object obj)     //判断集合中是否包含obj
+boolean add(Object element)      //将一个元素添加到集合中
+boolean remove(Object obj)       //从集合中删除obj
+void clear()                     //清空集合
+Object[] toArray()               //返回这个集合的对象数组
+<T> T[] toArray(T[] arrayToFill) //返回这个集合的对象数组
+//判断集合中是否包含other中的所有元素
+boolean containsAll(Collection<?> other)
+//从集合中删除所有与other集合中的元素不同的元素
+boolean retainAll(Collection<?> other)
+//从集合中删除other集合中存在的所有元素
+boolean removeAll(Collection<?> other)
+//将other集合中的所有元素添加到集合中
+boolean addAll(Collection<? extends E> other)
+#+END_SRC
+** 具体的集合
+*** 链表
++ java中,所有链表实际上都是双向链接的
++ 有两种访问元素的协议:一种是用迭代器,另一种使用get和set方法随机地访问,后者不适用于链表
+#+BEGIN_SRC java
+List<String> staff = new LinkedList<String>(); //LinkedList实现了List
+staff.add("zoe");
+staff.add("chao");
+Iterator iter = staff.iterator();
+...
+#+END_SRC
+#+BEGIN_SRC java
+java.util.List<E>
+
+ListIterator<E> listIterator()           //返回列表迭代器
+ListIterator<E> listIterator(int index)  //返回列表迭代器
+void add(int i, E element)               //在给定位置添加元素
+E remove(int i)                          //删除指定位置元素
+E get(int i)                             //获取指定位置元素
+E set(int i)                             //设置指定位置元素
+int indexOf(Object element)              //指定元素第一次出现的位置
+int lastIndexOf(Object element)          //指定元素最后一次出现的位置
+//将集合中所有元素添加到指定位置
+void addAll(int i, Collection<? extends E> elements)
+#+END_SRC
+#+BEGIN_SRC java
+java.util.ListIterator<E>
+
+void add(E newElement) //在当前位置添加一个元素                  
+void set(E newElement) //用新元素取代next或previous上次访问的元素
+boolean hasPrevious()  //是否还有反向迭代可供访问的元素          
+E previous()           //前一个对象                              
+int nextIndex()        //下一次调用next方法时将返回的元素的索引  
+int previousIndex()    //下一次调用previous方法时将返回的元素的索引
+#+END_SRC
+#+BEGIN_SRC java
+java.util.LinkedList<E>
+
+//构造空链表                                  
+LinkedList()
+//构造一个链表,并将集合中所有元素添加到这个链表
+LinkedList(Collection<? extends E> elements
+
+void addFirst(E element)  //将某个元素添加到列表的头部
+void addLast(E element)   //将某个元素添加到列表的尾部
+E getFirst()              //返回列表头部
+E getLast()               //返回列表尾部
+E removeFirst()           //删除并返回列表头部
+E removeLast()            //删除并返回列表尾部
+#+END_SRC
+*** 数组列表
+ArrayList类实现了List接口,ArrayList封装了一个动态再分配的对象数组
+*** 散列集
++ 散列表为每个对象计算一个整数,称散列码
++ 散列表用链表数组实现,每个列表被称为桶
++ 元素在表中的位置是 散列码%桶的总数
+  1. 如果此位置没有其他元素,直接插入即可
+  2. 如果有其他元素,需要用新对象与桶中的所有对象进行比较,查看这个对象是否已经存在
++ 如果散列表太满,就需要再散列,创建一个桶数更多的表,并将所有元素插入到这个新表中,装填因子决定何时对散列表进行再散列.如果装填因子是0.75,当表中超过75%的位置已经填入元素,就会进行在散列.
++ java集合类库提供了HashSet类,它的实现给予散列表,可以用add添加元素,contains方法已被重新定义,用于快速产看是否拥有某个元素
+#+BEGIN_SRC java
+java.util.HashSet<E>
+
+//构造一个空散列集
+HashSet()
+//构造一个散列集,并将集合中的所有元素添加到这个散列集中
+HashSet(Collection<? extends E> elements)
+//构造一个空的散列集,指定桶数
+HashSet(int initialCapacity)
+//构造一个空的散列集,指定桶数和装填因子
+HashSet(int initialCapacity,float loadFactor)
+#+END_SRC
+*** 树集
++ TreeSet相对HashSet有所改进,树集是一个有序集合,可以以任意顺序将元素插入到集合中,对集合进行遍历时,每个值将自动按排序后的顺序呈现
++ 当前的实现使用的是红黑树
++ 每次将一个元素添加到树中时,都被放置在正确的排序位置上,将一个元素添加到树集中要比添加到散列集中慢
+#+BEGIN_SRC java
+java.util.TreeSet<E>
+
+//构造空树集
+TreeSet()
+//构造一个树集,并将集合中的所有元素添加到树集中
+TreeSet(Collection<? extends E> elements)
+//构造一个树集,并用指定的比较器对其中的元素排序
+TreeSet(Comparator<? super E> c)
+/*构造一个树集,将有序集中的所有元素添加到这个树集中,
+并使用与给定有序集相同的元素比较器*/
+TreeSet(SortedSet<? extends E> elements)
+#+END_SRC
+**** 对象的比较
++ 树集假定插入的元素实现了Comparable接口,接口定义了compareTo方法,a.compareTo(b),如果a与b相等,返回0,如果a位于b之前,返回负值,如果a位于b之后,返回正值
+#+BEGIN_SRC java
+public interface Comparable<T>
+{
+    int compareTo(T other);
+}
+#+END_SRC
++ 如没有实现Comparable接口,可以将Comparator对象传递给TreeSet构造器,来告诉树集使用不同的比较方法
+#+BEGIN_SRC java
+public interface Comparator<T>
+{
+    int compare(T a, T b);
+}
+#+END_SRC
+#+BEGIN_SRC java
+class ItemComparator implements Comparator<Item>
+{
+    public int compare(Item a, Item b){...}
+}
+
+ItemComparator comp = new ItemComparator();
+SortedSet<Item> sortByDescription = new TreeSet<Item>(comp);
+#+END_SRC
+#+BEGIN_SRC java
+java.util.SortedSet<E>
+
+Comparator<? super E> comparator() //返回用于对元素警醒排序的比较器 
+E frist()                          //返回有序集中最小的元素         
+E last()                           //返回有序集中最大的元素         
+#+END_SRC
+*** 队列与双端队列
++ 队列可以在尾部添加一个元素,在头部删除一个元素
++ 双端队列可以在头部和尾部同时添加或删除元素
++ ArrayDeque和LinkedList类实现了Deque接口,并且提供了双端队列
+#+BEGIN_SRC java
+java.util.Queue<E>
+
+//在尾部插入元素,如果队列满了,抛出IllegalStateException
+boolean add(E element)
+//在尾部插入元素,如果队列满了,返回false
+boolean offer(E element) 
+
+//删除并返回头部元素,如果队列是空,抛出NoSuchElementException
+E remove()
+//删除并返回头部元素,如果队列是空,返回false
+E poll()
+
+//返回头部元素,但不删除,如果队列是空,抛出NoSuchElementException
+E element()
+//返回头部元素,但不删除,如果队列是空,返回false
+E peek()
+#+END_SRC
+#+BEGIN_SRC java
+java.util.Deque<E>
+
+void addFirst(E element)      
+void addLast(E element)       
+boolean offerFirst(E element) 
+boolean offerlast(E element)  
+E removeFirst()               
+E removeLast()                
+E pollFirst()                 
+E pollLast()                  
+E getFirst()                  
+E getLast()                   
+E peekFirst()                 
+E peekLast()                  
+#+END_SRC
+*** 优先级队列
++ 优先级队列中的元素可以按照任意的顺序插入,但无论何时调用remove方法,总会获得当前优先级队列中的最小元素
++ 优先级队列使用了堆
++ 与TreeSet一样,优先级队列既可以保存实现了Comparable接口的对象,也可以保存在构造器中提供比较器的对象
+#+BEGIN_SRC java
+//构造优先级队列
+PriorityQueue()
+PriorityQueue(int initialCapacity)
+
+//构造优先级队列,并用指定的比较器对元素进行排序
+PriorityQueue(int initialCapacity,Comparator<? super E> c)
+#+END_SRC
+*** 映射表
++ 映射表用来存放键值对
++ java类库为映射表提供了两个通用实现,这两个类都实现了Map接口
+  1. HashMap 对键进行散列
+  2. TreeMap 用键的整体顺序对元素进行排序
+#+BEGIN_SRC java
+java.util.Map<K,V>
+
+V get(K key)                                    //获取键对应的值,没有则返回null     
+V put(K key, V value)                           //将键值对插入到映射表中            
+V putAll(Map<? extends K, ? extends V> entries) //将指定映射表中的条目插入到映射表中
+boolean containsKey(Object key)                 //映射表中是否已经有指定键          
+boolean containsValue(Object value)             //映射表中是否已经有指定值          
+Set<Map.Entry<K,V>> entrySet()                  //返回映射表中的键值对              
+Set<K> keySet()                                 //返回映射表中的键                  
+Collection<V> values()                          //返回映射表中的值                  
+#+END_SRC
+#+BEGIN_SRC java
+java.util.Map.Entry<K,V>
+
+K getKey()              // 返回这个条目的键 
+V getValue()            // 返回这个条目的值 
+V setValue(V nuewValue) // 设置新值,并返回旧值
+#+END_SRC
+#+BEGIN_SRC java
+java.util.HashMap<K,V>
+
+//构造散列映射表
+HashMap()
+
+//构造散列映射表,指定容量
+HashMap(int initialCapacity)
+
+//构造散列映射表,指定容量,指定装填因子
+HashMap(int initialCapacity,float loadFactor)
+#+END_SRC
+#+BEGIN_SRC java
+java.util.TreeMap<K,V>
+
+//构造树映射表,指定比较器
+TreeMap(Comparator<? super K> c)
+
+//构造树映射表,将指定映射表中的所有条目添加到树映射表中
+TreeMap(Map<? extends K,? extends V> entries)
+
+//构造树映射表,将指定有序映射表中的所有条目添加到树映射表中,并使用其比较器 
+TreeMap(SortedMap<? extends K,? extends V> entries)
+#+END_SRC
+#+BEGIN_SRC java
+java.util.SortedMap<K,V>
+
+Comparator<? super K> comparator() //返回比较器          
+K firstKey()                       //返回映射表中最小元素
+K lastKey()                        //返回映射表中最大元素
+#+END_SRC
+** 集合框架
+*** 集合框架的接口
+#+BEGIN_EXAMPLE
++ Iterable
+  - Collection
+    - List
+    - Set
+      - SorteSet
+	- NavigableSet
+    - Queue
+      - Deque
++ Map
+  - SortedMap
+    - NavigableMap
++ Iterator
+  - ListIterator
++ RandomAccess
+#+END_EXAMPLE
++ RandomAccess接口没有任何方法,但可以用来检测一个特定的集合是否支持高效的随机访问. ArrayList类和Vector类都实现了RandomAccess接口.
++ ListIterator接口定义了add,previous等方法
++ SortedSet和SortedMap接口暴露了用于排序的比较器对象
++ NavigableSet和NavigableMap包含了几个用于在有序集和映射表中查找和遍历的方法.TreeSet和TreeMap类实现了这个接口.
+
+*** 集合框架的类
+#+BEGIN_EXAMPLE
++ AbstractCollection
+  - AbstractList
+    - AbstractSequentialList
+      - LinkedList
+    - ArrayList
+  - AbstractSet
+    - HashSet
+    - TreeSet
+  - AbstractQueue
+    - PriorityQueue
+  - ArrayDeque
++ AbstractMap
+  - HashMap
+  - TreeMap
+#+END_EXAMPLE
+*** 视图
+调用某方法时,返回的不是集合类型的对象,而是某个实现了框架接口的类对象,称为视图
+**** 轻量级集包装器
+Arrays类的静态方法asList可以将数组包装为List
+#+BEGIN_SRC java
+Card[] card = new Card[52];
+//返回的对象不是ArrayList,而是List
+List<Card> cardlist = Arrays.asList(cardDeck);
+#+END_SRC
++ 任何改变数组大小的方法都会抛出UnsupportedOperationException异常
+**** 子范围
+可以为集合简历子范围视图
+#+BEGIN_SRC java
+List group2 = staff.subList(10,20);  //取[10,20)范围的元素
+#+END_SRC
++ 可以将任何操作应用于子范围,且能反映到原列表
++ 对于有序集和有序映射表,可以使用排序顺序建立子范围
+#+BEGIN_SRC java
+SortedSet<E> subSet(E from, E to);
+SortedSet<E> headSet(E to);
+SortedSet<E> tailSet(E from);
+
+SortedMap<E> subMap(K from, K to);
+SortedMap<E> headMap(K to);
+SortedMap<E> tailMap(K from);
+#+END_SRC
+**** 不可修改的视图
++ 可以使用下面6种方法获得不可修改的视图
+#+BEGIN_EXAMPLE
+1. Collections.unmodifiableCollection
+2. Collections.unmodifiableList
+3. Collections.unmodifiableSet
+4. Collections.unmodifiableSortedSet
+5. Collections.unmodifiableMap
+6. Collections.unmodifiableSortedMap
+#+END_EXAMPLE
++ Collections.unmodifiableList将返回一个实现List接口的类对象,所有更改器方法已经被重新定义为抛出一个unsupportedOperationException异常
+**** 同步视图
++ 如果多个线程访问集合,必须确保集合不会被意外破坏
++ 类库设计者使用视图机制来确保常规集合的线程安全,而不是实现线程安全的集合类
++ 如Collections类的静态方法synchronizedMap可以将任何一个映射表转换成具有同步访问方法的Map
+#+BEGIN_SRC java
+Map<String, Employee> map = Collections.
+           synchronizedMap(new HashMap<String,Employee>());
+#+END_SRC
+*** 集合与数组之间的转换
+#+BEGIN_SRC java
+String[] values = ...;
+HashSet<String> staff = new HashSet<String>(Arrays.asList(values));
+
+Object[] values = staff.toArray(); //只能产生一个对象数组,不能使用类型转换
+String[] values = (String[])staff.toArray(); //error!
+
+String[] values = staff.toArray(new String[0]); //解决的办法
+#+END_SRC
+** 算法
+*** 排序和混排
+#+BEGIN_SRC java
+java.util.Collections
+
+//使用稳定的排序算法对列表中的元素进行稳定排序,时间复杂度是O(nlogn)
+static <T extends Comparable<? super T>> void sort(List<T> elements)
+static <T> void sort(List<T> elements, Comparator<? super T> c)
+
+//随机地打乱列表中的元素
+static void shuffle(List<?> elements)
+static void shuffle(List<?> elements, Random r)
+
+//返回一个比较器,它是Camparable接口的compareTo方法规定的顺序的逆序
+static <T> Comparator<T> reverseOrder()
+
+//返回一个比较器,它是comp规定的顺序的逆序
+static <T> Comparator<T> reverseOrder(Comparator<T> comp)
+#+END_SRC
++ java中的排序,直接将所有元素转入一个数组,并使用一种归并排序的变体对数组进行排序,然后将排序后的序列复制会列表
++ 归并排序的一个主要优点是:稳定
++ 需要排序的列表必须是可修改的,不必是可以改变大小的
++ 如果列表支持set,则是可修改的;如果列表支持add和remove,则是可改变大小的
+*** 二分查找
+#+BEGIN_SRC java
+java.util.Collections
+
+/*从有序列表中搜索一个键,
+若元素扩展了AbstractSequentialList类,将采用线性搜索,否则采用二分查找
+如果列表中不存在这个键,将返回负值i,
+这种情况下,应该将这个键插入到列表索引-i-1位置上,以保持列表的有序性*/
+static <T extends Comparable<? super T>> int binarySearch(List<T> elements, T key)
+static <T> int binarySearch(List<T> elements, T key, Comparator<? super T> c)
+#+END_SRC
++ 集合必须是排好序的,否则将返回错误的答案
+*** 简单算法
+#+BEGIN_SRC java
+java.util.Collections
+
+//返回集合中最小/大的元素
+static <T extends Comparable<? super T>> T min(Collection<T> elements)
+static <T extends Comparable<? super T>> T max(Collection<T> elements)
+static <T> T min(Collection<T> elements, Comparator<? super T> c)
+static <T> T max(Collection<T> elements, Comparator<? super T> c)
+
+//将元列表中所有元素复制到目标列表的相应位置上
+static <T> void copy(List<? super T> to, List<T> from)
+
+//将列表中所有位置设置为相同的值
+static <T> void fill(List<? super T> l, T value)
+
+//将所有的值添加到集合中
+static <T> boolean addAll(Collection<? super T> c, T... values)
+
+//用newValue替换所有值为oldValue的元素
+static <T> boolean replaceAll(List<T> l, T oldValue, T newValue)
+
+//返回l中第一个或最后一个等于s子列表的索引,若不存在返回-1
+static int indexOfSubList(List<?> l, List<?> s)
+static int lastIndexOfSubList(List<?> l, List<?> s)
+
+//交换给定偏移量的两个元素
+static void swap(List<?> l, int i, int j)
+
+//逆置列表中元素的顺序
+static void reverse(List<?> l)
+
+//旋转列表中的元素,将i移动到(i+d)%l.size()
+static void rotate(List<?> l, int d)
+
+//返回c中与对象o相同的元素个数
+static int frequency(Collection<?> c, Object o)
+
+//如果两个集合没有共同元素,返回true
+boolean disjoint(Collection<?> c2, Collection<?> c2)
+#+END_SRC
+* 多线程
+** 线程概念
++ 多进程与多线程的区别
+  1. 每个进程拥有自己的一套变量,而线程则共享数据
+  2. 线程之间通信比进程之间通信更有效,更容易
+  3. 线程比进程更"轻量级",创建,撤销一个线程比进程的开销小的多
++ 在一个单独的线程中执行一个任务的步骤
+#+BEGIN_SRC java
+//将任务代码移到实现了Runnable接口的类的run方法中
+class MyRunnable implements Runnable
+{
+    public void run(){
+        ...
+    }
+}
+//创建一个类对象
+Runnable r = new MyRunnable();
+//由Runnable创建一个Thread对象
+Thread t = new Thread(r);
+//启动线程
+t.start();
+#+END_SRC
++ 不要调用Thread类或Runnable对象的run方法,直接调用run方法只会执行同一个线程中的任务,而不会启动新线程,应该调用Thread.start方法
+** 中断线程
++ 线程终止的情况
+  1. 线程的run方法执行方法体中最后一条语句后返回
+  2. 出现了在方法中没有捕获的异常
++ stop方法和suspend方法已被弃用
+*** interrupt方法
++ interrupt方法可以用来请求终止线程
++ 对一个线程调用interrupt方法时,线程的 /中断状态/ 将被置位
++ 可以通过Threa.currentThread.isInterruppted方法判断中断状态是否被置位
++ 线程被阻塞时无法检测中断状态,将会产生InterruptedException异常
+#+BEGIN_SRC java
+java.lang.Thread
+
+//向线程发送中断请求,线程的中断状态置位,如果线程被阻塞,将抛出InterruptedException异常
+void interrupt()
+
+//测试当前线程是否被中断,并复位中断状态
+static boolean interrupted()
+
+//测试当前线程是否被中断,不会复位中断状态
+boolean isInterrupted()
+
+//返回代表当前执行线程的Thread对象
+static Thread currentThread()
+#+END_SRC
+** 线程状态
++ 线程有6种状态
+  1. new 当用new操作符创建一个新线程时,状态是new
+  2. runnable 当调用start方法,状态是runnable(注意,一个可runnable的线程可能正在运行,也可能没有运行,是否正在运行取决于调度器的调度)
+  3. blocked 当线程试图获得一个正被其他线程持有的对象锁,状态是blocked
+  4. waiting 当线程等待另一个线程通知调度器一个条件时,状态是waiting(如wait和join方法)
+  5. timed waiting 当线程调用了有超时参数的方法时,状态是timed waiting(如Thread.sleep方法)
+  6. terminated 当线程正常退出自然死亡时,或者因为一个没有捕获的异常意外死亡时,状态是terminated
+#+BEGIN_SRC java
+java.lang.Thread
+
+//等待指定的线程死亡
+void join()
+
+//等待指定的线程死亡或者经过指定的毫秒数
+void join(long millis)
+
+//得到这一线程的状态
+Thread.State getState()
+#+END_SRC
+** 线程属性
+*** 线程优先级
++ 默认情况下,一个线程继承其父线程的优先级
++ 可以用setPriority设置线程优先级
+#+BEGIN_SRC java
+java.lang.Thread
+
+//设置线程的优先级,优先级必须在Thread.MIN_PRIORITY与Thread.MAX_PRIORITY之间
+void setPriority(int newPriority)
+
+//线程的最小(1),默认(5),最高优先级(10)
+static int MIN_PRIORITY
+static int MAX_PRIORITY
+static int NORM_PRIORITY
+
+//导致当前执行线程让步执行权
+static void yield()
+#+END_SRC
+*** 守护线程
++ 守护线程的用途是为其他线程提供服务
++ 当只剩下守护线程时,虚拟机就退出了
+#+BEGIN_SRC java
+java.lang.Thread
+
+//标志该线程为守护线程或用户线程,必须在线程启动之前调用
+void setDaemon(boolean isDaemon)
+#+END_SRC
+** 同步
+*** 锁对象
++ 用ReentrantLock保护代码块的基本结构如下
+#+BEGIN_SRC java
+myLock.lock();
+try{
+    ...
+}
+finally{
+    myLock.unlock();
+}
+#+END_SRC
++ 这一结构确保任何时刻只有一个线程进入临界区
++ 一旦一个线程封锁了锁对象,当其他线程调用lock时,将被阻塞,直到第一个线程释放锁对象
++ 锁是可重入的,一个线程可以重复获得已经持有的锁,锁会保持一个计数器来跟踪lock方法的嵌套调用,当计数器变为0时线程释放锁.
+#+BEGIN_SRC java
+java.util.concurrent.locks.Lock
+
+//获取锁
+void lock()
+
+//释放锁
+void unlock()
+#+END_SRC
+#+BEGIN_SRC java
+java.util.concurrent.locks.ReentrantLock
+
+//构建一个可重入锁
+ReentrantLock()
+
+//构建一个带有公平策略的可重入锁,一个公平锁偏爱等待时间最长的线程
+ReentrantLock(boolean fair)
+#+END_SRC
+*** 条件对象
++ 可以用newCondition方法获得一个条件对象
++ 条件对象调用await方法时,当前线程被阻塞,并放弃锁,直到另一个线程调用同一条件对象的signalAll方法
++ signalAll方法调用会重新激活因为这一条件而等待的所有线程,它们再次成为runnable状态
++ 它们中的某个将获得该锁并从被阻塞的地方继续执行
++ 另一个方法signal,则会随机解除等待集合中的某个线程的阻塞状态
+#+BEGIN_SRC java
+java.util.concurrent.locks.Lock
+
+//返回一个与该锁相关的条件对象
+Condition newCondition()
+#+END_SRC
+#+BEGIN_SRC java
+java.util.concurrent.locks.Condition
+
+//将线程放到条件的等待集合中
+void await()
+
+//解除该条件等待集合中的素有线程的阻塞状态
+void signalAll()
+
+//从该条件的等待集中随机地选择一个线程,解除其阻塞状态
+void signal()
+#+END_SRC
+*** synchronized关键字
++ 每个对象都有一个内部锁
++ 如果一个方法用synchronized关键字声明,将使用对象的内部锁
+#+BEGIN_SRC java
+public synchronized void method(){
+    ...
+}
+//等价于
+public void method(){
+    this.intrinsicLock.lock();
+    try{
+        ...
+    }
+    fanally{
+        this.intrinsicLock.unlock();
+    }
+}
+#+END_SRC
++ 内部对象锁只提供一个条件对象,wait方法添加一个线程到等待集合中,notifyAll/notify方法解除等待线程的阻塞状态
+#+BEGIN_SRC java
+java.lang.Object
+
+//解除那些在该对象上调用wait方法的线程的阻塞状态
+void notifyAll()
+
+//随机选择一个在该对象上调用wait方法的线程,解除其阻塞状态
+void notify()
+
+//导致线程进入等待状态
+void wait()
+void wait(long millis)
+void wait(long millis, int nanos)
+#+END_SRC
+*** 同步阻塞
+#+BEGIN_SRC java
+synchronized(obj){
+    ...
+}
+#+END_SRC
+*** valatile域
++ 使用现代处理器,多个线程对实例域的访问可能会导致出错
++ 但有时仅仅为了读写一个或两个实例域就使用同步,显得开销过大了
++ volatile关键字为实例域的同步访问提供了一种免锁机制
++ 如果声明一个域为volatile,那么编译器和虚拟机就知道该域是可能被另一个线程并发更新的
+*** 锁测试与超时
+tryLock方法视图申请一个锁,在成功获得锁后返回true,否则,立即返回false.
+#+BEGIN_SRC java
+if(myLock.tryLock()){
+    try{
+        ...
+    }
+    finally{
+        myLock.unlock();
+    }
+}
+else
+    //do something else
+#+END_SRC
+#+BEGIN_SRC java
+java.util.concurrent.locks.Lock
+
+//尝试获得锁而没有发生阻塞,如果成功返回true
+boolean tryLock()
+
+//尝试获得锁,阻塞时间不会超过给定的值,如果成功返回true
+boolean tryLock(long time, TimeUint unit)
+#+END_SRC
+*** 读写锁
++ 有时,可能会有很多线程读对象,而很少线程写对象
++ 读写锁允许对读者线程共享访问,而写者线程依然互斥访问.步骤
+#+BEGIN_SRC java
+//1. 构造一个ReentrantReadWriteLock对象
+private ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+//2.抽取读锁和写锁
+private Lock readLock = rwl.readLock();
+private Lock writeLock = rwl.writeLock();
+//3.对所有访问者加读锁
+public double get()
+{
+    readLock.lock();
+    try{...}
+    finally{readLock.unlock();}
+}
+//4.对所有修改者加写锁
+public void set(...){
+    writeLock.lock();
+    try{...}
+    finally{writeLock.unlock();}    
+}
+#+END_SRC
+#+BEGIN_SRC java
+java.util.concurrent.locks.ReentrantReadWriteLock
+
+//得到一个可以被多个读操作共用的读锁
+Lock readLock()
+
+//得到一个写锁,排斥所有其他的读操作和写操作
+Lock writeLock()
+#+END_SRC
+** 阻塞队列
++ 对于许多线程问题,可以通过使用一个或多个队列以优雅且安全的方式将其形式化
++ 生产者线程向队列插入元素
++ 消费者线程则取出元素
++ 使用队列可以安全地从一个线程向另一个线程传递数据
+#+BEGIN_SRC java
+java.util.concurrent.BlockingQueue<E>
+
+//添加元素,必要时阻塞
+void put(E element)
+
+//移除并返回头元素,必要时阻塞
+E take()
+
+//添加元素,成功则返回true,必要是阻塞,直至元素已经被添加或超时
+boolean offer(E element, long time, TimeUnit unit)
+
+//移除并返回头元素,必要时阻塞,直至元素可用或超时,失败是返回null
+E poll(long time, TimeUnit unit)
+#+END_SRC
+** 线程安全的集合
+*** 映射,集合和队列
+java.util.concurrent包提供了映射,有序集合和队列的高效实现
++ 映射表
+#+BEGIN_SRC java
+java.util.concurrent.ConcurrentHashMap<K,V>
+
+/*构造一个可以被多线程安全访问的散列映射表
+参数 initialCapacity 初始容量 
+参数 loadFactor 负载因子 
+参数 concurrencyLevel并发写线程的估计数目*/
+ConcurrentHashMap<K,V>()
+ConcurrentHashMap<K,V>(int initialCapacity)
+ConcurrentHashMap<K,V>(int initialCapacity, 
+                       float loadFactor, 
+                       int concurrencyLevel)
+
+//如果映射表中没有指定的key,则插入key和value,并返回null.否则返回与key关联的value
+V putIfAbsent(K key, V value)
+
+//如果映射表中有指定的key,删除key和value并返回true,否则返回false
+boolean remove(K key, V value)
+
+//如果指定的key与oldValue向关联,用它与newValue关联,否则返回false
+boolean replace(K key, V oldValue, V newValue)
+#+END_SRC
++ 有序映射表
+#+BEGIN_SRC java
+java.util.concurrent.ConcurrentSkipListMap<K,V>
+
+/*构造一个可以被多线程安全访问的有序映射表
+第一个构造器要求键实现Comparable接口*/
+ConcurrentSkipListMap<K,V>()
+ConcurrentHashMap<K,V>(Comparator<? super K> comp)
+
+//如果映射表中没有指定的key,则插入key和value,并返回null.否则返回与key关联的value
+V putIfAbsent(K key, V value)
+
+//如果映射表中有指定的key,删除key和value并返回true,否则返回false
+boolean remove(K key, V value)
+
+//如果指定的key与oldValue向关联,用它与newValue关联,否则返回false
+boolean replace(K key, V oldValue, V newValue)
+#+END_SRC
++ 队列(非阻塞)
+#+BEGIN_SRC java
+java.util.concurrent.ConcurrentLinkedQueue<E>
+
+//构造一个可以被多线程安全访问的无边界非阻塞队列
+ConcurrentLinkedQueue<E>()
+#+END_SRC
++ 有序集合
+#+BEGIN_SRC java
+java.util.concurrent.ConcurrentLinkedQueue<E>
+
+//构造一个可以被多线程安全访问的有序集合,第一个构造器要求元素实现Comparable接口
+ConcurrentSkipListSet<E>()
+ConcurrentSkipListSet<E>(Comparator<? super E> comp)
+#+END_SRC
+*** 写数组的拷贝
++ CopyOnWriteArrayList和CopyOnWriteArraySet是线程安全的集合
++ 所有的修改线程对底层数组进行复制
++ 当构建一个迭代器时,它包含一个对当前数组的引用,即使数组后来被修改了,迭代器仍然引用旧数组
+** Callable与Future
++ Runnable封装一个异步运行的任务
++ Callable接口与Runnable类似,但是有返回值
+#+BEGIN_SRC java
+java.util.concurrent.Callable<V>
+
+//运行一个将产生结果的任务
+V call()
+#+END_SRC
++ Future保存异步计算的结果
+#+BEGIN_SRC java
+java.util.concurrent.Future<V>
+
+//获取结果,若没有结果可用,则阻塞直到得到结果或超时
+V get()
+V get(long time, TimeUnit unit)
+
+//尝试取消任务的运行,如果任务已经开始且mayInterrupt为true,任务会被中断.
+//如果成功执行了取消操作,返回true
+boolean cancel(boolean mayInterrupt)
+
+//如果任务在完成前被取消了,返回true
+boolean isCancelled()
+
+//如果任务结束,无论是否正常结束,返回true
+boolean isDone
+#+END_SRC
++ FutureTask包装器将Callable转换成Future和Runnable
+#+BEGIN_SRC java
+java.util.concurrent.FutureTask<V>
+
+//构造一个既是Future<V>又是Runnable的对象
+FutureTask(Callable<V> task)
+FutureTask(Callable<V> task, V result)
+#+END_SRC
+#+BEGIN_SRC java
+//应用举例
+Callable<Integer> myComputation = ...;
+FutureTask<Integer> task = new FutureTask<Integer>(myComputation);
+Thread t = new Thread(task);  //it's Runnable
+t.start();
+...
+Integer result = task.get();  //it's Future
+#+END_SRC
+** 执行器
+*** 线程池
+使用线程池的步骤
+1. 调用Executors类中的静态方法newCachedThreadPool或newFixeThreadPool
+2. 调用submit提交Runnable或Callable对象
+3. 如果想取消任务,或产看任务状态,就要保存好submit返回的Future对象
+4. 当不再提交任务时,调用shutdown
+#+BEGIN_SRC java
+java.util.concurrent.Executors
+
+//返回一个线程池,参数指定线程数
+ExecutorService newFixedThreadPool(int threads)
+
+//返回一个带缓存的线程池,该池在必要时创建线程,线程空闲60之后终止
+ExecutorService newCachedThreadPool()
+
+//返回一个执行器,它在一个单一的线程中一次执行各个任务
+ExecutorService newSingleThreadExecutor()
+#+END_SRC
+#+BEGIN_SRC java
+java.util.concurrent.ExecutorService
+
+//提交指定的任务取执行
+Future<T> submit(Callable<T> task)
+Future<T> submit(Runnable task, T result)   //get方法在完成时返回指定的result对象
+Future<?> submit(Runnable task)             //get方法在完成时返回null
+
+//关闭服务,会先完成已经提交的任务而不再接收新的任务
+void shutdown()
+#+END_SRC
+*** 预订执行
+#+BEGIN_SRC java
+java.util.concurrent.Executors
+
+//返回一个线程池,参数指定线程数
+ScheduledExecutorService newScheduledThreadPool(int threads)
+
+//返回一个执行器,在一个单独线程中调度任务
+ScheduledExecutorService newSingleThreadScheduledExecutor()
+#+END_SRC
+#+BEGIN_SRC java
+java.util.concurrent.ScheduledExecutorService
+
+//预订在指定的时间之后执行任务
+ScheduledFuture<V> schedule(Callable<V> task, 
+                            long time,
+                            TimeUnit unit)
+ScheduledFuture<?> schedule(Runnable task, 
+                            long time,
+                            TimeUnit unit)
+
+//预订在初始的延迟结束后,周期性地运行指定任务,周期为period
+ScheduledFuture<?> scheduleAtFixedRate(Runnable task,
+                                       long initialDelay, 
+                                       long period,
+                                       TimeUnit unit)
+
+//预订在初始的延迟结束后,周期性地运行指定任务,上一次调用结束和下一次调用开始之间有固定延迟
+ScheduledFuture<?> scheduleWithFixedDelay(Runnable task,
+                                          long initialDelay,
+                                          long delay,
+                                          TimeUnit unit)
+#+END_SRC
+*** 控制任务组
+执行器除了可以作为线程池使用,还可以用来控制一组相关任务
++ invokeAny同时运行多个任务,而只返回最先完成的任务的结果.
++ invokeAll同时运行多个任务,返回一个Future列表
+#+BEGIN_SRC java
+List<Callable<T>> tasks = ...;
+List<Future<T>> results = executor.invokeAll(tasks);
+for(Future<T> result:results)
+    ...
+#+END_SRC
++ invokeAll的缺陷在于如果第一个任务恰巧花去了很多时间,则可能不得不进行等待
++ ExecutorCompletionService解决了这个问题,其take方法将返回一个已完成的结果
+#+BEGIN_SRC java
+ExecutorCompletionService service = new ExecutorCompletionService(executor);
+for(Callable<T> task:tasks) service.submit(task);
+for(int i=0;i<tasks.size();i++)
+    processFuther(service.take().get());
+#+END_SRC
+#+BEGIN_SRC java
+java.util.concurrent.ExecutorService
+
+//执行给定的任务,返回其中一个任务的结果
+T invokeAny(Collection<Callable<T>> tasks)
+T invokeAny(Collection<Callable<T>> tasks, long timeout, TimeUnit unit)
+
+//执行给定的任务,返回所有任务的结果
+List<Future<T>> invokeAll(Collection<Callable<T>> tasks)
+List<Future<T>> invokeAll(Collection<Callable<T>> tasks, 
+                          long timeout, TimeUnit unit)
+#+END_SRC
+#+BEGIN_SRC java
+java.util.concurrent.ExecutorCompletionService
+
+//构造一个执行器完成服务来收集给定执行器的结果
+ExecutorCompletionService(Executor e)
+
+//提交一个任务给底层的执行器
+Future<T> submit(Callable<T> task)
+Future<T> submit(Runnable task, T result)
+
+//移除下一个已完成的结果,如果没有则阻塞
+Future<T> take()
+
+//移除下一个已完成的结果,如果没有则返回null
+Future<T> poll()
+Future<T> poll(long time, TimeUnit unit)
+#+END_SRC
+** 同步器
+java预置符合某些行为模式的库类,如果有一个相互合作的线程满足这些行为模式之一,那么应该直接重用合适的库类,而不要试图提供手工的锁与条件的集合
+*** 信号量
++ 一个信号量管理固定数目的许可,线程通过acquire请求许可,通过调用release释放许可
++ 许可数目是固定的,由此限定了通过的线程数量
++ 许可不是必须由获取它的线程释放
++ 事实上,任何线程都可以释放任意数目的许可
++ 如果释放的许可多于可用许可的最大数目,信号量指示被设置为可用许可的最大数目
+#+BEGIN_SRC java
+java.util.concurrent.Semaphore
+
+//用给定的许可数目为最大值构建一个信号量
+Semaphore(int permits)
+Semaphore(int permits, boolean fair)
+
+//等待获得一个许可
+void acquire()
+
+//尝试获得一个许可,如果没有可用的许可,返回false
+boolean tryAcquire()
+
+//尝试在给定时间内获得一个许可,如果没有可用的许可,返回false
+boolean tryAcquire(long time, TimeUnit unit)
+
+//释放一个许可
+void release()
+#+END_SRC
+*** 倒计时门栓
++ 倒计时门栓让一个线程集等待直到计数变为0
++ 倒计时门栓是一次性的,一旦计数为0,就不能再重用了
+#+BEGIN_SRC java
+java.util.concurrent.CountDownLatch
+
+//用给定计数构建一个倒计时门栓
+CountdownLatch(int count)
+
+//等待门栓的计数降为零
+void await()
+
+//等待门栓的计数降为零或者超时,如果计数为0返回true,如果超时返回false
+boolean awati(long time, TimeUnit unit)
+
+//递减门栓的计数值
+public void countDown()
+#+END_SRC
+*** 障栅
++ 适用于大量线程运行在一次计算的不同部分,当所有部分都准备好时,再把结果组合在一起
++ 当一个线程完成了它的那部分任务后,让它运行到障栅处,一旦所有线程都达到了这个障栅,障栅就撤销,线程就可以继续运行
++ 障栅在所有等待线程被释放后可被重用
+#+BEGIN_SRC java
+java.util.concurrent.CyclicBarrier
+
+//构建一个线程数目是parties的循环障栅,当所有线程都在障栅上调用await后,执行barierAction
+CyclicBarrier(int parties)
+CyclicBarrier(int parties, Runnable barrierAction)
+
+//等待直到所有线程在障栅上调用await或者时间超时,成功时返回这个线程的序号
+int await()
+int await(long time, TimeUnit unit)
+#+END_SRC
+*** 交换器
+当两个线程在同一个数据缓冲区的两个实例上工作时,可以使用交换器,
+典型的情况是一个线程向缓冲区填入数据,另一个线程消耗这些数据,当他们都完成以后,相互交换缓冲区
+#+BEGIN_SRC java
+java.util.concurrent.Exchanger<V>
+
+//阻塞直到另一个线程调用这个方法,然后,其他线程交换item,并返回其他线程的item
+V exchange(V item)
+V exchange(V item, long time, TimeUnit unit)
+#+END_SRC
+*** 同步队列
+同步队列是一种将生产者与消费者线程配对的机制.
+当一个线程调用put方法时,将会阻塞直到另一个线程调用take方法为止.
+当一个线程调用take方法时,将会阻塞直到另一个线程调用put方法为止.
+与Exchanger的情况不同,数据传递是单向的,从生产者到消费者.
+#+BEGIN_SRC java
+java.util.concurrent.SynchronousQueue<V>
+
+//构建一个允许线程提交item的同步队列.如果fair是true,队列优先照顾等待了最长时间的线程
+SynchronousQueue()
+SynchronousQueue(boolean fair)
+
+//阻塞直到另一个线程调用take来获取item
+void put(V item)
+
+//阻塞直到另一个线程调用put,返回另一个线程提供的item
+V take()
+#+END_SRC
