@@ -1,0 +1,3098 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>c程序设计</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="c程序设计"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-09-02T23:58+0800"/>
+<meta name="author" content="王超"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">c程序设计</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 顺序程序设计</a>
+<ul>
+<li><a href="#sec-1-1">1.1 常量</a></li>
+<li><a href="#sec-1-2">1.2 变量</a></li>
+<li><a href="#sec-1-3">1.3 常变量</a></li>
+<li><a href="#sec-1-4">1.4 标识符</a></li>
+<li><a href="#sec-1-5">1.5 数据类型</a></li>
+<li><a href="#sec-1-6">1.6 整型数据</a></li>
+<li><a href="#sec-1-7">1.7 浮点型数据</a></li>
+<li><a href="#sec-1-8">1.8 常量的类型</a></li>
+<li><a href="#sec-1-9">1.9 运算符和表达式</a>
+<ul>
+<li><a href="#sec-1-9-1">1.9.1 注意事项</a></li>
+<li><a href="#sec-1-9-2">1.9.2 不同类型混合运算</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-10">1.10 c语句</a>
+<ul>
+<li><a href="#sec-1-10-1">1.10.1 赋值语句</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-11">1.11 数据的输入输出</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 选择结构程序设计</a>
+<ul>
+<li><a href="#sec-2-1">2.1 if语句</a></li>
+<li><a href="#sec-2-2">2.2 关系运算符和关系表达式</a></li>
+<li><a href="#sec-2-3">2.3 逻辑运算符和逻辑表达式</a></li>
+<li><a href="#sec-2-4">2.4 switch语句</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3 循环结构程序设计</a>
+<ul>
+<li><a href="#sec-3-1">3.1 while语句</a></li>
+<li><a href="#sec-3-2">3.2 do-while语句</a></li>
+<li><a href="#sec-3-3">3.3 for语句</a></li>
+<li><a href="#sec-3-4">3.4 改变循环执行的状态</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4 数组</a>
+<ul>
+<li><a href="#sec-4-1">4.1 一维数组</a>
+<ul>
+<li><a href="#sec-4-1-1">4.1.1 定义</a></li>
+<li><a href="#sec-4-1-2">4.1.2 引用数组元素</a></li>
+<li><a href="#sec-4-1-3">4.1.3 初始化</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-2">4.2 二维数组</a>
+<ul>
+<li><a href="#sec-4-2-1">4.2.1 定义</a></li>
+<li><a href="#sec-4-2-2">4.2.2 引用数组元素</a></li>
+<li><a href="#sec-4-2-3">4.2.3 初始化</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-3">4.3 字符数组</a>
+<ul>
+<li><a href="#sec-4-3-1">4.3.1 定义</a></li>
+<li><a href="#sec-4-3-2">4.3.2 初始化</a></li>
+<li><a href="#sec-4-3-3">4.3.3 字符串</a></li>
+<li><a href="#sec-4-3-4">4.3.4 字符数组的输入输出</a></li>
+<li><a href="#sec-4-3-5">4.3.5 字符串处理函数</a></li>
+</ul></li>
+</ul>
+</li>
+<li><a href="#sec-5">5 函数</a>
+<ul>
+<li><a href="#sec-5-1">5.1 定义函数</a></li>
+<li><a href="#sec-5-2">5.2 调用函数</a></li>
+<li><a href="#sec-5-3">5.3 函数声明</a></li>
+<li><a href="#sec-5-4">5.4 函数的嵌套调用</a></li>
+<li><a href="#sec-5-5">5.5 函数的递归调用</a></li>
+<li><a href="#sec-5-6">5.6 数组作为函数参数</a>
+<ul>
+<li><a href="#sec-5-6-1">5.6.1 多维数组</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-7">5.7 局部变量和全局变量</a>
+<ul>
+<li><a href="#sec-5-7-1">5.7.1 局部变量</a></li>
+<li><a href="#sec-5-7-2">5.7.2 全局变量</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-8">5.8 变量的存储方式和生存期</a></li>
+<li><a href="#sec-5-9">5.9 变量的声明和定义</a></li>
+<li><a href="#sec-5-10">5.10 内部函数和外部函数</a></li>
+</ul>
+</li>
+<li><a href="#sec-6">6 指针</a>
+<ul>
+<li><a href="#sec-6-1">6.1 指针变量</a>
+<ul>
+<li><a href="#sec-6-1-1">6.1.1 定义指针变量</a></li>
+<li><a href="#sec-6-1-2">6.1.2 引用指针变量</a></li>
+<li><a href="#sec-6-1-3">6.1.3 指针变量作函数参数</a></li>
+</ul>
+</li>
+<li><a href="#sec-6-2">6.2 通过指针引用数组</a>
+<ul>
+<li><a href="#sec-6-2-1">6.2.1 数组元素的指针</a></li>
+<li><a href="#sec-6-2-2">6.2.2 指针的运算</a></li>
+<li><a href="#sec-6-2-3">6.2.3 通过指针引用数组</a></li>
+<li><a href="#sec-6-2-4">6.2.4 数组名作函数参数</a></li>
+<li><a href="#sec-6-2-5">6.2.5 通过指针引用多维数组</a></li>
+<li><a href="#sec-6-2-6">6.2.6 指针与数组的区别</a></li>
+</ul>
+</li>
+<li><a href="#sec-6-3">6.3 通过指针引用字符串</a>
+<ul>
+<li><a href="#sec-6-3-1">6.3.1 字符串的引用方式</a></li>
+<li><a href="#sec-6-3-2">6.3.2 字符指针变量与其他类型指针变量的区别</a></li>
+</ul>
+</li>
+<li><a href="#sec-6-4">6.4 指向函数的指针</a></li>
+<li><a href="#sec-6-5">6.5 返回指针值的函数</a></li>
+<li><a href="#sec-6-6">6.6 指针数组和多重指针</a>
+<ul>
+<li><a href="#sec-6-6-1">6.6.1 指针数组</a></li>
+<li><a href="#sec-6-6-2">6.6.2 指向指针的指针</a></li>
+<li><a href="#sec-6-6-3">6.6.3 指针数组作main函数的形参</a></li>
+</ul>
+</li>
+<li><a href="#sec-6-7">6.7 动态内存分配</a>
+<ul>
+<li><a href="#sec-6-7-1">6.7.1 建立内存动态分配</a></li>
+<li><a href="#sec-6-7-2">6.7.2 void指针类型</a></li>
+</ul></li>
+</ul>
+</li>
+<li><a href="#sec-7">7 用户自己建立数据类型</a>
+<ul>
+<li><a href="#sec-7-1">7.1 定义和使用结构体变量</a>
+<ul>
+<li><a href="#sec-7-1-1">7.1.1 定义结构体类型变量</a></li>
+<li><a href="#sec-7-1-2">7.1.2 初始化和引用结构体变量</a></li>
+</ul>
+</li>
+<li><a href="#sec-7-2">7.2 结构体数组</a></li>
+<li><a href="#sec-7-3">7.3 结构体指针</a></li>
+<li><a href="#sec-7-4">7.4 共用体类型</a></li>
+<li><a href="#sec-7-5">7.5 使用枚举类型</a></li>
+<li><a href="#sec-7-6">7.6 用typedef声明新类型名</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">8 文件的输入输出</a>
+<ul>
+<li><a href="#sec-8-1">8.1 c文件基础</a>
+<ul>
+<li><a href="#sec-8-1-1">8.1.1 文件流</a></li>
+<li><a href="#sec-8-1-2">8.1.2 ASCII文件和二进制文件</a></li>
+<li><a href="#sec-8-1-3">8.1.3 文件缓冲区</a></li>
+<li><a href="#sec-8-1-4">8.1.4 文件类型指针</a></li>
+</ul>
+</li>
+<li><a href="#sec-8-2">8.2 打开与关闭文件</a></li>
+<li><a href="#sec-8-3">8.3 顺序读写数据文件</a>
+<ul>
+<li><a href="#sec-8-3-1">8.3.1 读写字符</a></li>
+<li><a href="#sec-8-3-2">8.3.2 读写字符串</a></li>
+<li><a href="#sec-8-3-3">8.3.3 用格式化方式读写文件</a></li>
+<li><a href="#sec-8-3-4">8.3.4 用二进制方式读写文件</a></li>
+</ul>
+</li>
+<li><a href="#sec-8-4">8.4 随机读写数据文件</a>
+<ul>
+<li><a href="#sec-8-4-1">8.4.1 rewind</a></li>
+<li><a href="#sec-8-4-2">8.4.2 fseek</a></li>
+<li><a href="#sec-8-4-3">8.4.3 ftell</a></li>
+</ul>
+</li>
+<li><a href="#sec-8-5">8.5 文件读写出错检测</a>
+<ul>
+<li><a href="#sec-8-5-1">8.5.1 ferror</a></li>
+<li><a href="#sec-8-5-2">8.5.2 clearerr</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> 顺序程序设计</h2>
+<div class="outline-text-2" id="text-1">
+
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> 常量</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<ol>
+<li>整型常量
+
+
+
+<pre class="example">1000, 0, -345 ...
+</pre>
+
+</li>
+<li>实型常量
+
+
+
+<pre class="example">十进制小数形式: 123.456, 0.345, -56.79 ...
+指数形式: 12.34e3, -346.87e-25
+</pre>
+
+</li>
+<li>字符常量
+
+
+
+<pre class="example">普通字符: 'a', 'Z', '3', '?' ...
+转义字符: '\n', '\t' ...
+</pre>
+
+</li>
+<li>字符串常量
+
+
+
+<pre class="example">"boy", "123", ...
+</pre>
+
+</li>
+<li>符号常量
+
+
+
+<pre class="src src-c"><span style="color: #483d8b;"># define</span> <span style="color: #a0522d;">PI</span> 3.1416
+</pre>
+
+</li>
+</ol>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 变量</h3>
+<div class="outline-text-3" id="text-1-2">
+
+<p>变量代表一个有名字的,具有特定属性的存储单元,它用来存放数据.
+在程序运行期间,变量的值是可以改变的.
+</p></div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 常变量</h3>
+<div class="outline-text-3" id="text-1-3">
+
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">const</span> <span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>=3;
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">  &#24120;&#21464;&#37327;&#21644;&#31526;&#21495;&#24120;&#37327;&#30340;&#21306;&#21035;:</span>
+<span style="color: #b22222;">  &#24120;&#21464;&#37327;&#26377;&#31867;&#22411;,&#21344;&#29992;&#23384;&#20648;&#21333;&#20803;;&#31526;&#21495;&#24120;&#37327;&#27809;&#26377;&#31867;&#22411;,&#19981;&#21344;&#29992;&#23384;&#20648;&#21333;&#20803;</span>
+<span style="color: #b22222;">  &#20107;&#23454;&#19978;,&#31526;&#21495;&#24120;&#37327;&#29992;&#20110;&#20195;&#34920;&#19968;&#20010;&#23383;&#31526;&#20018;,&#22312;&#39044;&#32534;&#35793;&#26102;&#36827;&#34892;&#23383;&#31526;&#26367;&#25442;,</span>
+<span style="color: #b22222;">  &#22312;&#39044;&#32534;&#35793;&#21518;,&#23601;&#19981;&#23384;&#22312;&#20102;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> 标识符</h3>
+<div class="outline-text-3" id="text-1-4">
+
+<p>用于对变量,符号常量名,函数,数组,类型等命名的字符序列称为标识符.
+标识符只能由字母,数字和下划线组成,第一个字符必须是字母或下划线.
+</p></div>
+
+</div>
+
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 数据类型</h3>
+<div class="outline-text-3" id="text-1-5">
+
+<p>所谓类型,就是对数据分配存储单元的安排,不同类型,其存储单元长度和数据存储形式不同
+</p></div>
+
+</div>
+
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> 整型数据</h3>
+<div class="outline-text-3" id="text-1-6">
+
+<ol>
+<li>int
+
+
+
+<pre class="example">存储长度: 依赖编译器,一般是一个机器字长
+
+存储形式: 用整数的补码形式存放
+</pre>
+
+
+<pre class="example">一个正数的补码是此数的二进制形式
+一个负数的补码是其绝对值的二进制按位取反再加1
+</pre>
+
+</li>
+<li>short int
+
+
+
+<pre class="example">存储长度: 依赖编译器,不长于int的存储长度
+
+存储形式: 同int
+</pre>
+
+</li>
+<li>long int
+
+
+
+<pre class="example">存储长度: 依赖编译器,不短于int的存储长度
+
+存储形式: 同int
+</pre>
+
+</li>
+<li>long long int
+
+
+
+<pre class="example">存储长度: 依赖编译器,不短于long int的存储长度
+
+存储形式: 同int
+</pre>
+
+</li>
+<li>char
+
+
+
+<pre class="example">存储长度: 1字节
+
+存储形式: ASCII字符集的基本集包括了127个字符,用7个二进位就可以表示,
+         字节中的第一位置为0
+</pre>
+
+</li>
+<li>signed &amp;&amp; unsigned + [整型类型]
+
+
+
+<pre class="example">有符号整型存储单元中最高位代表符号(0正1负)
+
+无符号整型全部二进位都用作存放数值本身,
+无符号的char类型的第一位不再固定为0,多出来的空间可以存储扩展字符集
+
+默认是有符号类型
+</pre>
+
+</li>
+</ol>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> 浮点型数据</h3>
+<div class="outline-text-3" id="text-1-7">
+
+<p>规范化指数形式:指数形式表示法中小数点前的数字为0,小数点后第一位数字不为0的表示形式
+</p><ol>
+<li>float
+
+
+
+<pre class="example">存储长度: 4字节
+
+存储形式: n位表示小数部分(包括符号) m位表示指数部分 m+n=32. m和n由编译器决定
+         小数部分占位越多,精度越高;指数部分占位越多,表示范围越大
+</pre>
+
+</li>
+<li>double
+
+
+
+<pre class="example">存储长度: 8字节
+
+存储形式: n位表示小数部分(包括符号) m位表示指数部分 m+n=64. m和n由编译器决定
+         小数部分占位越多,精度越高;指数部分占位越多,表示范围越大
+</pre>
+
+</li>
+<li>long double
+
+
+
+<pre class="example">存储长度: 依赖编译器
+
+存储形式: n位表示小数部分(包括符号) m位表示指数部分 m+n=128. m和n由编译器决定
+         小数部分占位越多,精度越高;指数部分占位越多,表示范围越大
+</pre>
+
+</li>
+</ol>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> 常量的类型</h3>
+<div class="outline-text-3" id="text-1-8">
+
+<ul>
+<li>字符常量
+  只要是单引号括起的单个字符或转移字符就是字符常量
+</li>
+<li>整形常量
+  不带小数点的数值是整形常量.
+  根据数值所在的范围确定具体的整形类型,规则 <b>依赖编译器</b> .
+</li>
+<li>浮点型常量
+  以小数形式或指数形式出现的实数是浮点型常量,按 <b>双精度</b> 处理
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-9" class="outline-3">
+<h3 id="sec-1-9"><span class="section-number-3">1.9</span> 运算符和表达式</h3>
+<div class="outline-text-3" id="text-1-9">
+
+
+</div>
+
+<div id="outline-container-1-9-1" class="outline-4">
+<h4 id="sec-1-9-1"><span class="section-number-4">1.9.1</span> 注意事项</h4>
+<div class="outline-text-4" id="text-1-9-1">
+
+<ul>
+<li>两个实数相除的结果是双精度实数
+</li>
+<li>两个整数相除的结果为整数,舍去小数部分.
+  如果有一个为负值,舍入的方向 <b>依赖编译器</b> ,多数编译器采取"向零取整"规则
+</li>
+<li>%的操作正能是整数
+</li>
+<li>赋值运算符"="是右结合性
+
+
+
+<pre class="src src-c">a=b=c; <span style="color: #b22222;">//</span><span style="color: #b22222;">&#20808;&#25226;c&#30340;&#20540;&#36171;&#32473;b,&#20877;&#25226;b&#30340;&#20540;&#36171;&#32473;a</span>
+</pre>
+
+</li>
+</ul>
+
+
+
+
+<pre class="example">问题
+
+i+++j的结果会怎样?
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-9-2" class="outline-4">
+<h4 id="sec-1-9-2"><span class="section-number-4">1.9.2</span> 不同类型混合运算</h4>
+<div class="outline-text-4" id="text-1-9-2">
+
+<ol>
+<li>float型和double型,将float型转换为double型,结果是double型
+</li>
+<li>int型和double型,将int型转换为double型,结果是double型
+</li>
+<li>char性和int型,把字符的ASCII码与int型数据进行运算
+</li>
+</ol>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-10" class="outline-3">
+<h3 id="sec-1-10"><span class="section-number-3">1.10</span> c语句</h3>
+<div class="outline-text-3" id="text-1-10">
+
+
+</div>
+
+<div id="outline-container-1-10-1" class="outline-4">
+<h4 id="sec-1-10-1"><span class="section-number-4">1.10.1</span> 赋值语句</h4>
+<div class="outline-text-4" id="text-1-10-1">
+
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">&#19968;&#20123;&#20363;&#23376;</span>
+
+<span style="color: #a0522d;">a</span>=(b=5)        <span style="color: #b22222;">//</span><span style="color: #b22222;">b=5,a=5; &#25972;&#20010;&#34920;&#36798;&#24335;&#30340;&#20540;&#26159;5</span>
+
+a=(b=4)+(c=6)  <span style="color: #b22222;">//</span><span style="color: #b22222;">b&#31561;&#20110;4,c&#31561;&#20110;6,a&#31561;&#20110;10; &#25972;&#20010;&#34920;&#36798;&#24335;&#30340;&#20540;&#26159;10</span>
+
+(a=b)=3*4      <span style="color: #b22222;">//</span><span style="color: #b22222;">error (a=b)&#26159;&#36171;&#20540;&#34920;&#36798;&#24335;,&#19981;&#33021;&#20570;&#24038;&#20540;</span>
+</pre>
+
+<ul>
+<li id="sec-1-10-1-1">赋值过程中的类型转换<br/>
+<ol>
+<li>浮点型赋给整型: 先舍去小数部分,然后赋给整型变量
+</li>
+<li>整型赋给浮点型: 数值不变,但以浮点数形式存储
+</li>
+<li>double型赋给float型: 截取6~7位有效数字.若值超出float型变量的范围,则溢出.
+</li>
+<li>float型赋给double型: 数值不变,扩展有效位数
+</li>
+<li>字符型赋给整形: 将字符的ASCII码赋给整形变量
+</li>
+<li>占字节多的整形赋给占字节少的整形: 只将其低字节原封不动地送到被赋值的变量
+</li>
+</ol>
+
+</li>
+</ul>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-11" class="outline-3">
+<h3 id="sec-1-11"><span class="section-number-3">1.11</span> 数据的输入输出</h3>
+<div class="outline-text-3" id="text-1-11">
+
+<p>printf
+</p>
+
+
+<pre class="src src-c">printf(&#21442;&#25968;1,&#21442;&#25968;2,&#21442;&#25968;3,...,&#21442;&#25968;n)
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#21442;&#25968;1&#26159;&#26684;&#24335;&#25511;&#21046;&#23383;&#31526;&#20018;,&#21442;&#25968;2~&#21442;&#25968;n&#26159;&#38656;&#35201;&#36755;&#20986;&#30340;&#25968;&#25454;</span>
+<span style="color: #b22222;">&#24120;&#29992;&#26684;&#24335;&#23383;&#31526;:</span>
+<span style="color: #b22222;">d &#26377;&#31526;&#21495;&#21313;&#36827;&#21046;&#25972;&#25968;</span>
+<span style="color: #b22222;">c &#23383;&#31526;</span>
+<span style="color: #b22222;">s &#23383;&#31526;&#20018;</span>
+<span style="color: #b22222;">f &#28014;&#28857;&#25968;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+<p>
+scanf
+</p>
+
+
+<pre class="src src-c">scanf(&#21442;&#25968;1,&#21442;&#25968;2,&#21442;&#25968;3,...,&#21442;&#25968;n)
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#21442;&#25968;1&#26159;&#26684;&#24335;&#25511;&#21046;&#23383;&#31526;&#20018;,&#21442;&#25968;2~&#21442;&#25968;n&#26159;&#21464;&#37327;&#30340;&#22320;&#22336;</span>
+<span style="color: #b22222;">scanf("%d a=%f,c=%c",&amp;a,&amp;b,&amp;c);</span>
+<span style="color: #b22222;">&#20854;&#36755;&#20837;&#24517;&#39035;&#24418;&#22914;"20 a=3.14,c=A",</span>
+<span style="color: #b22222;">&#21363;&#36755;&#20837;&#30340;&#20869;&#23481;&#24517;&#39035;&#19982;&#25511;&#21046;&#23383;&#31526;&#20018;&#23436;&#20840;&#19968;&#33268;,</span>
+<span style="color: #b22222;">&#21482;&#26377;&#25511;&#21046;&#23383;&#31526;&#34987;&#30495;&#23454;&#30340;&#23383;&#31526;&#21462;&#20195;&#20102;.</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+<p>
+putchar
+</p>
+
+
+<pre class="src src-c">putchar(c)  <span style="color: #b22222;">//</span><span style="color: #b22222;">&#36755;&#20986;&#19968;&#20010;&#23383;&#31526;</span>
+</pre>
+
+<p>
+getchar
+</p>
+
+
+<pre class="src src-c">getchar()   <span style="color: #b22222;">//</span><span style="color: #b22222;">&#36755;&#20837;&#19968;&#20010;&#23383;&#31526;,&#25353;enter&#32467;&#26463;&#36755;&#20837;</span>
+
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#33509;&#26159;&#36830;&#32493;2&#20010;getchar(),&#24212;&#35813;&#36755;&#20837;2&#20010;&#23383;&#31526;,&#28982;&#21518;enter&#32467;&#26463;&#36755;&#20837;</span>
+<span style="color: #b22222;">&#32780;&#38750;&#27599;&#36755;&#20837;&#19968;&#20010;&#23383;&#31526;&#25353;&#19968;&#27425;enter,&#21542;&#21017;enter&#20063;&#20250;&#34987;&#24403;&#20570;&#36755;&#20837;&#23383;&#31526;</span>
+<span style="color: #b22222;">*/</span>
+a=getchar();
+b=getchar();
+...
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 选择结构程序设计</h2>
+<div class="outline-text-2" id="text-2">
+
+
+</div>
+
+<div id="outline-container-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> if语句</h3>
+<div class="outline-text-3" id="text-2-1">
+
+
+
+
+<pre class="src src-c">1.
+<span style="color: #a020f0;">if</span>(&#34920;&#36798;&#24335;) &#35821;&#21477;1
+
+2.
+<span style="color: #a020f0;">if</span>(&#34920;&#36798;&#24335;) 
+    &#35821;&#21477;1
+<span style="color: #a020f0;">else</span>
+    &#35821;&#21477;2
+
+3.
+<span style="color: #a020f0;">if</span>(&#34920;&#36798;&#24335;1) &#35821;&#21477;1
+<span style="color: #a020f0;">else</span> <span style="color: #a020f0;">if</span>(&#34920;&#36798;&#24335;2) &#35821;&#21477;2
+<span style="color: #a020f0;">else</span> <span style="color: #a020f0;">if</span>(&#34920;&#36798;&#24335;3) &#35821;&#21477;3
+...
+<span style="color: #a020f0;">else</span> <span style="color: #a020f0;">if</span>(&#34920;&#36798;&#24335;m) &#35821;&#21477;m
+<span style="color: #a020f0;">else</span> &#35821;&#21477;m+1
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 关系运算符和关系表达式</h3>
+<div class="outline-text-3" id="text-2-2">
+
+<p>关系表达式的值是一个逻辑值,"真"或"假".用1表示"真",用0表示"假"
+</p>
+
+
+<pre class="src src-c">a=3;
+b=2;
+d=a&gt;b;   <span style="color: #b22222;">//</span><span style="color: #b22222;">d&#30340;&#20540;&#20026;1</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> 逻辑运算符和逻辑表达式</h3>
+<div class="outline-text-3" id="text-2-3">
+
+<ul>
+<li>优先级 !高于&amp;&amp;高于||
+  !高于算数运算符, &amp;&amp;和||低于算数运算符
+</li>
+<li><b>短路现象</b>:
+   在逻辑表达式中,只有在必须执行下一个逻辑运算符才能求出表达式的值时,才执行该运算符.
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> switch语句</h3>
+<div class="outline-text-3" id="text-2-4">
+
+<p>switch语句是多分支选择语句
+</p>
+
+
+<pre class="src src-c"><span style="color: #a020f0;">switch</span>(&#34920;&#36798;&#24335;)
+{
+<span style="color: #a020f0;">case</span> &#24120;&#37327;1: &#35821;&#21477;1
+<span style="color: #a020f0;">case</span> &#24120;&#37327;2: &#35821;&#21477;2
+...
+<span style="color: #a020f0;">case</span> &#24120;&#37327;n: &#35821;&#21477;n
+<span style="color: #a020f0;">default</span>:    &#35821;&#21477;n+1
+}
+</pre>
+
+<p>
+说明:
+</p><ol>
+<li>switch后的表达式的值应为整数类型(包括字符型)
+</li>
+<li>case后面跟一个常量或常量表达式,每一个常量必须互不相同
+</li>
+<li>case标号只起标记作用,找到匹配的标号入口后,就从此标号开始执行下去,可以使用break终止执行
+</li>
+<li>多个case标号可以共用一组执行语句
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">case</span> <span style="color: #8b2252;">'A'</span>:
+<span style="color: #a020f0;">case</span> <span style="color: #8b2252;">'B'</span>:
+<span style="color: #a020f0;">case</span> <span style="color: #8b2252;">'C'</span>: ...
+</pre>
+
+</li>
+</ol>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 循环结构程序设计</h2>
+<div class="outline-text-2" id="text-3">
+
+
+</div>
+
+<div id="outline-container-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> while语句</h3>
+<div class="outline-text-3" id="text-3-1">
+
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">while</span>(&#34920;&#36798;&#24335;) &#35821;&#21477;
+</pre>
+
+<p>
+while循环的特点是:先判断条件表达式,后执行循环体语句.
+只要循环条件为真,就执行循环表达式.
+</p></div>
+
+</div>
+
+<div id="outline-container-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> do-while语句</h3>
+<div class="outline-text-3" id="text-3-2">
+
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">do</span>
+    &#35821;&#21477;
+<span style="color: #a020f0;">while</span>(&#34920;&#36798;&#24335;);
+</pre>
+
+<ul>
+<li>do-while的特点是:先无条件执行循环体,然后判断循环条件是否成立,若成立再执行循环体.
+</li>
+<li>当while后面的表达式第1次的值为"真"时,while和do-while得到的结果相同
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> for语句</h3>
+<div class="outline-text-3" id="text-3-3">
+
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">for</span>(&#34920;&#36798;&#24335;1; &#34920;&#36798;&#24335;2; &#34920;&#36798;&#24335;3)
+    <span style="color: #228b22;">&#35821;&#21477;</span>
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#34920;&#36798;&#24335;1: &#35774;&#32622;&#21021;&#22987;&#26465;&#20214;. &#21482;&#25191;&#34892;&#19968;&#27425;</span>
+<span style="color: #b22222;">&#34920;&#36798;&#24335;2: &#24490;&#29615;&#26465;&#20214;&#34920;&#36798;&#24335;,&#29992;&#20110;&#21028;&#26029;&#26159;&#21542;&#32487;&#32493;&#24490;&#29615;. &#27599;&#27425;&#25191;&#34892;&#24490;&#29615;&#20307;&#21069;&#25191;&#34892;</span>
+<span style="color: #b22222;">&#34920;&#36798;&#24335;3: &#20316;&#20026;&#24490;&#29615;&#30340;&#35843;&#25972;. &#22312;&#25191;&#34892;&#23436;&#24490;&#29615;&#20307;&#21518;&#25191;&#34892;</span>
+<span style="color: #b22222;">*/</span>
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#31561;&#20215;&#30340;while&#34920;&#36798;&#24335;</span>
+<span style="color: #a0522d;">&#34920;&#36798;&#24335;1</span>;
+<span style="color: #a020f0;">while</span>(&#34920;&#36798;&#24335;2)
+{
+    <span style="color: #228b22;">&#35821;&#21477;</span>
+    <span style="color: #a0522d;">&#34920;&#36798;&#24335;3</span>
+}
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> 改变循环执行的状态</h3>
+<div class="outline-text-3" id="text-3-4">
+
+<ul>
+<li>用break语句提前终止循环
+</li>
+<li>用continue语句体检结束本次循环
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 数组</h2>
+<div class="outline-text-2" id="text-4">
+
+<ol>
+<li>数组是一组有序数据的集合
+</li>
+<li>用一个数组名和下表可以唯一确定数组中的元素
+</li>
+<li>数组用的每一个元素都属于同一类型
+</li>
+</ol>
+
+
+</div>
+
+<div id="outline-container-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 一维数组</h3>
+<div class="outline-text-3" id="text-4-1">
+
+
+</div>
+
+<div id="outline-container-4-1-1" class="outline-4">
+<h4 id="sec-4-1-1"><span class="section-number-4">4.1.1</span> 定义</h4>
+<div class="outline-text-4" id="text-4-1-1">
+
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">&#31867;&#22411;</span> <span style="color: #a0522d;">&#25968;&#32452;&#21517;</span>[&#24120;&#37327;&#34920;&#36798;&#24335;]
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#26041;&#25324;&#21495;&#20013;&#30340;&#24120;&#37327;&#34920;&#36798;&#24335;&#29992;&#26469;&#25351;&#23450;&#25968;&#32452;&#20013;&#20803;&#32032;&#30340;&#20010;&#25968;</span>
+<span style="color: #b22222;">*/</span>
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#20030;&#20363;</span>
+<span style="color: #228b22;">int</span> a[10];
+</pre>
+
+
+<pre class="src src-c">&#19968;&#31181;&#29616;&#35937;
+
+<span style="color: #b22222;">/*</span><span style="color: #b22222;">&#22914;&#26524;&#22312;&#34987;&#35843;&#29992;&#30340;&#20989;&#25968;(&#19981;&#21253;&#25324;&#20027;&#20989;&#25968;)&#20013;&#23450;&#20041;&#25968;&#32452;,</span>
+<span style="color: #b22222;">&#20854;&#38271;&#24230;&#21487;&#26159;&#26159;&#21464;&#37327;&#25110;&#38750;&#24120;&#37327;&#34920;&#36798;&#24335;</span><span style="color: #b22222;">*/</span>
+<span style="color: #228b22;">void</span> <span style="color: #0000ff;">func</span>(<span style="color: #228b22;">int</span> <span style="color: #a0522d;">n</span>)
+{
+   <span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[2*n];
+   ...
+}
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-1-2" class="outline-4">
+<h4 id="sec-4-1-2"><span class="section-number-4">4.1.2</span> 引用数组元素</h4>
+<div class="outline-text-4" id="text-4-1-2">
+
+
+
+
+<pre class="src src-c">&#25968;&#32452;&#21517;[&#19979;&#26631;]
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-1-3" class="outline-4">
+<h4 id="sec-4-1-3"><span class="section-number-4">4.1.3</span> 初始化</h4>
+<div class="outline-text-4" id="text-4-1-3">
+
+<ol>
+<li>在定义时对全部数组元素赋初值
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[10]={0,1,2,3,4,5,6,7,8,9};
+<span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[]={0,1,2,3,4,5,6,7,8,9};    <span style="color: #b22222;">//</span><span style="color: #b22222;">&#21487;&#20197;&#19981;&#25351;&#23450;&#25968;&#32452;&#38271;&#24230;</span>
+</pre>
+
+</li>
+<li>只给数组中一部分元素赋初值
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[10]={0,1,2,3,4};  <span style="color: #b22222;">//</span><span style="color: #b22222;">&#21482;&#32473;&#21069;5&#20010;&#20803;&#32032;&#36171;&#21021;&#20540;,&#21518;5&#20010;&#33258;&#21160;&#36171;&#20026;0</span>
+</pre>
+
+</li>
+<li>全部元素赋为同一个初值
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[10]={0};
+</pre>
+
+</li>
+</ol>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> 二维数组</h3>
+<div class="outline-text-3" id="text-4-2">
+
+
+</div>
+
+<div id="outline-container-4-2-1" class="outline-4">
+<h4 id="sec-4-2-1"><span class="section-number-4">4.2.1</span> 定义</h4>
+<div class="outline-text-4" id="text-4-2-1">
+
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">&#31867;&#22411;&#31526;</span> <span style="color: #a0522d;">&#25968;&#32452;&#21517;</span>[&#24120;&#37327;&#34920;&#36798;&#24335;][&#24120;&#37327;&#34920;&#36798;&#24335;];
+
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#20108;&#32500;&#25968;&#32452;&#20013;&#20803;&#32032;&#25490;&#21015;&#39034;&#24207;&#26159;&#25353;&#34892;&#23384;&#25918;&#30340;,</span>
+<span style="color: #b22222;">&#20869;&#23384;&#20013;&#20808;&#39034;&#24207;&#23384;&#25918;&#31532;1&#34892;&#30340;&#20803;&#32032;,&#25509;&#30528;&#22312;&#23384;&#25918;&#31532;2&#34892;&#30340;&#20803;&#32032;,&#20381;&#27492;&#31867;&#25512;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-2-2" class="outline-4">
+<h4 id="sec-4-2-2"><span class="section-number-4">4.2.2</span> 引用数组元素</h4>
+<div class="outline-text-4" id="text-4-2-2">
+
+
+
+
+<pre class="src src-c">&#25968;&#32452;&#21517;[&#19979;&#26631;][&#19979;&#26631;]
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-2-3" class="outline-4">
+<h4 id="sec-4-2-3"><span class="section-number-4">4.2.3</span> 初始化</h4>
+<div class="outline-text-4" id="text-4-2-3">
+
+<ol>
+<li>全部元素初始化
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[3][4]={{1,2,3,4}, {5,6,7,8}, {9,10,11,12}};
+<span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[3][4]={1,2,3,4,5,6,7,8,9,10,11,12};   <span style="color: #b22222;">//</span><span style="color: #b22222;">&#31532;&#19968;&#31181;&#26356;&#28165;&#26224;</span>
+<span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[][4]={{1,2,3,4}, {5,6,7,8}, {9,10,11,12}};  <span style="color: #b22222;">//</span><span style="color: #b22222;">&#21487;&#20197;&#19981;&#25351;&#23450;&#31532;1&#32500;&#30340;&#38271;&#24230;,&#31532;2&#32500;&#19981;&#33021;&#30465;</span>
+<span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[][4]={1,2,3,4,5,6,7,8,9,10,11,12};
+</pre>
+
+</li>
+<li>部分元素初始化
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[3][4]={{1}, {5}, {9}}; <span style="color: #b22222;">//</span><span style="color: #b22222;">1,0,0,0; 5,0,0,0; 9,0,0,0</span>
+<span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[3][4]={{1}, {5,6}};    <span style="color: #b22222;">//</span><span style="color: #b22222;">1,0,0,0; 5,6,0,0; 0,0,0,0</span>
+</pre>
+
+</li>
+</ol>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> 字符数组</h3>
+<div class="outline-text-3" id="text-4-3">
+
+
+</div>
+
+<div id="outline-container-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> 定义</h4>
+<div class="outline-text-4" id="text-4-3-1">
+
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">char</span> <span style="color: #a0522d;">c</span>[10];
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-3-2" class="outline-4">
+<h4 id="sec-4-3-2"><span class="section-number-4">4.3.2</span> 初始化</h4>
+<div class="outline-text-4" id="text-4-3-2">
+
+
+
+
+<pre class="src src-c"><span style="color: #b22222;">//</span><span style="color: #b22222;">&#20840;&#37096;&#21021;&#22987;&#21270;</span>
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">c</span>[10]={<span style="color: #8b2252;">'a'</span>,<span style="color: #8b2252;">'b'</span>,<span style="color: #8b2252;">'c'</span>,<span style="color: #8b2252;">'d'</span>,<span style="color: #8b2252;">'e'</span>,<span style="color: #8b2252;">'f'</span>,<span style="color: #8b2252;">'g'</span>,<span style="color: #8b2252;">'h'</span>,<span style="color: #8b2252;">'i'</span>,<span style="color: #8b2252;">'j'</span>};
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">c</span>[]={<span style="color: #8b2252;">'a'</span>,<span style="color: #8b2252;">'b'</span>,<span style="color: #8b2252;">'c'</span>,<span style="color: #8b2252;">'d'</span>,<span style="color: #8b2252;">'e'</span>,<span style="color: #8b2252;">'f'</span>,<span style="color: #8b2252;">'g'</span>,<span style="color: #8b2252;">'h'</span>,<span style="color: #8b2252;">'i'</span>,<span style="color: #8b2252;">'j'</span>};
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">c</span>[]={<span style="color: #8b2252;">"abcdefghij"</span>};  <span style="color: #b22222;">//</span><span style="color: #b22222;">&#38271;&#24230;&#20026;11,&#32780;&#19981;&#26159;10,&#20250;&#33258;&#21160;&#28155;&#21152;&#19968;&#20010;'\0'</span>
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">c</span>[]=<span style="color: #8b2252;">"abcdefghij"</span>;    <span style="color: #b22222;">//</span><span style="color: #b22222;">&#21516;&#19978;</span>
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#37096;&#20998;&#21021;&#22987;&#21270;</span>
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">c</span>[10]={<span style="color: #8b2252;">'a'</span>,<span style="color: #8b2252;">'b'</span>,<span style="color: #8b2252;">'c'</span>}; <span style="color: #b22222;">//</span><span style="color: #b22222;">&#20540;&#21021;&#22987;&#21270;&#23383;&#31526;&#25968;&#32452;&#20013;&#21069;&#38754;&#30340;&#20803;&#32032;,&#20854;&#20313;&#33258;&#21160;&#20026;&#31354;&#23383;&#31526;'\0'</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-3-3" class="outline-4">
+<h4 id="sec-4-3-3"><span class="section-number-4">4.3.3</span> 字符串</h4>
+<div class="outline-text-4" id="text-4-3-3">
+
+<ul>
+<li>在c语言中,将字符串作为字符数组处理
+</li>
+<li>以'\0'作为结束标识符的原因是需要直到字符串的有效长度
+</li>
+<li>c语言中,使用字符数组存储字符串常量时会自动添加一个'\0'作为结束符
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-3-4" class="outline-4">
+<h4 id="sec-4-3-4"><span class="section-number-4">4.3.4</span> 字符数组的输入输出</h4>
+<div class="outline-text-4" id="text-4-3-4">
+
+
+
+
+<pre class="src src-c">&#36755;&#20986;
+
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">c</span>[]=<span style="color: #8b2252;">"China"</span>;
+printf(<span style="color: #8b2252;">"%s\n"</span>,c);
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">1. &#36755;&#20986;&#36935;&#21040;'\0'&#23601;&#32467;&#26463;</span>
+<span style="color: #b22222;">2. &#36755;&#20986;&#30340;&#23383;&#31526;&#20013;&#19981;&#21253;&#25324;&#32467;&#26463;&#31526;'\0'</span>
+<span style="color: #b22222;">*/</span>
+
+<span style="color: #228b22;">&#36755;&#20837;</span>
+
+<span style="color: #0000ff;">scanf</span>(<span style="color: #8b2252;">"%s"</span>,c)
+
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">str1</span>[5],<span style="color: #a0522d;">str2</span>[5],<span style="color: #a0522d;">str3</span>[5];
+scanf(<span style="color: #8b2252;">"%s%s%s"</span>,str1,str2,str3);
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">1. &#36755;&#20837;&#30340;&#23383;&#31526;&#20018;&#24212;&#30701;&#20110;&#24050;&#23450;&#20041;&#30340;&#23383;&#31526;&#25968;&#32452;&#30340;&#38271;&#24230;</span>
+<span style="color: #b22222;">2. &#22914;&#26524;&#21033;&#29992;&#19968;&#20010;scanf&#20989;&#25968;&#36755;&#20837;&#22810;&#20010;&#23383;&#31526;&#20018;,&#21017;&#24212;&#22312;&#36755;&#20837;&#26159;&#20197;&#31354;&#26684;&#20998;&#38548;</span>
+<span style="color: #b22222;">3. &#25968;&#32452;&#20013;&#26410;&#34987;&#36171;&#20540;&#30340;&#20803;&#32032;&#30340;&#20540;&#33258;&#21160;&#32622;'\0'</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-3-5" class="outline-4">
+<h4 id="sec-4-3-5"><span class="section-number-4">4.3.5</span> 字符串处理函数</h4>
+<div class="outline-text-4" id="text-4-3-5">
+
+<ul>
+<li>puts
+  将字符串输出到终端,在输出时将字符串结束符'\0'转换成'\n',即自动换行
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">char</span> <span style="color: #a0522d;">str</span>[] = <span style="color: #8b2252;">"hello\nworld"</span>;
+puts(str);
+</pre>
+
+</li>
+<li>gets
+  从终端输入一个字符串到字符数组
+
+
+
+<pre class="src src-c">gets(str);
+</pre>
+
+</li>
+<li>strcat
+  字符串连接函数
+
+
+
+<pre class="src src-c">strcat(&#23383;&#31526;&#25968;&#32452;1, &#23383;&#31526;&#25968;&#32452;2)
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">  &#25226;&#23383;&#31526;&#20018;2&#36830;&#25509;&#21040;&#23383;&#31526;&#20018;1&#30340;&#21518;&#38754;</span>
+<span style="color: #b22222;">  1. &#32467;&#26524;&#25918;&#22312;&#23383;&#31526;&#25968;&#32452;1&#20013;</span>
+<span style="color: #b22222;">  2. &#23383;&#31526;&#25968;&#32452;1&#24517;&#39035;&#36275;&#22815;&#22823;,&#20197;&#23481;&#32435;&#36830;&#25509;&#21518;&#30340;&#26032;&#23383;&#31526;&#20018;</span>
+<span style="color: #b22222;">/*</span>
+</pre>
+
+</li>
+<li>strcpy和scrncpy
+  字符串赋值函数
+
+
+
+<pre class="src src-c">strcpy(&#23383;&#31526;&#25968;&#32452;1, &#23383;&#31526;&#25968;&#32452;2/&#23383;&#31526;&#20018;2)
+strncpy(&#23383;&#31526;&#25968;&#32452;1, &#23383;&#31526;&#25968;&#32452;2/&#23383;&#31526;&#20018;2,n)
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">  &#25226;&#23383;&#31526;&#20018;2&#22797;&#21046;&#21040;&#23383;&#31526;&#25968;&#32452;1&#20013;</span>
+<span style="color: #b22222;">  &#25226;&#23383;&#31526;&#20018;2&#20013;&#21069;n&#20010;&#23383;&#31526;&#22797;&#21046;&#21040;&#23383;&#31526;&#25968;&#32452;1&#20013;</span>
+<span style="color: #b22222;">  1. &#23383;&#31526;&#25968;&#32452;1&#30340;&#38271;&#24230;&#24212;&#22823;&#20110;&#31561;&#20110;&#23383;&#31526;&#20018;2&#30340;&#38271;&#24230;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</li>
+<li>strcmp
+  字符串比较函数
+
+
+
+<pre class="src src-c">strcmp(&#23383;&#31526;&#20018;1, &#23383;&#31526;&#20018;2)
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">  &#22914;&#26524; &#23383;&#31526;&#20018;1=&#23383;&#31526;&#20018;2 ,&#36820;&#22238;0</span>
+<span style="color: #b22222;">  &#22914;&#26524; &#23383;&#31526;&#20018;1&gt;&#23383;&#31526;&#20018;2 ,&#36820;&#22238;&#27491;</span>
+<span style="color: #b22222;">  &#22914;&#26524; &#23383;&#31526;&#20018;1&lt;&#23383;&#31526;&#20018;2 ,&#36820;&#22238;&#36127;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</li>
+<li>strlen
+  测字符串长度的函数
+
+
+
+<pre class="src src-c">strlen(&#23383;&#31526;&#25968;&#32452;)
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">  &#36820;&#22238;&#23383;&#31526;&#20018;&#30340;&#23454;&#38469;&#38271;&#24230;(&#19981;&#21253;&#25324;'\0')</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</li>
+<li>strlwr
+  转换为小写的函数
+
+
+
+<pre class="src src-c">strlwr(&#23383;&#31526;&#20018;)
+</pre>
+
+</li>
+<li>strupr
+  转换为大写的函数
+
+
+
+<pre class="src src-c">strupr(&#23383;&#31526;&#20018;)
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 函数</h2>
+<div class="outline-text-2" id="text-5">
+
+
+</div>
+
+<div id="outline-container-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> 定义函数</h3>
+<div class="outline-text-3" id="text-5-1">
+
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">&#31867;&#22411;&#21517;</span> <span style="color: #0000ff;">&#20989;&#25968;&#21517;</span>(&#24418;&#21442;&#21015;&#34920;)
+{
+   &#20989;&#25968;&#20307;
+}
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> 调用函数</h3>
+<div class="outline-text-3" id="text-5-2">
+
+
+
+
+<pre class="src src-c">&#20989;&#25968;&#21517;(&#23454;&#21442;&#21015;&#34920;)
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-5-3" class="outline-3">
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> 函数声明</h3>
+<div class="outline-text-3" id="text-5-3">
+
+<ul>
+<li>如果调用库函数,应该在文件开头用#include将库包含进来
+</li>
+<li>如果使用用户自己定义的函数,且该函数的位置在主调函数的后面,应该在主调函数中对被调函数作声明
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">&#20989;&#25968;&#31867;&#22411;</span> <span style="color: #0000ff;">&#20989;&#25968;&#21517;</span>(<span style="color: #228b22;">&#21442;&#25968;&#31867;&#22411;1</span> <span style="color: #a0522d;">&#21442;&#25968;&#21517;1</span>,<span style="color: #228b22;">&#21442;&#25968;&#31867;&#22411;2</span> <span style="color: #a0522d;">&#21442;&#25968;&#21517;2</span>,...,<span style="color: #228b22;">&#21442;&#25968;&#31867;&#22411;n</span> <span style="color: #a0522d;">&#21442;&#25968;&#21517;n</span>);
+<span style="color: #228b22;">&#20989;&#25968;&#31867;&#22411;</span> <span style="color: #0000ff;">&#20989;&#25968;&#21517;</span>(<span style="color: #228b22;">&#21442;&#25968;&#31867;&#22411;1</span>,<span style="color: #228b22;">&#21442;&#25968;&#31867;&#22411;2</span>,...,<span style="color: #228b22;">&#21442;&#25968;&#31867;&#22411;n</span>);
+</pre>
+
+<p>
+  函数定义和函数声明不是同一回事.
+</p><ol>
+<li>函数定义是指对函数功能的确立,包括指定函数名,函数值类型,形参及其函数体等,他是一个完整的,独立的函数单位.
+</li>
+<li>函数声明的作用则是把函数的名字,函数类型以及形参类型,个数和顺序通知编译器,以便 <b>在调用该函数时系统按此声明进行对照检查</b>
+</li>
+</ol>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-5-4" class="outline-3">
+<h3 id="sec-5-4"><span class="section-number-3">5.4</span> 函数的嵌套调用</h3>
+<div class="outline-text-3" id="text-5-4">
+
+<p>c语言中函数不能嵌套定义,但可以嵌套调用.
+</p></div>
+
+</div>
+
+<div id="outline-container-5-5" class="outline-3">
+<h3 id="sec-5-5"><span class="section-number-3">5.5</span> 函数的递归调用</h3>
+<div class="outline-text-3" id="text-5-5">
+
+<p>直接或间接地调用该函数本身,称为函数的递归调用
+</p></div>
+
+</div>
+
+<div id="outline-container-5-6" class="outline-3">
+<h3 id="sec-5-6"><span class="section-number-3">5.6</span> 数组作为函数参数</h3>
+<div class="outline-text-3" id="text-5-6">
+
+<p>用数组名作函数实参时,向形参(数组名或指针变量)传递的是数组首元素的地址
+</p><ul>
+<li>实参数组和形参数组类型应一致,如不一致,结果将出错
+</li>
+<li><b>编译器将实参数组的首元素地址传给形参数组名</b>
+</li>
+<li>形参数组首元素和实参数组首元素具有同一地址,指向同一存储单元.
+</li>
+<li><b>形参数组可以不指定大小</b>,在定义数组时在数组后面跟一个空的方括号
+</li>
+</ul>
+
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #0000ff;">main</span>()
+{
+    <span style="color: #228b22;">float</span> <span style="color: #a0522d;">score</span>[] = {1,2,3,4};
+    average(score);
+    <span style="color: #a020f0;">return</span> 0;
+}
+
+<span style="color: #228b22;">float</span> <span style="color: #0000ff;">average</span>(<span style="color: #228b22;">float</span> <span style="color: #a0522d;">array</span>[])
+{
+    ...
+}
+</pre>
+
+
+</div>
+
+<div id="outline-container-5-6-1" class="outline-4">
+<h4 id="sec-5-6-1"><span class="section-number-4">5.6.1</span> 多维数组</h4>
+<div class="outline-text-4" id="text-5-6-1">
+
+<ul>
+<li>可以用多维数组名作函数的实参和形参.
+</li>
+<li>在被调函数中对形参数组定义时
+<ol>
+<li>可以指定每一维的大小
+</li>
+<li>也可以省略第一维的大小
+</li>
+</ol>
+
+</li>
+<li>c语言编译器不检查第一维的大小
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">float</span> <span style="color: #0000ff;">average</span>(<span style="color: #228b22;">float</span> <span style="color: #a0522d;">array</span>[3][10])
+{
+    ...
+}
+&#25110;
+<span style="color: #228b22;">float</span> <span style="color: #0000ff;">average</span>(<span style="color: #228b22;">float</span> <span style="color: #a0522d;">array</span>[][10])
+{
+    ...
+}
+</pre>
+
+</li>
+</ul>
+
+
+
+
+<pre class="example">为什么形参可以指定为float array[][10],
+而不能指定为float array[3][]?
+
+因为二维数组在内存中是按行存放的,因此,在定义二维数组时,
+必须指定列数,即一行中包含几个元素
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5-7" class="outline-3">
+<h3 id="sec-5-7"><span class="section-number-3">5.7</span> 局部变量和全局变量</h3>
+<div class="outline-text-3" id="text-5-7">
+
+
+</div>
+
+<div id="outline-container-5-7-1" class="outline-4">
+<h4 id="sec-5-7-1"><span class="section-number-4">5.7.1</span> 局部变量</h4>
+<div class="outline-text-4" id="text-5-7-1">
+
+<ul>
+<li>在一个函数内部定义的变量只在本函数范围内有效
+</li>
+<li>在一个复合语句内部定义的变量只在本复合语句范围内有效
+</li>
+<li><b>形参也是局部变量</b>
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-5-7-2" class="outline-4">
+<h4 id="sec-5-7-2"><span class="section-number-4">5.7.2</span> 全局变量</h4>
+<div class="outline-text-4" id="text-5-7-2">
+
+<ul>
+<li>在函数之外定义的变量是全局变量
+</li>
+<li>全局变量的有效范围从定义变量的位置开始到源文件结束
+</li>
+<li>全局变量在程序的全部执行过程中都占用存储单元,而不是仅在需要时才开辟单元
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5-8" class="outline-3">
+<h3 id="sec-5-8"><span class="section-number-3">5.8</span> 变量的存储方式和生存期</h3>
+<div class="outline-text-3" id="text-5-8">
+
+<p>存储变量的两种不同方式
+</p><ol>
+<li>静态存储方式
+   在程序运行期间由系统分配固定的存储空间
+</li>
+<li>动态存储方式
+   在程序运行期间根据需要进行动态的分配存储空间
+</li>
+</ol>
+
+<p>内存存储空间划分
+</p><ol>
+<li>程序区
+</li>
+<li>静态存储区
+</li>
+<li>动态存储区
+</li>
+</ol>
+
+<p>变量的存储类别
+</p><ol>
+<li>自动变量
+
+
+
+<pre class="example">[auto+局部变量] 或 [局部变量]
+关键字: auto
+存储空间: 动态存储区
+初值: 初值不确定
+说明: 在调用函数时,系统给自动变量分配存储空间,
+在函数调用结束时,自动释放这些存储空间
+</pre>
+
+</li>
+<li>静态局部变量
+
+
+
+<pre class="example">[static+局部变量]
+关键字: static
+存储空间: 静态存储区
+初值: 在编译时自动赋初值0(对数值型变量)或'\0'(对字符变量)
+说明: 静态局部变量在函数调用结束后任然存在
+</pre>
+
+</li>
+<li>寄存器变量
+
+
+
+<pre class="example">[register+局部变量]
+关键字: register
+存储空间: 寄存器
+说明: 有一些变量使用频繁,为提高执行效率,允许将局部变量的值存放在cup寄存器中
+现在优化的编译系统能够识别使用频繁的变量,自动将这些变量放在寄存器中,而不需要程序设计者指定
+</pre>
+
+</li>
+<li>外部变量
+
+
+
+<pre class="example">[全局变量]
+关键字: 无
+存储空间: 静态存储区
+说明: 外部变量的有效范围限于定义处到文件结束.
+如果需要在外部变量定义之前引用该外部变量,应该在引用之前用extern对该变量作外部变量声明,表示把该外部变量的作用域扩展到此位置.
+如果需要在某个文件中引用在其他文件中定义的外部变量,同样需要作外部变量声明
+</pre>
+
+</li>
+<li>静态外部变量
+
+
+
+<pre class="example">[static+全局变量]
+关键字: static
+存储空间: 静态存储区
+说明: 如果不希望外部变量被其他文件引用(即仅限于本文件中使用),在外部变量前加一个static
+</pre>
+
+</li>
+</ol>
+
+</div>
+
+</div>
+
+<div id="outline-container-5-9" class="outline-3">
+<h3 id="sec-5-9"><span class="section-number-3">5.9</span> 变量的声明和定义</h3>
+<div class="outline-text-3" id="text-5-9">
+
+<ul>
+<li>把建立存储空间的声明称定义
+</li>
+<li>把不需要建立存储空间的声明称声明
+</li>
+<li>[extern+变量名]是声明,除此之外,对变量的声明都是定义
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-5-10" class="outline-3">
+<h3 id="sec-5-10"><span class="section-number-3">5.10</span> 内部函数和外部函数</h3>
+<div class="outline-text-3" id="text-5-10">
+
+<ul>
+<li>内部函数: 只能被本文件中其他函数调用的函数
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">static</span> <span style="color: #228b22;">&#31867;&#22411;&#21517;</span> <span style="color: #0000ff;">&#20989;&#25968;&#21517;</span>(&#24418;&#21442;&#34920;);
+</pre>
+
+</li>
+<li>外部函数: 可以被其他文件调用的函数
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">extern</span> <span style="color: #228b22;">&#31867;&#22411;&#21517;</span> <span style="color: #0000ff;">&#20989;&#25968;&#21517;</span>(&#24418;&#21442;&#34920;);
+<span style="color: #228b22;">&#31867;&#22411;&#21517;</span> <span style="color: #0000ff;">&#20989;&#25968;&#21517;</span>(&#24418;&#21442;&#34920;);          <span style="color: #b22222;">//</span><span style="color: #b22222;">&#40664;&#35748;&#26159;&#22806;&#37096;&#20989;&#25968;</span>
+</pre>
+
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> 指针</h2>
+<div class="outline-text-2" id="text-6">
+
+<ul>
+<li>直接访问:
+  <b>变量名与变量的地址一一对应</b>,直接用变量名对变量的存储单元进行访问
+</li>
+<li>间接访问:
+  先通过存放 <b>变量i地址的变量p</b> 得到变量i的地址,然后对变量i的存储单元其进行访问
+</li>
+<li><b>指针</b>: 一个变量的地址称为该变量的指针
+</li>
+<li><b>指针变量</b>: 一个专门用来存放指针(地址)的变量
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> 指针变量</h3>
+<div class="outline-text-3" id="text-6-1">
+
+
+</div>
+
+<div id="outline-container-6-1-1" class="outline-4">
+<h4 id="sec-6-1-1"><span class="section-number-4">6.1.1</span> 定义指针变量</h4>
+<div class="outline-text-4" id="text-6-1-1">
+
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">&#31867;&#22411;&#21517;</span> * <span style="color: #a0522d;">&#25351;&#38024;&#21464;&#37327;&#21517;</span>;
+</pre>
+
+
+<pre class="src src-c">&#20363;&#23376;
+
+<span style="color: #228b22;">int</span> * <span style="color: #a0522d;">pointer_1</span>, * <span style="color: #a0522d;">pointer_2</span>;
+<span style="color: #228b22;">float</span> * <span style="color: #a0522d;">pointer_3</span> = &amp;a;
+</pre>
+
+<ul>
+<li>指针类型由基本类型和星号组成.在定义指针变量时必须指定基类型
+</li>
+<li>指针变量中只能存放地址(指针),不能将一个整数赋给一个指针变量
+</li>
+</ul>
+
+
+
+
+<pre class="example">为什么在定义指针变量时必须指定基类型?
+
+如果想通过指针引用一个变量,只知道地址是不够的,必须还要直到数据所占字节数.
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-1-2" class="outline-4">
+<h4 id="sec-6-1-2"><span class="section-number-4">6.1.2</span> 引用指针变量</h4>
+<div class="outline-text-4" id="text-6-1-2">
+
+
+
+
+<pre class="src src-c"><span style="color: #b22222;">//</span><span style="color: #b22222;">&#24341;&#29992;&#25351;&#38024;&#21464;&#37327;&#30340;&#20540;</span>
+p = &amp;a;
+printf(<span style="color: #8b2252;">"%o"</span>,p);
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#24341;&#29992;&#25351;&#38024;&#21464;&#37327;&#25351;&#21521;&#30340;&#21464;&#37327;</span>
+*p = 1;
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-1-3" class="outline-4">
+<h4 id="sec-6-1-3"><span class="section-number-4">6.1.3</span> 指针变量作函数参数</h4>
+<div class="outline-text-4" id="text-6-1-3">
+
+<p>注意: 在函数调用时,将实参变量的值传递给形参变量,永远采取 <b>值传递</b> 的方式
+因此指针变量作函数参数时,实参传递给形参的是 <b>指针变量的值</b>,即一个指针(地址)
+</p></div>
+</div>
+
+</div>
+
+<div id="outline-container-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> 通过指针引用数组</h3>
+<div class="outline-text-3" id="text-6-2">
+
+
+</div>
+
+<div id="outline-container-6-2-1" class="outline-4">
+<h4 id="sec-6-2-1"><span class="section-number-4">6.2.1</span> 数组元素的指针</h4>
+<div class="outline-text-4" id="text-6-2-1">
+
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[3] = {1,2,3};
+<span style="color: #228b22;">int</span> *<span style="color: #a0522d;">p</span>;
+p=&amp;a[2];
+</pre>
+
+<p>
+数组名代表 <b>数组元素中首元素的地址</b>
+</p>
+
+
+<pre class="src src-c">p=&amp;a[0];
+<span style="color: #228b22;">&#31561;&#20215;&#20110;</span>
+<span style="color: #a0522d;">p</span>=a;
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-2-2" class="outline-4">
+<h4 id="sec-6-2-2"><span class="section-number-4">6.2.2</span> 指针的运算</h4>
+<div class="outline-text-4" id="text-6-2-2">
+
+<p><b>当指针指向数组元素时</b>,允许对指针进行如下运算
+</p><ol>
+<li>加/减一个整数
+</li>
+<li>自加/减
+</li>
+<li>两个指针相减(两指针必须指向同一数组中的元素)
+</li>
+<li>注意:
+
+
+
+<pre class="example">1. p+i并非将p的值(地址)简单地加i,而是加上i个数组元素所占用的字节数
+2. p2-p1的结果,其意义是p2所指的元素与p1所指的元素之间差多少个元素,代表了p2与p1的相对距离
+</pre>
+
+</li>
+</ol>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-2-3" class="outline-4">
+<h4 id="sec-6-2-3"><span class="section-number-4">6.2.3</span> 通过指针引用数组</h4>
+<div class="outline-text-4" id="text-6-2-3">
+
+<ol>
+<li>下标法
+   a[i] p[i] 数组名是指针常量,固定为数组首元素地址;指针变量可以指向数组中任意元素
+</li>
+<li>指针法
+   *(a+i) *(p+i)
+</li>
+<li>注意:
+
+
+
+<pre class="src src-c">*p++
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#30001;&#20110;++&#21644;*&#21516;&#20248;&#20808;&#32423;,&#32467;&#21512;&#26041;&#21521;&#33258;&#21491;&#32780;&#24038;,&#22240;&#27492;&#31561;&#20215;&#20110;</span>
+*(p++)
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#20808;&#24341;&#29992;p&#30340;&#20540;,&#23454;&#29616;*p,&#28982;&#21518;&#20877;&#20351;p&#33258;&#22686;1</span>
+</pre>
+
+</li>
+</ol>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-2-4" class="outline-4">
+<h4 id="sec-6-2-4"><span class="section-number-4">6.2.4</span> 数组名作函数参数</h4>
+<div class="outline-text-4" id="text-6-2-4">
+
+<ul>
+<li>c编译器将形参数组名作为指针变量处理,这也解释了为什么形参数组可以不指定元素个数.
+
+
+
+<pre class="src src-c">fun(<span style="color: #228b22;">int</span> <span style="color: #a0522d;">arr</span>[])
+<span style="color: #228b22;">&#31561;&#20215;&#20110;</span>
+<span style="color: #0000ff;">fun</span>(<span style="color: #228b22;">int</span> * <span style="color: #a0522d;">arr</span>)
+</pre>
+
+</li>
+<li>实参数组名固定为数组首元素地址,是指针常量,而形参数组名是一个指针变量
+</li>
+</ul>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">实参</th><th scope="col" class="left">形参</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">字符数组名</td><td class="left">字符数组名</td></tr>
+<tr><td class="left">字符数组名</td><td class="left">字符指针变量</td></tr>
+<tr><td class="left">字符指针变量</td><td class="left">字符数组名</td></tr>
+<tr><td class="left">字符指针变量</td><td class="left">字符指针变量</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-2-5" class="outline-4">
+<h4 id="sec-6-2-5"><span class="section-number-4">6.2.5</span> <span class="todo TODO">TODO</span> 通过指针引用多维数组</h4>
+<div class="outline-text-4" id="text-6-2-5">
+
+</div>
+
+</div>
+
+<div id="outline-container-6-2-6" class="outline-4">
+<h4 id="sec-6-2-6"><span class="section-number-4">6.2.6</span> 指针与数组的区别</h4>
+<div class="outline-text-4" id="text-6-2-6">
+
+<ol>
+<li>声明方式
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[];
+<span style="color: #228b22;">int</span> * <span style="color: #a0522d;">p</span>;
+
+func(<span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[]);
+func(<span style="color: #228b22;">int</span> * <span style="color: #a0522d;">p</span>);
+</pre>
+
+</li>
+<li>初始化方式
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #a0522d;">arr</span>[]={1,2,3};
+<span style="color: #228b22;">int</span> * <span style="color: #a0522d;">arr</span>={1,2,3};       <span style="color: #b22222;">//</span><span style="color: #b22222;">gcc warning</span>
+&#20363;&#22806;
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">string</span>[]=<span style="color: #8b2252;">"abcd"</span>;
+<span style="color: #228b22;">char</span> * <span style="color: #a0522d;">string</span>=<span style="color: #8b2252;">"abcd"</span>;    <span style="color: #b22222;">//</span><span style="color: #b22222;">ok</span>
+</pre>
+
+</li>
+<li>编译时为数组分配若干存储单元,为指针变量分配一个存储单元
+</li>
+<li>数组名是指针常量,常量不能作左值.
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">char</span> <span style="color: #a0522d;">a</span>[10];
+<span style="color: #228b22;">char</span> * <span style="color: #a0522d;">p</span>;
+
+a=<span style="color: #8b2252;">"abcd"</span>;     <span style="color: #b22222;">//</span><span style="color: #b22222;">error!! &#25968;&#32452;&#21517;&#26159;&#25351;&#38024;&#24120;&#37327;</span>
+p=<span style="color: #8b2252;">"abcd"</span>;
+</pre>
+
+</li>
+<li>字符数组中的元素值是可以改变的,
+   字符指针变量指向的字符串常量中的内容是不可以改变的
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">char</span> <span style="color: #a0522d;">a</span>[] = <span style="color: #8b2252;">"abcd"</span>;
+a[0]=<span style="color: #8b2252;">'e'</span>;               <span style="color: #b22222;">//</span><span style="color: #b22222;">ok</span>
+
+<span style="color: #228b22;">char</span> * <span style="color: #a0522d;">p</span> = <span style="color: #8b2252;">"abcd"</span>;      <span style="color: #b22222;">//</span><span style="color: #b22222;">&#25351;&#21521;&#23383;&#31526;&#20018;&#24120;&#37327;</span>
+p[0]=<span style="color: #8b2252;">'f'</span>;               <span style="color: #b22222;">//</span><span style="color: #b22222;">error!!</span>
+
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">a</span>[] = <span style="color: #8b2252;">"abcd"</span>;
+<span style="color: #228b22;">char</span> * <span style="color: #a0522d;">p</span> = a;           <span style="color: #b22222;">//</span><span style="color: #b22222;">&#25351;&#21521;&#23383;&#31526;&#25968;&#32452;</span>
+p[0]=<span style="color: #8b2252;">'f'</span>;               <span style="color: #b22222;">//</span><span style="color: #b22222;">ok</span>
+</pre>
+
+</li>
+</ol>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-6-3" class="outline-3">
+<h3 id="sec-6-3"><span class="section-number-3">6.3</span> 通过指针引用字符串</h3>
+<div class="outline-text-3" id="text-6-3">
+
+
+</div>
+
+<div id="outline-container-6-3-1" class="outline-4">
+<h4 id="sec-6-3-1"><span class="section-number-4">6.3.1</span> 字符串的引用方式</h4>
+<div class="outline-text-4" id="text-6-3-1">
+
+<p>可以用两种方法引用一个字符串
+</p>
+
+
+<pre class="src src-c">&#23383;&#31526;&#25968;&#32452;
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">string</span>[]=<span style="color: #8b2252;">"abcd"</span>;
+
+&#23383;&#31526;&#25351;&#38024;&#21464;&#37327;
+<span style="color: #228b22;">char</span> * <span style="color: #a0522d;">string</span>=<span style="color: #8b2252;">"abcd"</span>;     <span style="color: #b22222;">//</span><span style="color: #b22222;">string&#25351;&#21521;"abcd"&#30340;&#31532;&#19968;&#20010;&#23383;&#31526;'a'&#30340;&#22320;&#22336;</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-3-2" class="outline-4">
+<h4 id="sec-6-3-2"><span class="section-number-4">6.3.2</span> 字符指针变量与其他类型指针变量的区别</h4>
+<div class="outline-text-4" id="text-6-3-2">
+
+<ol>
+<li>初始化
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #a0522d;">arr</span>[]={1,2,3};
+<span style="color: #228b22;">char</span> <span style="color: #a0522d;">string</span>[]=<span style="color: #8b2252;">"abcd"</span>;
+
+<span style="color: #228b22;">int</span> * <span style="color: #a0522d;">arr</span>={1,2,3};       <span style="color: #b22222;">//</span><span style="color: #b22222;">gcc warning</span>
+<span style="color: #228b22;">char</span> * <span style="color: #a0522d;">string</span>=<span style="color: #8b2252;">"abcd"</span>;    <span style="color: #b22222;">//</span><span style="color: #b22222;">ok</span>
+</pre>
+
+</li>
+<li>输出
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> * <span style="color: #a0522d;">a</span>;
+<span style="color: #228b22;">char</span> * <span style="color: #a0522d;">p</span>;
+
+printf(<span style="color: #8b2252;">"%s\n"</span>,p);       <span style="color: #b22222;">//</span><span style="color: #b22222;">&#36755;&#20986;&#30340;&#26159;&#25972;&#20010;&#23383;&#31526;&#20018;&#30340;&#20869;&#23481;,&#30452;&#21040;&#36935;&#21040;'\0'</span>
+printf(<span style="color: #8b2252;">"%d\n"</span>,a);       <span style="color: #b22222;">//</span><span style="color: #b22222;">gcc warning</span>
+printf(<span style="color: #8b2252;">"%s\n"</span>,a);       <span style="color: #b22222;">//</span><span style="color: #b22222;">gcc warning</span>
+</pre>
+
+</li>
+</ol>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-6-4" class="outline-3">
+<h3 id="sec-6-4"><span class="section-number-3">6.4</span> 指向函数的指针</h3>
+<div class="outline-text-3" id="text-6-4">
+
+<ul>
+<li>编译系统为函数代码分配了存储空间,这段存储空间的起始地址(入口地址)称为这个函数的指针.
+</li>
+<li>定义指向函数的指针变量
+
+
+
+<pre class="src src-c">&#31867;&#22411;&#21517; (* &#25351;&#38024;&#21464;&#37327;&#21517;)(&#20989;&#25968;&#21442;&#25968;&#21015;&#34920;);
+</pre>
+
+</li>
+<li>指针变量指向的函数的返回值,参数数量,类型,顺序必须和定义中的一致
+</li>
+<li>函数名与其代码段的入口地址一一对应,给函数指针变量赋值时,给出的是函数名(不带参数)
+</li>
+<li>用函数指针变量调用函数,只需用(*p)代替函数名即可
+</li>
+<li>举例
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #0000ff;">main</span>()
+{
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">max</span>(<span style="color: #228b22;">int</span>,<span style="color: #228b22;">int</span>);      <span style="color: #b22222;">//</span><span style="color: #b22222;">&#20989;&#25968;&#22768;&#26126;</span>
+    <span style="color: #228b22;">int</span> (*<span style="color: #a0522d;">p</span>)(<span style="color: #228b22;">int</span>,<span style="color: #228b22;">int</span>);     <span style="color: #b22222;">//</span><span style="color: #b22222;">&#23450;&#20041;&#25351;&#21521;&#20989;&#25968;&#30340;&#25351;&#38024;&#21464;&#37327;p</span>
+    p=max;                 <span style="color: #b22222;">//</span><span style="color: #b22222;">&#20351;p&#25351;&#21521;max</span>
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>=1,<span style="color: #a0522d;">b</span>=2,<span style="color: #a0522d;">c</span>;
+    c=(*p)(a,b);           <span style="color: #b22222;">//</span><span style="color: #b22222;">&#36890;&#36807;&#25351;&#38024;&#21464;&#37327;&#35843;&#29992;max&#20989;&#25968;</span>
+}
+</pre>
+
+</li>
+<li>函数指针变量的一个重要用途是把函数地址作为参数传递到其他函数
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">void</span> <span style="color: #0000ff;">fun</span>(<span style="color: #228b22;">int</span> (* <span style="color: #a0522d;">x1</span>)(<span style="color: #228b22;">int</span>), <span style="color: #228b22;">int</span> (* <span style="color: #a0522d;">x2</span>)(<span style="color: #228b22;">int</span>,<span style="color: #228b22;">int</span>))
+{
+  <span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>,<span style="color: #a0522d;">b</span>,<span style="color: #a0522d;">i</span>=3,<span style="color: #a0522d;">j</span>=5;
+  a=(*x1)(i);
+  b=(* x2)(i,j);
+}
+</pre>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-5" class="outline-3">
+<h3 id="sec-6-5"><span class="section-number-3">6.5</span> 返回指针值的函数</h3>
+<div class="outline-text-3" id="text-6-5">
+
+<p>一个函数可以返回整型值,字符值,实型值,也可以返回指针类型的数据
+</p>
+
+
+<pre class="src src-c">&#31867;&#22411;&#21517; * &#20989;&#25968;&#21517;(&#21442;&#25968;&#21015;&#34920;);
+</pre>
+
+
+<pre class="example">区分
+int  *a (int x, int y)
+int (*a)(int x, int y)
+
+第一种情况,a的两侧分别为*运算符和()运算符,()优先级高于*,
+a先与()结合,表示a是函数,其返回值是指针
+
+第二种情况,a先与*结合,表示p是一个指针,然后在与后面的()结合,
+()表示是函数,即指针变量p指向函数
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-6" class="outline-3">
+<h3 id="sec-6-6"><span class="section-number-3">6.6</span> 指针数组和多重指针</h3>
+<div class="outline-text-3" id="text-6-6">
+
+
+</div>
+
+<div id="outline-container-6-6-1" class="outline-4">
+<h4 id="sec-6-6-1"><span class="section-number-4">6.6.1</span> 指针数组</h4>
+<div class="outline-text-4" id="text-6-6-1">
+
+<p>其元素均为指针类型数据的数组,称为指针数组
+</p>
+
+
+<pre class="src src-c">&#31867;&#22411;&#21517; * &#25968;&#32452;&#21517;[&#25968;&#32452;&#38271;&#24230;];
+</pre>
+
+
+<pre class="src src-c">&#20030;&#20363;
+
+<span style="color: #228b22;">char</span> * <span style="color: #a0522d;">name</span>[] = {<span style="color: #8b2252;">"hello"</span>,<span style="color: #8b2252;">"zoe"</span>,<span style="color: #8b2252;">"chao"</span>};
+</pre>
+
+
+<pre class="example">区分
+
+int  *p [4];
+int (*p)[4];
+
+第一种情况,[]比*优先级高,p先与[4]结合,p表示一个数组,
+数组中元素的类型是指针类型
+
+第二种情况,p首先与*结合,p表示一个指针,
+[]表示数组,p指针变量指向的是一个数组
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-6-2" class="outline-4">
+<h4 id="sec-6-6-2"><span class="section-number-4">6.6.2</span> 指向指针的指针</h4>
+<div class="outline-text-4" id="text-6-6-2">
+
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">&#31867;&#22411;&#21517;</span> ** <span style="color: #a0522d;">&#25351;&#38024;&#21464;&#37327;&#21517;</span>;
+
+&#22914;
+<span style="color: #228b22;">char</span> **<span style="color: #a0522d;">p</span>;
+*&#36816;&#31639;&#31526;&#26159;&#21491;&#32467;&#21512;&#24615;,&#22240;&#27492;**p&#30456;&#24403;&#20110; *(*p),*p&#34920;&#31034;p&#26159;&#25351;&#38024;&#21464;&#37327;,&#25351;&#21521;<span style="color: #228b22;">char</span>*&#31867;&#22411;&#30340;&#25351;&#38024;&#21464;&#37327;
+</pre>
+
+
+<pre class="src src-c">&#20030;&#20363;
+
+<span style="color: #228b22;">int</span> <span style="color: #0000ff;">main</span>()
+{
+    <span style="color: #228b22;">char</span> * <span style="color: #a0522d;">name</span>[]={<span style="color: #8b2252;">"hello"</span>,<span style="color: #8b2252;">"zoe"</span>,<span style="color: #8b2252;">"chao"</span>};
+    <span style="color: #228b22;">char</span> **<span style="color: #a0522d;">p</span>;
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">i</span>;
+    <span style="color: #a020f0;">for</span>(i=0;i&lt;3;i++)
+    {
+        p=name+i;
+        printf(<span style="color: #8b2252;">"%s\n"</span>,*p);
+    }
+}
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-6-3" class="outline-4">
+<h4 id="sec-6-6-3"><span class="section-number-4">6.6.3</span> 指针数组作main函数的形参</h4>
+<div class="outline-text-4" id="text-6-6-3">
+
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #0000ff;">main</span>(<span style="color: #228b22;">int</span> <span style="color: #a0522d;">argc</span>, <span style="color: #228b22;">char</span> * <span style="color: #a0522d;">argv</span>[])
+
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">argc&#34920;&#31034;&#21442;&#25968;&#30340;&#20010;&#25968;,argv&#26159;&#19968;&#20010;char*&#25968;&#32452;,&#20854;&#20013;&#27599;&#19968;&#20010;&#20803;&#32032;&#25351;&#21521;&#21629;&#20196;&#34892;&#20013;&#30340;&#19968;&#20010;&#23383;&#31526;&#20018;</span>
+<span style="color: #b22222;">&#27880;&#24847;&#21442;&#25968;&#21253;&#25324;&#21629;&#20196;&#26412;&#36523;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-6-7" class="outline-3">
+<h3 id="sec-6-7"><span class="section-number-3">6.7</span> 动态内存分配</h3>
+<div class="outline-text-3" id="text-6-7">
+
+<p>c语言允许动态内存分配,在需要时随时开辟,不需要时随时释放.
+</p><ul>
+<li>自动变量分配在内存中的动态存储区,称为栈
+</li>
+<li>动态分配内存分配在内存中的自由存储区,称为堆
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-6-7-1" class="outline-4">
+<h4 id="sec-6-7-1"><span class="section-number-4">6.7.1</span> 建立内存动态分配</h4>
+<div class="outline-text-4" id="text-6-7-1">
+
+<ul>
+<li>malloc
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">void</span> * <span style="color: #0000ff;">malloc</span>(<span style="color: #228b22;">unsigned</span> <span style="color: #228b22;">int</span> <span style="color: #a0522d;">size</span>);
+
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#22312;&#20869;&#23384;&#30340;&#21160;&#24577;&#23384;&#20648;&#21306;&#20013;&#20998;&#37197;&#19968;&#20010;&#38271;&#24230;&#20026;size&#30340;&#36830;&#32493;&#31354;&#38388;.</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</li>
+<li>calloc
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">void</span> * <span style="color: #0000ff;">calloc</span>(<span style="color: #228b22;">unsigned</span> <span style="color: #a0522d;">n</span>, <span style="color: #228b22;">unsigned</span> <span style="color: #a0522d;">size</span>);
+
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#22312;&#20869;&#23384;&#30340;&#21160;&#24577;&#23384;&#20648;&#21306;&#20013;&#20998;&#37197;n&#20010;&#38271;&#24230;&#20026;size&#30340;&#36830;&#32493;&#31354;&#38388;</span>
+<span style="color: #b22222;">&#29992;calloc&#21487;&#20197;&#20026;&#19968;&#32500;&#25968;&#32452;&#24320;&#36767;&#21160;&#24577;&#23384;&#20648;&#31354;&#38388;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</li>
+<li>free
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">void</span> <span style="color: #0000ff;">free</span>(<span style="color: #228b22;">void</span> * <span style="color: #a0522d;">p</span>);
+
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#37322;&#25918;&#25351;&#38024;&#21464;&#37327;p&#25152;&#25351;&#21521;&#30340;&#21160;&#24577;&#31354;&#38388;,</span>
+<span style="color: #b22222;">p&#24212;&#26159;&#26368;&#36817;&#19968;&#27425;&#35843;&#29992;calloc&#25110;malloc&#20989;&#25968;&#30340;&#36820;&#22238;&#20540;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</li>
+<li>realloc
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">void</span> <span style="color: #0000ff;">realloc</span>(<span style="color: #228b22;">void</span> *<span style="color: #a0522d;">p</span>, <span style="color: #228b22;">unsigned</span> <span style="color: #228b22;">int</span> <span style="color: #a0522d;">size</span>);
+
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#29992;realloc&#20989;&#25968;&#23558;p&#25152;&#25351;&#21521;&#30340;&#21160;&#24577;&#31354;&#38388;&#30340;&#22823;&#23567;&#25913;&#21464;&#20026;size</span>
+<span style="color: #b22222;">p&#30340;&#20540;&#19981;&#21464;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-7-2" class="outline-4">
+<h4 id="sec-6-7-2"><span class="section-number-4">6.7.2</span> void指针类型</h4>
+<div class="outline-text-4" id="text-6-7-2">
+
+<p>c99允许使用基类型为void的指针类型
+</p><ul>
+<li>void指针类型不指向确定的类型
+</li>
+<li>将void指针赋值给另一指针变量时由系统对它进行类型转换
+</li>
+</ul>
+
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> 用户自己建立数据类型</h2>
+<div class="outline-text-2" id="text-7">
+
+
+</div>
+
+<div id="outline-container-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> 定义和使用结构体变量</h3>
+<div class="outline-text-3" id="text-7-1">
+
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">&#32467;&#26500;&#20307;&#21517;</span>
+{
+    &#25104;&#21592;&#21015;&#34920;
+};
+</pre>
+
+
+<pre class="src src-c"><span style="color: #b22222;">//</span><span style="color: #b22222;">&#20030;&#20363;</span>
+
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Student</span>
+{
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">num</span>;
+    <span style="color: #228b22;">char</span> <span style="color: #a0522d;">name</span>[20];
+    <span style="color: #228b22;">char</span> <span style="color: #a0522d;">sex</span>;
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">age</span>;
+};
+</pre>
+
+
+</div>
+
+<div id="outline-container-7-1-1" class="outline-4">
+<h4 id="sec-7-1-1"><span class="section-number-4">7.1.1</span> 定义结构体类型变量</h4>
+<div class="outline-text-4" id="text-7-1-1">
+
+<ol>
+<li>先声明结构体类型,再定义该类型的变量
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Student</span> <span style="color: #a0522d;">student1</span>,<span style="color: #a0522d;">student2</span>;
+</pre>
+
+</li>
+<li>在声明类型的同时定义变量
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">&#32467;&#26500;&#20307;&#21517;</span>
+{
+    &#25104;&#21592;&#21015;&#34920;
+} <span style="color: #a0522d;">&#21464;&#37327;&#21517;&#21015;&#34920;</span>;
+</pre>
+
+
+<pre class="src src-c"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Student</span>
+{
+     <span style="color: #228b22;">int</span> <span style="color: #a0522d;">num</span>;
+     <span style="color: #228b22;">char</span> <span style="color: #a0522d;">name</span>[20];
+     <span style="color: #228b22;">char</span> <span style="color: #a0522d;">sex</span>;
+     <span style="color: #228b22;">int</span> <span style="color: #a0522d;">age</span>;
+} <span style="color: #a0522d;">student1</span>,<span style="color: #a0522d;">student2</span>;
+</pre>
+
+</li>
+<li>不指定类型名而直接定义结构体类型变量
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">struct</span>
+{
+    &#25104;&#21592;&#21015;&#34920;
+} <span style="color: #a0522d;">&#21464;&#37327;&#21517;&#21015;&#34920;</span>;
+</pre>
+
+</li>
+</ol>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-1-2" class="outline-4">
+<h4 id="sec-7-1-2"><span class="section-number-4">7.1.2</span> 初始化和引用结构体变量</h4>
+<div class="outline-text-4" id="text-7-1-2">
+
+<ul>
+<li>在定义结构体变量时,可以对它初始化
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Student</span> <span style="color: #a0522d;">b</span>={123,<span style="color: #8b2252;">"zoe"</span>,<span style="color: #8b2252;">"m"</span>,25};
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">c99&#20013;&#20801;&#35768;&#23545;&#26576;&#19968;&#25104;&#21592;&#21021;&#22987;&#21270;</span>
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Student</span> <span style="color: #a0522d;">b</span>={.name=<span style="color: #8b2252;">"zoe"</span>};
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#20854;&#20182;&#26410;&#34987;&#25351;&#23450;&#21021;&#22987;&#21270;&#30340;&#25968;&#20540;&#31867;&#22411;&#25104;&#21592;&#34987;&#21021;&#22987;&#21270;&#20026;0,</span>
+<span style="color: #b22222;">&#23383;&#31526;&#31867;&#22411;&#25104;&#21592;&#34987;&#21021;&#22987;&#21270;&#20026;'\0',</span>
+<span style="color: #b22222;">&#25351;&#38024;&#31867;&#22411;&#25104;&#21592;&#34987;&#21021;&#22987;&#21270;&#20026;NULL</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+</li>
+<li>可以引用结构体变量中的成员
+
+
+
+<pre class="src src-c">&#32467;&#26500;&#20307;&#21464;&#37327;&#21517;.&#25104;&#21592;&#21517;
+</pre>
+
+</li>
+<li>对结构体变量的成员可以像普通变量一样进行各种运算
+</li>
+<li>同类结构体变量可以相互赋值
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> 结构体数组</h3>
+<div class="outline-text-3" id="text-7-2">
+
+<ul>
+<li>结构体数组的每个元素都是一个结构体类型的数据
+</li>
+<li>定义结构体数组
+
+
+
+<pre class="src src-c"><span style="color: #b22222;">//</span><span style="color: #b22222;">1.</span>
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">&#32467;&#26500;&#20307;&#21517;</span>
+{
+    &#25104;&#21592;&#21015;&#34920;
+}<span style="color: #a0522d;">&#25968;&#32452;&#21517;</span>[&#25968;&#32452;&#38271;&#24230;];
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">2. &#20808;&#22768;&#26126;&#19968;&#20010;&#32467;&#26500;&#20307;&#31867;&#22411;</span>
+<span style="color: #228b22;">&#32467;&#26500;&#20307;&#31867;&#22411;</span> <span style="color: #a0522d;">&#25968;&#32452;&#21517;</span>[&#25968;&#32452;&#38271;&#24230;];
+</pre>
+
+</li>
+<li>初始化结构体数组
+
+
+
+<pre class="src src-c"><span style="color: #228b22;">&#32467;&#26500;&#20307;&#31867;&#22411;</span> <span style="color: #a0522d;">&#25968;&#32452;&#21517;</span>[&#25968;&#32452;&#38271;&#24230;] = {&#21021;&#20540;&#21015;&#34920;};
+</pre>
+
+
+<pre class="src src-c"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Person</span>
+{
+    <span style="color: #228b22;">char</span> <span style="color: #a0522d;">name</span>[20];
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">count</span>;
+}<span style="color: #a0522d;">leader</span>[3]={{<span style="color: #8b2252;">"zoe"</span>,0},{<span style="color: #8b2252;">"wch"</span>,0},{<span style="color: #8b2252;">"ldy"</span>,0}};
+
+<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Person</span>
+{
+    <span style="color: #228b22;">char</span> <span style="color: #a0522d;">name</span>[20];
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">count</span>;
+}<span style="color: #a0522d;">leader</span>[3]={<span style="color: #8b2252;">"zoe"</span>,0,<span style="color: #8b2252;">"wch"</span>,0,<span style="color: #8b2252;">"ldy"</span>,0};
+</pre>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-3" class="outline-3">
+<h3 id="sec-7-3"><span class="section-number-3">7.3</span> 结构体指针</h3>
+<div class="outline-text-3" id="text-7-3">
+
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Student</span> * <span style="color: #a0522d;">pt</span>;
+</pre>
+
+<ul>
+<li>结构体指针就是指向结构体变量的指针
+</li>
+<li>如果p指向一个结构体变量stu,以下3种用法等价
+<ol>
+<li>stu.成员名
+</li>
+<li>(*p).成员名
+</li>
+<li>p-&gt;成员名
+</li>
+</ol>
+
+</li>
+<li>将一个结构体变量的值传递给另一个函数,有3种方法
+<ol>
+<li>用结构体变量的成员作参数
+</li>
+<li>用结构体变量作实参
+     这种传递方式在空间和时间上开销较大
+</li>
+<li>用指向结构体变量的指针作实参
+</li>
+</ol>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-4" class="outline-3">
+<h3 id="sec-7-4"><span class="section-number-3">7.4</span> 共用体类型</h3>
+<div class="outline-text-3" id="text-7-4">
+
+<ul>
+<li>定义共用体类型
+</li>
+</ul>
+
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">union</span> <span style="color: #228b22;">&#20849;&#29992;&#20307;&#21517;</span>
+{
+    &#25104;&#21592;&#21015;&#34920;
+} <span style="color: #a0522d;">&#21464;&#37327;&#21015;&#34920;</span>;
+</pre>
+
+
+<pre class="src src-c"><span style="color: #b22222;">//</span><span style="color: #b22222;">&#20363;&#23376;</span>
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">1.</span>
+<span style="color: #a020f0;">union</span> <span style="color: #228b22;">Data</span>
+{
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">i</span>;
+    <span style="color: #228b22;">char</span> <span style="color: #a0522d;">ch</span>;
+    <span style="color: #228b22;">float</span> <span style="color: #a0522d;">f</span>;
+}<span style="color: #a0522d;">a</span>,<span style="color: #a0522d;">b</span>,<span style="color: #a0522d;">c</span>;
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">2. &#24050;&#32463;&#23450;&#20041;&#20102;&#20849;&#29992;&#20307;&#31867;&#22411;&#37027;&#20010;</span>
+<span style="color: #a020f0;">union</span> <span style="color: #228b22;">Data</span> <span style="color: #a0522d;">a</span>,<span style="color: #a0522d;">b</span>,<span style="color: #a0522d;">c</span>;
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">3.</span>
+<span style="color: #a020f0;">union</span>
+{
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">i</span>;
+    <span style="color: #228b22;">char</span> <span style="color: #a0522d;">ch</span>;
+    <span style="color: #228b22;">float</span> <span style="color: #a0522d;">f</span>;
+}<span style="color: #a0522d;">a</span>,<span style="color: #a0522d;">b</span>,<span style="color: #a0522d;">c</span>;
+</pre>
+
+<ul>
+<li>引用共用体变量
+</li>
+</ul>
+
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">union</span> <span style="color: #228b22;">Data</span> <span style="color: #a0522d;">a</span>;
+a.i = 16;
+a.ch = <span style="color: #8b2252;">'a'</span>;
+a.f =1.5;
+</pre>
+
+<ul>
+<li>同一个内存段可以用来存放几种不同类型的成员,但在每一瞬时只能存放其中一个成员,而不是同时存放几个.
+</li>
+<li>共用体内存长度等于最长的成员的长度
+</li>
+<li>可以对共用体变量初始化,但初始化表中只能有一个常量
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">union</span> <span style="color: #228b22;">Data</span> <span style="color: #a0522d;">a</span> = {16}
+<span style="color: #a020f0;">union</span> <span style="color: #228b22;">Data</span> <span style="color: #a0522d;">a</span> = {16,<span style="color: #8b2252;">'a'</span>,1.5};    <span style="color: #b22222;">//</span><span style="color: #b22222;">error!!</span>
+<span style="color: #a020f0;">union</span> <span style="color: #228b22;">Data</span> <span style="color: #a0522d;">a</span> = {.ch=<span style="color: #8b2252;">'j'</span>};       <span style="color: #b22222;">//</span><span style="color: #b22222;">C99&#20801;&#35768;</span>
+</pre>
+
+</li>
+<li>共用体变量的地址和它的各成员的地址都是同一地址
+
+
+
+<pre class="example">&amp;a.i, &amp;a.c, &amp;a.f都是同一值
+</pre>
+
+</li>
+<li>不能对共用体变量名赋值,也不能企图引用变量名来得到一个值
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">union</span> <span style="color: #228b22;">Data</span> <span style="color: #a0522d;">a</span>;
+a=1;              <span style="color: #b22222;">//</span><span style="color: #b22222;">error!!</span>
+<span style="color: #228b22;">int</span> <span style="color: #a0522d;">m</span>=a;          <span style="color: #b22222;">//</span><span style="color: #b22222;">error!!</span>
+
+<span style="color: #a020f0;">union</span> <span style="color: #228b22;">Data</span> <span style="color: #a0522d;">b</span>=a;   <span style="color: #b22222;">//</span><span style="color: #b22222;">C99&#20801;&#35768;&#21516;&#31867;&#22411;&#20849;&#29992;&#20307;&#21464;&#37327;&#20114;&#30456;&#36171;&#20540;</span>
+</pre>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-5" class="outline-3">
+<h3 id="sec-7-5"><span class="section-number-3">7.5</span> 使用枚举类型</h3>
+<div class="outline-text-3" id="text-7-5">
+
+<p>如果一个变量只有几种可能的值,则可以定义为枚举类型
+</p>
+
+
+<pre class="src src-c"><span style="color: #a020f0;">enum</span> <span style="color: #228b22;">&#26522;&#20030;&#21517;</span> {<span style="color: #a0522d;">&#26522;&#20030;&#20803;&#32032;&#21015;&#34920;</span>};
+</pre>
+
+
+<pre class="src src-c"><span style="color: #b22222;">//</span><span style="color: #b22222;">&#20363;&#23376;</span>
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">1.</span>
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Weekday</span>{<span style="color: #a0522d;">sun</span>,<span style="color: #a0522d;">mon</span>,<span style="color: #a0522d;">tue</span>,<span style="color: #a0522d;">wed</span>,<span style="color: #a0522d;">thu</span>,<span style="color: #a0522d;">fri</span>,<span style="color: #a0522d;">sat</span>} <span style="color: #a0522d;">workday</span>,<span style="color: #a0522d;">weekend</span>;
+workday=mon;      <span style="color: #b22222;">//</span><span style="color: #b22222;">workday&#21644;weekend&#26159;&#26522;&#20030;&#21464;&#37327;,&#20854;&#20540;&#21482;&#33021;&#26159;&#23450;&#20041;&#30340;7&#20010;&#20540;&#20043;&#19968;</span>
+weekend=sun;
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">2. &#24050;&#32463;&#23450;&#20041;&#20102;&#26522;&#20030;&#31867;&#22411;</span>
+<span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Weekday</span> <span style="color: #a0522d;">workday</span>,<span style="color: #a0522d;">weekend</span>;   
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">3.</span>
+<span style="color: #a020f0;">enum</span> {<span style="color: #a0522d;">sun</span>,<span style="color: #a0522d;">mon</span>,<span style="color: #a0522d;">tue</span>,<span style="color: #a0522d;">wed</span>,<span style="color: #a0522d;">thu</span>,<span style="color: #a0522d;">fri</span>,<span style="color: #a0522d;">sat</span>} <span style="color: #a0522d;">workday</span>,<span style="color: #a0522d;">weekend</span>;
+</pre>
+
+<ul>
+<li>c编译器对枚举类型的枚举元素按常量处理,故称枚举常量
+</li>
+<li>每一个枚举元素都代表一个整数,c编译器按定义时的顺序默认其值是0,1,2,3&hellip;
+</li>
+<li>可以认为地指定枚举元素的数值
+
+
+
+<pre class="src src-c"><span style="color: #a020f0;">enum</span> <span style="color: #228b22;">Weekday</span>{<span style="color: #a0522d;">sun</span>=7,<span style="color: #a0522d;">mon</span>=1,<span style="color: #a0522d;">tue</span>,<span style="color: #a0522d;">wed</span>,<span style="color: #a0522d;">thu</span>,<span style="color: #a0522d;">fri</span>,<span style="color: #a0522d;">sat</span>} <span style="color: #a0522d;">workday</span>,<span style="color: #a0522d;">weekend</span>;
+</pre>
+
+</li>
+<li>枚举元素可用于判断比较
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-6" class="outline-3">
+<h3 id="sec-7-6"><span class="section-number-3">7.6</span> 用typedef声明新类型名</h3>
+<div class="outline-text-3" id="text-7-6">
+
+<ul>
+<li>定义新类型名的方法是
+<ol>
+<li>按定义变量的方法写出定义体
+</li>
+<li>将变量名换成新类型名
+</li>
+<li>在最前面加typedef
+</li>
+</ol>
+
+</li>
+<li>用typedef只是对已经存在的类型指定一个新的类型名,而没有创造新的类型.
+</li>
+</ul>
+
+
+
+
+<pre class="src src-c"><span style="color: #b22222;">//</span><span style="color: #b22222;">&#21629;&#21517;&#19968;&#20010;&#26032;&#30340;&#31867;&#22411;&#21517;&#20195;&#34920;&#24050;&#26377;&#31867;&#22411;</span>
+<span style="color: #a020f0;">typedef</span> <span style="color: #228b22;">int</span> <span style="color: #228b22;">Count</span>;
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#21629;&#21517;&#19968;&#20010;&#26032;&#30340;&#31867;&#22411;&#21517;&#20195;&#34920;&#32467;&#26500;&#20307;&#31867;&#22411;</span>
+<span style="color: #a020f0;">typedef</span> <span style="color: #a020f0;">struct</span>{
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">month</span>;
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">day</span>;
+    <span style="color: #228b22;">int</span> <span style="color: #a0522d;">year</span>;
+}<span style="color: #228b22;">Date</span>;
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#21629;&#21517;&#19968;&#20010;&#26032;&#30340;&#31867;&#22411;&#21517;&#20195;&#34920;&#25968;&#32452;&#31867;&#22411;</span>
+<span style="color: #a020f0;">typedef</span> <span style="color: #228b22;">int</span> <span style="color: #228b22;">Num</span>[100];     <span style="color: #b22222;">//</span><span style="color: #b22222;">Num&#20195;&#34920; int[100] &#31867;&#22411;</span>
+<span style="color: #228b22;">Num</span> <span style="color: #a0522d;">a</span>;                    <span style="color: #b22222;">//</span><span style="color: #b22222;">&#23450;&#20041;a&#20026;&#25972;&#24418;&#25968;&#32452;,&#23427;&#26377;100&#20010;&#20803;&#32032;</span>
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#21629;&#21517;&#19968;&#20010;&#26032;&#30340;&#31867;&#22411;&#21517;&#20195;&#34920;&#25351;&#38024;&#31867;&#22411;</span>
+<span style="color: #a020f0;">typedef</span> <span style="color: #228b22;">char</span>* <span style="color: #228b22;">String</span>;     <span style="color: #b22222;">//</span><span style="color: #b22222;">Sting&#20195;&#34920; char* &#31867;&#22411;</span>
+<span style="color: #228b22;">String</span> <span style="color: #a0522d;">p</span>,<span style="color: #a0522d;">s</span>[10];           <span style="color: #b22222;">//</span><span style="color: #b22222;">&#23450;&#20041;p&#20026;&#23383;&#31526;&#25351;&#38024;&#21464;&#37327;,s&#20026;&#23383;&#31526;&#25351;&#38024;&#25968;&#32452;</span>
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#21629;&#21517;&#19968;&#20010;&#26032;&#30340;&#31867;&#22411;&#21517;&#20195;&#34920;&#25351;&#21521;&#20989;&#25968;&#30340;&#25351;&#38024;&#31867;&#22411;</span>
+<span style="color: #a020f0;">typedef</span> <span style="color: #228b22;">int</span> (* <span style="color: #228b22;">Pointer</span>)();      <span style="color: #b22222;">//</span><span style="color: #b22222;">Pointer&#20195;&#34920;&#25351;&#21521;&#20989;&#25968;&#30340;&#25351;&#38024;&#31867;&#22411;</span>
+<span style="color: #228b22;">Pointer</span> <span style="color: #a0522d;">p1</span>,<span style="color: #a0522d;">p2</span>;                  <span style="color: #b22222;">//</span><span style="color: #b22222;">p1,p2&#20026;Pointer&#31867;&#22411;&#30340;&#25351;&#38024;&#21464;&#37327;</span>
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> 文件的输入输出</h2>
+<div class="outline-text-2" id="text-8">
+
+
+</div>
+
+<div id="outline-container-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> c文件基础</h3>
+<div class="outline-text-3" id="text-8-1">
+
+
+</div>
+
+<div id="outline-container-8-1-1" class="outline-4">
+<h4 id="sec-8-1-1"><span class="section-number-4">8.1.1</span> 文件流</h4>
+<div class="outline-text-4" id="text-8-1-1">
+
+<p>c对文件的存取是以字符(字节)为单位的,输入输出数据流的开始和结束仅受程序控制而
+不受物理符号(如回车换行符)控制,这就增加了处理的灵活性,这种文件称为流式文件.
+</p></div>
+
+</div>
+
+<div id="outline-container-8-1-2" class="outline-4">
+<h4 id="sec-8-1-2"><span class="section-number-4">8.1.2</span> ASCII文件和二进制文件</h4>
+<div class="outline-text-4" id="text-8-1-2">
+
+<p>数据文件可分为ASCII文件和二进制文件.
+用ASCII码形式输出时字节与字符一一对应,一个字节代表一个字符,但占用存储空间较多,
+而且要花费转换时间(二进制形式与ASCII码间的转换).
+用二进制形式输出数值,可以节省外存空间和转换时间,把内存中的存储单元中的内容
+原封不动地输出到磁盘上,此时一个字节并不一定代表一个字符,如果程序运行过程中有的
+数据文件需要保存在外部介质上,以便在需要时再输入到内存,一般用二进制文件比较方便.
+</p></div>
+
+</div>
+
+<div id="outline-container-8-1-3" class="outline-4">
+<h4 id="sec-8-1-3"><span class="section-number-4">8.1.3</span> 文件缓冲区</h4>
+<div class="outline-text-4" id="text-8-1-3">
+
+<p>ANSI C标准采用"缓冲文件系统"处理数据文件,缓冲文件系统是指系统自动地在内存区
+为程序中每一个正在使用的文件开辟一个文件缓冲区.
+从内存向磁盘输出数据必须先送到内存中的缓冲区,装满缓冲区后才一起送到磁盘去.
+从磁盘向内存读入数据,则一次从磁盘文件将一批数据输入到内存缓冲区,然后再从缓冲区逐个地将数据送到程序数据区(给程序变量).
+缓冲区大小由各个具体的c编译系统确定.
+</p></div>
+
+</div>
+
+<div id="outline-container-8-1-4" class="outline-4">
+<h4 id="sec-8-1-4"><span class="section-number-4">8.1.4</span> 文件类型指针</h4>
+<div class="outline-text-4" id="text-8-1-4">
+
+<p>每个被使用的文件都在内存中开辟一个相应的 <b>文件信息区</b>,用来存放文件的有关信息(如文件名字,状态等).
+这些信息保存在一个结构体变量中,如
+</p>
+
+
+<pre class="src src-c"><span style="color: #a020f0;">typedef</span> <span style="color: #a020f0;">struct</span>
+{
+  <span style="color: #228b22;">short</span> <span style="color: #a0522d;">level</span>;             <span style="color: #b22222;">//</span><span style="color: #b22222;">&#32531;&#20914;&#21306;&#28385;&#25110;&#31354;&#30340;&#31243;&#24230;</span>
+  <span style="color: #228b22;">unsigned</span> <span style="color: #a0522d;">flags</span>;          <span style="color: #b22222;">//</span><span style="color: #b22222;">&#25991;&#20214;&#29366;&#24577;&#26631;&#24535;</span>
+  <span style="color: #228b22;">char</span> <span style="color: #a0522d;">fd</span>;                 <span style="color: #b22222;">//</span><span style="color: #b22222;">&#25991;&#20214;&#25551;&#36848;&#31526;</span>
+  <span style="color: #228b22;">short</span> <span style="color: #a0522d;">bsize</span>;             <span style="color: #b22222;">//</span><span style="color: #b22222;">&#32531;&#20914;&#21306;&#22823;&#23567;</span>
+  <span style="color: #228b22;">unsigned</span> <span style="color: #228b22;">char</span>* <span style="color: #a0522d;">buffer</span>;   <span style="color: #b22222;">//</span><span style="color: #b22222;">&#32531;&#20914;&#21306;&#20301;&#32622;</span>
+  <span style="color: #228b22;">unsigned</span> <span style="color: #228b22;">char</span>* <span style="color: #a0522d;">curp</span>;     <span style="color: #b22222;">//</span><span style="color: #b22222;">&#25351;&#38024;&#24403;&#21069;&#25351;&#21521;</span>
+  ...
+}<span style="color: #228b22;">FILE</span>;
+</pre>
+
+<p>
+每个FILE类型变量对应一个文件的信息区.
+一般设置一个指向FILE类型变量的指针变量,通过它来引用这些FILE类型变量.
+</p>
+
+
+<pre class="src src-c"><span style="color: #228b22;">FILE</span> * <span style="color: #a0522d;">fp</span>;
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-8-2" class="outline-3">
+<h3 id="sec-8-2"><span class="section-number-3">8.2</span> 打开与关闭文件</h3>
+<div class="outline-text-3" id="text-8-2">
+
+<ul>
+<li><b>打开文件</b> 是指为文件建立相应的信息区(用来存放有关文件的信息)和文件缓冲区(用来暂时存放输入输出的数据)
+</li>
+<li><b>关闭文件</b> 是指撤销文件信息区和文件缓冲区
+</li>
+<li>fopen
+
+
+
+<pre class="src src-c">fopen(&#25991;&#20214;&#21517;,&#20351;&#29992;&#25991;&#20214;&#26041;&#24335;);
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#20363;&#23376;</span>
+<span style="color: #228b22;">FILE</span> * <span style="color: #a0522d;">fp</span>;
+fp=fopen(<span style="color: #8b2252;">"a1"</span>,<span style="color: #8b2252;">"r"</span>);
+</pre>
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+<caption>使用文件的方式</caption>
+<colgroup><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">方式</th><th scope="col" class="left">涵义</th><th scope="col" class="left">如果指定文件不存在</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">r</td><td class="left">读,打开一个已存在文本文件</td><td class="left">出错</td></tr>
+<tr><td class="left">w</td><td class="left">写,打开一个文本文件</td><td class="left">新建文件</td></tr>
+<tr><td class="left">a</td><td class="left">写,向已存在文本文件追加</td><td class="left">出错</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">r+</td><td class="left">读写,打开一个已存在文本文件</td><td class="left">出错</td></tr>
+<tr><td class="left">w+</td><td class="left">读写,打开一个文本文件</td><td class="left">新建文件</td></tr>
+<tr><td class="left">a+</td><td class="left">读写,打开一个已存在文本文件</td><td class="left">出错</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">rb</td><td class="left">读,打开一个已存在二进制文件</td><td class="left">出错</td></tr>
+<tr><td class="left">wb</td><td class="left">写,打开一个二进制文件</td><td class="left">新建文件</td></tr>
+<tr><td class="left">ab</td><td class="left">写,向已存在二进制文件追加</td><td class="left">出错</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">rb+</td><td class="left">读写,打开一个已存在二进制文件</td><td class="left">出错</td></tr>
+<tr><td class="left">wb+</td><td class="left">读写,打开一个二进制文件</td><td class="left">新建文件</td></tr>
+<tr><td class="left">ab+</td><td class="left">读写,打开一个已存在二进制文件</td><td class="left">出错</td></tr>
+</tbody>
+</table>
+
+  如果不能实现打开的任务,fopen将返回一个空指针NULL
+
+
+
+<pre class="src src-c"><span style="color: #b22222;">//</span><span style="color: #b22222;">&#25171;&#24320;&#25991;&#20214;&#24120;&#29992;&#26041;&#24335;</span>
+<span style="color: #a020f0;">if</span>((fp=fopen(<span style="color: #8b2252;">"file1"</span>,<span style="color: #8b2252;">"r"</span>))==<span style="color: #008b8b;">NULL</span>)
+{
+  <span style="color: #b22222;">//</span><span style="color: #b22222;">&#38169;&#35823;&#22788;&#29702;</span>
+}
+</pre>
+
+</li>
+<li>fclose
+
+
+
+<pre class="src src-c">fclose(&#25991;&#20214;&#25351;&#38024;);
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#20363;&#23376;</span>
+fclose(fp);
+</pre>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-8-3" class="outline-3">
+<h3 id="sec-8-3"><span class="section-number-3">8.3</span> 顺序读写数据文件</h3>
+<div class="outline-text-3" id="text-8-3">
+
+
+</div>
+
+<div id="outline-container-8-3-1" class="outline-4">
+<h4 id="sec-8-3-1"><span class="section-number-4">8.3.1</span> 读写字符</h4>
+<div class="outline-text-4" id="text-8-3-1">
+
+
+
+
+<pre class="src src-c">fgetc(fp)     <span style="color: #b22222;">//</span><span style="color: #b22222;">&#20174;fp&#25351;&#21521;&#30340;&#25991;&#20214;&#35835;&#20837;&#19968;&#20010;&#23383;&#31526;</span>
+fputc(ch,fp)  <span style="color: #b22222;">//</span><span style="color: #b22222;">&#25226;&#23383;&#31526;ch&#20889;&#21040;&#25991;&#20214;&#25351;&#38024;&#21464;&#37327;fp&#25152;&#25351;&#21521;&#30340;&#25991;&#20214;&#20013;</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-8-3-2" class="outline-4">
+<h4 id="sec-8-3-2"><span class="section-number-4">8.3.2</span> 读写字符串</h4>
+<div class="outline-text-4" id="text-8-3-2">
+
+
+
+
+<pre class="src src-c">fgets(str,n,fp)   <span style="color: #b22222;">//</span><span style="color: #b22222;">&#20174;fp&#25351;&#21521;&#30340;&#25991;&#20214;&#35835;&#20837;&#19968;&#20010;&#38271;&#24230;&#20026;(n-1)&#30340;&#23383;&#31526;&#20018;&#21040;&#23383;&#31526;&#25968;&#32452;str&#20013;</span>
+fputs(str,fp)     <span style="color: #b22222;">//</span><span style="color: #b22222;">&#25226;str&#25152;&#25351;&#21521;&#30340;&#23383;&#31526;&#20018;&#20889;&#21040;&#25991;&#20214;&#25351;&#38024;&#21464;&#37327;fp&#25152;&#25351;&#21521;&#30340;&#25991;&#20214;&#20013;</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-8-3-3" class="outline-4">
+<h4 id="sec-8-3-3"><span class="section-number-4">8.3.3</span> 用格式化方式读写文件</h4>
+<div class="outline-text-4" id="text-8-3-3">
+
+
+
+
+<pre class="src src-c">fprintf(&#25991;&#20214;&#25351;&#38024;,&#26684;&#24335;&#23383;&#31526;&#20018;,&#36755;&#20986;&#21015;&#34920;);
+fscanf(&#25991;&#20214;&#25351;&#38024;,&#26684;&#24335;&#23383;&#31526;&#20018;,&#36755;&#20837;&#21015;&#34920;);
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-8-3-4" class="outline-4">
+<h4 id="sec-8-3-4"><span class="section-number-4">8.3.4</span> 用二进制方式读写文件</h4>
+<div class="outline-text-4" id="text-8-3-4">
+
+<p>fwrite向文件写一个数据块
+</p>
+
+
+<pre class="src src-c">fread(buffer, size, count, fp);
+fwrite(buffer, size, count, fp);
+
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">buffer:</span>
+<span style="color: #b22222;">&#19968;&#20010;&#22320;&#22336;,</span>
+<span style="color: #b22222;">&#23545;fread&#26469;&#35828;&#26159;&#29992;&#26469;&#23384;&#25918;&#25991;&#20214;&#35835;&#20837;&#30340;&#25968;&#25454;&#30340;&#23384;&#20648;&#21306;&#30340;&#22320;&#22336;,</span>
+<span style="color: #b22222;">&#23545;fwrite&#26469;&#35828;,&#26159;&#35201;&#25226;&#27492;&#22320;&#22336;&#24320;&#22987;&#30340;&#23384;&#20648;&#21306;&#20013;&#30340;&#25968;&#25454;&#21521;&#25991;&#20214;&#36755;&#20986;</span>
+
+<span style="color: #b22222;">size: &#35201;&#35835;&#20889;&#30340;&#23383;&#33410;&#25968;</span>
+
+<span style="color: #b22222;">count: &#35201;&#35835;&#20889;&#22810;&#23569;&#20010;&#25968;&#25454;&#39033;(&#27599;&#20010;&#25968;&#25454;&#39033;&#38271;&#24230;&#20026;size)</span>
+
+<span style="color: #b22222;">fp:FILE&#31867;&#22411;&#25351;&#38024;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+
+<pre class="src src-c"><span style="color: #b22222;">//</span><span style="color: #b22222;">&#20363;&#23376;</span>
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#20551;&#35774;arr&#26159;&#19968;&#20010;float&#31867;&#22411;&#25968;&#32452;&#21517;,</span>
+fread(arr, 4, 10, fp);  <span style="color: #b22222;">//</span><span style="color: #b22222;">&#20174;fp&#25351;&#21521;&#30340;&#25991;&#20214;&#20013;&#35835;&#20837;10&#20010;4&#23383;&#33410;&#25968;&#25454;,&#23384;&#20648;&#21040;&#25968;&#32452;arr&#20013;</span>
+
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#20551;&#35774;stu&#26159;&#26377;40&#20010;&#20803;&#32032;&#30340;struct Student&#31867;&#22411;&#21464;&#37327;</span>
+<span style="color: #a020f0;">for</span>(i=0;i&lt;40;i++)
+    fwrite(&amp;stud[i],<span style="color: #a020f0;">sizeof</span>(<span style="color: #a020f0;">struct</span> <span style="color: #228b22;">Student</span>),1,fp);
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-8-4" class="outline-3">
+<h3 id="sec-8-4"><span class="section-number-3">8.4</span> 随机读写数据文件</h3>
+<div class="outline-text-3" id="text-8-4">
+
+<ul>
+<li>为了对读写进行控制,系统为每个文件设置了一个文件读写位置标记,用来指示"接下来要读写的下一个字符的位置"
+</li>
+<li>在对文件进行顺序读写时,文件位置标记指向文件开头,
+<ul>
+<li>如果对文件进行读操作,文件位置标记向后移一个位置,直到遇到文件尾
+</li>
+<li>如果对文件进行写操作,则每写完一个数据,文件位置标记向后移一个位置
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-8-4-1" class="outline-4">
+<h4 id="sec-8-4-1"><span class="section-number-4">8.4.1</span> rewind</h4>
+<div class="outline-text-4" id="text-8-4-1">
+
+<p>用rewind函数使文件位置标记指向文件开头
+</p>
+
+
+<pre class="src src-c">rewind(fp)
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-8-4-2" class="outline-4">
+<h4 id="sec-8-4-2"><span class="section-number-4">8.4.2</span> fseek</h4>
+<div class="outline-text-4" id="text-8-4-2">
+
+<p>用fseek函数改变文件位置标记
+</p>
+
+
+<pre class="src src-c">fseek(&#25991;&#20214;&#31867;&#22411;&#25351;&#38024;, &#20301;&#31227;&#37327;, &#36215;&#22987;&#28857;)
+
+<span style="color: #b22222;">/*</span>
+<span style="color: #b22222;">&#20301;&#31227;&#37327;&#26159;long&#22411;&#30340;,&#25351;&#20197;&#36215;&#22987;&#28857;&#20026;&#22522;&#28857;,&#21521;&#21069;&#31227;&#21160;&#30340;&#23383;&#33410;&#25968;</span>
+<span style="color: #b22222;">*/</span>
+</pre>
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="all">
+<caption>起始点</caption>
+<colgroup><col class="left" /><col class="left" /><col class="right" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">起始点</th><th scope="col" class="left">名字</th><th scope="col" class="right">用数字代表</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">文件开始位置</td><td class="left">SEEK_SET</td><td class="right">0</td></tr>
+<tr><td class="left">文件当前位置</td><td class="left">SEEK_CUR</td><td class="right">1</td></tr>
+<tr><td class="left">文件末尾位置</td><td class="left">SEEK_END</td><td class="right">2</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-8-4-3" class="outline-4">
+<h4 id="sec-8-4-3"><span class="section-number-4">8.4.3</span> ftell</h4>
+<div class="outline-text-4" id="text-8-4-3">
+
+<p>用ftell函数测定未见位置标记的当前位置
+</p>
+
+
+<pre class="src src-c"><span style="color: #228b22;">long</span> <span style="color: #a0522d;">i</span>;
+i = ftell(fp);
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-8-5" class="outline-3">
+<h3 id="sec-8-5"><span class="section-number-3">8.5</span> 文件读写出错检测</h3>
+<div class="outline-text-3" id="text-8-5">
+
+
+</div>
+
+<div id="outline-container-8-5-1" class="outline-4">
+<h4 id="sec-8-5-1"><span class="section-number-4">8.5.1</span> ferror</h4>
+<div class="outline-text-4" id="text-8-5-1">
+
+<p>在调用各种输入输出函数时,如果出现错误,除了函数返回值有所反映外,还可以用ferror函数检查
+</p>
+
+
+<pre class="src src-c">ferror(fp)
+</pre>
+
+<p>
+如果ferror返回值为0,表示未出错,如果返回非零值,表示出错.
+</p></div>
+
+</div>
+
+<div id="outline-container-8-5-2" class="outline-4">
+<h4 id="sec-8-5-2"><span class="section-number-4">8.5.2</span> clearerr</h4>
+<div class="outline-text-4" id="text-8-5-2">
+
+<p>只要出现文件读写错误标志,它就一直保留,直到对同一文件调用clearerr函数,或rewind函数,或任何其他输入输出函数
+</p></div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2014-09-02T23:58+0800</p>
+<p class="author">Author: 王超</p>
+<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>
