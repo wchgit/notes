@@ -15,7 +15,7 @@ comment
 | 类型    | 存储(字节) |
 |---------+------------|
 | int     |          4 |
-| short   |          8 |
+| short   |          2 |
 | long    |          8 |
 | byte    |          1 |
 |---------+------------|
@@ -232,7 +232,7 @@ static type copyOf(type[] a, int length)
 static type copyOf(type[] a, int beg, int end)
 
 //返回数组的字符串表示,括号包围,逗号分隔
-static String toString(type[[] a)
+static String toString(type[] a)
 
 //用优化的快速排序算法对数组进行排序
 static void sort(type[] a)
@@ -276,13 +276,14 @@ GregorianCalendar(int year,
                   int seconds)
 
 int get(int field)                     //返回给定域的值,如Calendar.YEAR(MONTH)
+Date getTime()                         //获得这个日历对象当前值所表达的时间点
+int getFirstDayOfWeek()                //获得当前用户所在地区一个星期中的第一天
 void set(int field, int value)         //设置特定域的值
 void set(int year, int month, int day) //将日期域设为新值
-void add(int field, int amount)        //对特定域进行增加制定数量的时间
-int getFirstDayOfWeek()                //获得当前用户所在地区一个星期中的第一天
-void setTime(Date time)                //将日历设置为指定时间点
-Date getTime()                         //获得这个日历对象当前值所表达的时间点
 void set(int year, int month, int day, int hour, int minutes, int seconds)
+void setTime(Date time)                //将日历设置为指定时间点
+void add(int field, int amount)        //对特定域进行增加制定数量的时间
+
 //将日期域和时间域设为新值
 #+END_SRC
 ** 用户自定义类
@@ -301,7 +302,7 @@ class ClassName{
 #+END_SRC
 + 可以认为java编译器内置了make功能,当java编译器发现a.java使用了b类时会查找b.class文件,如果没有找到,会自动搜索b.java并对其进行编译,如果b.java版本比已有的b.class新,java编译器会自动重新编译这个文件.
 + 在每一个方法中,关键字this表示隐式参数.
-+ 为了封装实例域,应该提供三项内容:一个私有的实例域,一个公有的访问器,一个公有的更改器.
++ 为了封装实例域,应该提供三项内容:一个私有的实例域,一个公有的 *访问器*,一个公有的 *更改器*.
 + 一个方法可以访问所属类的 *所有对象* 的私有数据,即不仅可以访问所绑定对象的私有域,还可以访问其他对象的私有域.
 + 可以将实例域定义为final,在构造器执行之后,这个域的值被设置,并在后面的操作中不能在进行修改.
 ** 静态域与静态方法
@@ -366,7 +367,7 @@ class Employee{
 #+END_SRC
 *** 构造器
 + 构造器可以重载,如果编译器找不到匹配的参数或找出多个可能的匹配,会产生编译时错误
-+ 默认构造器是指没有参数的构造器,如果在类中没有编写构造器,系统会提供一个默认构造器,如果类中至少编写了一个构造器,系统就不会在提供默认构造器.
++ 默认构造器是指没有参数的构造器,如果在类中没有编写构造器,系统会提供一个默认构造器,如果类中至少编写了一个构造器,系统就不会再提供默认构造器.
 *** 调用另一个构造器
 如果构造器的第一个语句形如this(...),这个构造器将调用同一个类的另一个构造器
 #+BEGIN_SRC java
@@ -417,7 +418,7 @@ package com.horstmann.corejava;
 ...
 #+END_SRC
 + 如果没有在源文件中放置package语句,这个源文件中的类就被放置在一个默认包中
-+ 没有制定public或private的方法或者域可以被同一个包中的所有方法访问,称包作用域.
++ 没有指定public或private的方法或者域可以被同一个包中的所有方法访问,称包作用域.
 ** 类路径
 为了使类能够被多个程序共享,需要做到以下几点
 1. 把类放到一个目录中
@@ -462,12 +463,29 @@ e = new Manager(...);
 *** 阻止继承
 + 如果在定义类的时候使用了final修饰符,表明这个类是final类,该类不能被继承
 + 类中的方法也可以被声明为final,这样做,子类就不能覆盖这个方法
+**** final用法总结
+1. final+局部变量
+   #+BEGIN_QUOTE
+   表示常量   
+   #+END_QUOTE
+2. final+实例域
+   #+BEGIN_QUOTE
+   在构造器执行之后,这个域的值被设置,并在后面的操作中不能在进行修改
+   #+END_QUOTE
+3. final+方法
+   #+BEGIN_QUOTE
+   子类不能覆盖此方法
+   #+END_QUOTE
+4. final+类
+   #+BEGIN_QUOTE
+   此类不能被继承
+   #+END_QUOTE
 *** 强制类型转换
 #+BEGIN_SRC java
 Employee boss = new Manager(...);
 Manager boss = (Manager)boss;
 #+END_SRC
-+ 强制类型转换的唯一原因是:在暂时护士对象的实际类型之后,使用对象的全部功能
++ 强制类型转换的唯一原因是:在暂时忽视对象的实际类型之后,使用对象的全部功能
 + 只能在继承层次内进行类型转换
 + 在将超类转换成子类之前,应该使用instanceof进行检查
 + 如果试图在继承链上进行向下的类型转换,并且"谎报"有关对象包含的内容,将产生ClassCastException异常
@@ -492,12 +510,11 @@ abstract class Person{
 不过,Manager类中的方法只能够访问Manager对象中的hireDay域,
 而不能访问其他Employee对象中的这个域
 #+END_EXAMPLE
-java中用于控制可见性的4个访问修饰符:
+**** 访问修饰符总结:
 1. 仅对本类可见 private
 2. 对所有类可见 public
 3. 对本包和所有子类可见 protected
 4. 对本包可见 默认
-
 ** object 所有类的超类
 #+BEGIN_SRC java
 java.lang.Object
@@ -559,8 +576,10 @@ static String toString(int i)               //返回数值i的十进制字符串
 static String toString(int i,int radix)     //返回数值i的radix进制字符串表示
 static int parseInt(String s)               //返回字符串s表示的整数值
 static int parseInt(String s, int radix)    //返回字符串s表示的整数值
-static Integer valueOf(String s)            //返回字符串s表示的整型数值对应的包装器对象
-static Integer valueOf(String s, int radix) //返回字符串s表示的整型数值对应的包装器对象
+//返回字符串s表示的整型数值对应的包装器对象
+static Integer valueOf(String s)
+//返回字符串s表示的整型数值对应的包装器对象
+static Integer valueOf(String s, int radix) 
 #+END_SRC
 ** 参数数量可变的方法
 #+BEGIN_SRC java
@@ -619,14 +638,15 @@ static Enum valueOf(Class enumClass, String name)
 #+BEGIN_SRC java
 java.lang.Class
 
-static Class forName(String className)  //返回描述类名为className的Class对象        
-Object newInstance()                    //返回这个类的新实例                        
-Field[] getFields()                     //返回此类和超类的的公有域                  
-Field[] getDeclaredFields()             //返回此类的全部域                          
-Method[] getMethods()                   //返回所有公有方法,包括从超类继承来的公有方法
-Method[] getDeclaredMethods()           //返回全部方法,但不包括从曹磊继承的方法     
-Constructor[] getConstructors()         //返回此类的公有构造器                      
-Constructor[] getDeclaredConstructors() //返回此类的所有构造器                      
+static Class forName(String className)  //返回描述类名为className的Class对象
+Object newInstance()                    //返回这个类的新实例
+Field[] getFields()                     //返回此类和超类的的公有域
+Field[] getDeclaredFields()             //返回此类的全部域
+//返回所有公有方法,包括从超类继承来的公有方法
+Method[] getMethods()                   
+Method[] getDeclaredMethods()           //返回全部方法,但不包括从超类继承的方法
+Constructor[] getConstructors()         //返回此类的公有构造器
+Constructor[] getDeclaredConstructors() //返回此类的所有构造器
 #+END_SRC
 #+BEGIN_SRC java
 java.lang.reflect.Constructor(Method Field)
@@ -640,7 +660,7 @@ Class getDeclaringClass()
 //返回一个用于描述构造器(方法 域名)修饰符的整型数值
 int getModifiers()
 
-//返回描述构造器(方法 域名)的字符转
+//返回描述构造器(方法 域名)的字符串
 String getName()
 
 //用在Constructor和Method类中,返回一个描述参数类型的Class对象数组
@@ -761,6 +781,19 @@ public void start(){
 + 由于构造器的名字必须与类名相同,而匿名类没有类名,所以匿名类没有构造器,构造器参数将传递给超类
 *** 静态内部类
 声明为static,静态内部类的对象除了不能访问外部类对象,与其他内部类完全一样
+**** static用法总结
+1. static+域
+   #+BEGIN_QUOTE
+   静态域.该域只有一份拷贝,所有实例共享.
+   #+END_QUOTE
+2. static+方法
+   #+BEGIN_QUOTE
+   静态方法.该方法不与实例绑定,通过类名或实例来调用.
+   #+END_QUOTE
+3. static+内部类
+   #+BEGIN_QUOTE
+   静态内部类.静态内部类的方法不能访问外部类.
+   #+END_QUOTE
 ** 代理
 #+BEGIN_SRC java
 java.lang.reflect.InvocationHandler   //调用处理器
@@ -971,7 +1004,7 @@ java -Djava.util.logging.config.file=configFile MainClass
 #+END_SRC
 *** 处理器
 + 与日志记录器一样,处理器也有日志记录级别,对于一条要被记录的日志,它的日志级别必须高于日志记录器和处理器的阈值
-+ 在默认情况下,日志记录其将记录发送到自己的处理器和父处理器.如果不想两次看到这些记录,应该将useParentHandlers属性设为false
++ 在默认情况下,日志记录器将记录发送到自己的处理器和父处理器.如果不想两次看到这些记录,应该将useParentHandlers属性设为false
 #+BEGIN_SRC java
 logger.setUseParentHandlers(false);
 Handler handler = new ConsoleHandler();
@@ -987,7 +1020,7 @@ logger.addHandler(handler);
 *** 格式化器
 + ConsoleHandler类和FileHandler类可以生成文本和XML格式的日志记录
 + 可以自定义格式,需要扩展Formatter类并覆盖String format(LogRecord record)方法
-+ 调用setFormatter方法就爱那个格式化器安装到处理器中
++ 调用setFormatter方法将格式化器安装到处理器中
 * 泛型程序设计
 + 泛型程序设计意味着编写的代码可以被很多不同类型的对象所重用
 + 在泛型出现之前,使用Object变量,对具体类型进行操作时需要进行强制类型转换,且没有类型错误检查
@@ -1029,7 +1062,7 @@ public static <T extends Comparable & Serializable> T min(T[] a){
 + 限定中最多有一个类,可以有多个接口
 + 如果限定中有一个类,它必须是限定类表中的第一个
 ** 类型擦除
-虚拟机没有泛型类型对象,所有对象都属于普通类.因此在程序编译是需要对泛型类型对象进行转换,即类型擦除.
+虚拟机没有泛型类型对象,所有对象都属于普通类.因此在程序编译时需要对泛型类型对象进行转换,即类型擦除.
 + 无论何时定义一个泛型类型,都自动提供了一个相应的原始类型
 + 原始类型的名字就是删去类型参数后的泛型类型名
 + 擦除类型变量,并替换为限定类型(无限定类型的变量用Object)
@@ -1292,7 +1325,7 @@ SortedSet<Item> sortByDescription = new TreeSet<Item>(comp);
 #+BEGIN_SRC java
 java.util.SortedSet<E>
 
-Comparator<? super E> comparator() //返回用于对元素警醒排序的比较器 
+Comparator<? super E> comparator() //返回用于对元素进行排序的比较器 
 E frist()                          //返回有序集中最小的元素         
 E last()                           //返回有序集中最大的元素         
 #+END_SRC
@@ -1452,7 +1485,7 @@ List<Card> cardlist = Arrays.asList(cardDeck);
 #+END_SRC
 + 任何改变数组大小的方法都会抛出UnsupportedOperationException异常
 **** 子范围
-可以为集合简历子范围视图
+可以为集合建立子范围视图
 #+BEGIN_SRC java
 List group2 = staff.subList(10,20);  //取[10,20)范围的元素
 #+END_SRC
@@ -1527,7 +1560,11 @@ java.util.Collections
 若元素扩展了AbstractSequentialList类,将采用线性搜索,否则采用二分查找
 如果列表中不存在这个键,将返回负值i,
 这种情况下,应该将这个键插入到列表索引-i-1位置上,以保持列表的有序性*/
-static <T extends Comparable<? super T>> int binarySearch(List<T> elements, T key)
+static <T extends Comparable<? super T>> int binarySearch
+                                             (
+                                             List<T> elements, 
+                                             T key
+                                             )
 static <T> int binarySearch(List<T> elements, T key, Comparator<? super T> c)
 #+END_SRC
 + 集合必须是排好序的,否则将返回错误的答案
@@ -1603,7 +1640,7 @@ t.start();
 *** interrupt方法
 + interrupt方法可以用来请求终止线程
 + 对一个线程调用interrupt方法时,线程的 /中断状态/ 将被置位
-+ 可以通过Threa.currentThread.isInterruppted方法判断中断状态是否被置位
++ 可以通过Thread.currentThread.isInterruppted方法判断中断状态是否被置位
 + 线程被阻塞时无法检测中断状态,将会产生InterruptedException异常
 #+BEGIN_SRC java
 java.lang.Thread
@@ -1718,7 +1755,7 @@ java.util.concurrent.locks.Condition
 //将线程放到条件的等待集合中
 void await()
 
-//解除该条件等待集合中的素有线程的阻塞状态
+//解除该条件等待集合中的所有线程的阻塞状态
 void signalAll()
 
 //从该条件的等待集中随机地选择一个线程,解除其阻塞状态
@@ -1769,7 +1806,7 @@ synchronized(obj){
 + volatile关键字为实例域的同步访问提供了一种免锁机制
 + 如果声明一个域为volatile,那么编译器和虚拟机就知道该域是可能被另一个线程并发更新的
 *** 锁测试与超时
-tryLock方法视图申请一个锁,在成功获得锁后返回true,否则,立即返回false.
+tryLock方法试图申请一个锁,在成功获得锁后返回true,否则,立即返回false.
 #+BEGIN_SRC java
 if(myLock.tryLock()){
     try{
@@ -1837,7 +1874,7 @@ void put(E element)
 //移除并返回头元素,必要时阻塞
 E take()
 
-//添加元素,成功则返回true,必要是阻塞,直至元素已经被添加或超时
+//添加元素,成功则返回true,必要时阻塞,直至元素已经被添加或超时
 boolean offer(E element, long time, TimeUnit unit)
 
 //移除并返回头元素,必要时阻塞,直至元素可用或超时,失败是返回null
@@ -1963,10 +2000,10 @@ java.util.concurrent.Executors
 //返回一个线程池,参数指定线程数
 ExecutorService newFixedThreadPool(int threads)
 
-//返回一个带缓存的线程池,该池在必要时创建线程,线程空闲60之后终止
+//返回一个带缓存的线程池,该池在必要时创建线程,线程空闲60秒之后终止
 ExecutorService newCachedThreadPool()
 
-//返回一个执行器,它在一个单一的线程中一次执行各个任务
+//返回一个执行器,它在一个单一的线程中依次执行各个任务
 ExecutorService newSingleThreadExecutor()
 #+END_SRC
 #+BEGIN_SRC java
@@ -2100,7 +2137,7 @@ CountdownLatch(int count)
 void await()
 
 //等待门栓的计数降为零或者超时,如果计数为0返回true,如果超时返回false
-boolean awati(long time, TimeUnit unit)
+boolean await(long time, TimeUnit unit)
 
 //递减门栓的计数值
 public void countDown()
