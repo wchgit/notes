@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
 <meta name="title" content="c程序设计"/>
 <meta name="generator" content="Org-mode"/>
-<meta name="generated" content="2014-09-02T23:58+0800"/>
+<meta name="generated" content="2014-09-07T11:06+0800"/>
 <meta name="author" content="王超"/>
 <meta name="description" content=""/>
 <meta name="keywords" content=""/>
@@ -1095,7 +1095,8 @@ while循环的特点是:先判断条件表达式,后执行循环体语句.
 
 <pre class="src src-c"><span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[3][4]={{1,2,3,4}, {5,6,7,8}, {9,10,11,12}};
 <span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[3][4]={1,2,3,4,5,6,7,8,9,10,11,12};   <span style="color: #b22222;">//</span><span style="color: #b22222;">&#31532;&#19968;&#31181;&#26356;&#28165;&#26224;</span>
-<span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[][4]={{1,2,3,4}, {5,6,7,8}, {9,10,11,12}};  <span style="color: #b22222;">//</span><span style="color: #b22222;">&#21487;&#20197;&#19981;&#25351;&#23450;&#31532;1&#32500;&#30340;&#38271;&#24230;,&#31532;2&#32500;&#19981;&#33021;&#30465;</span>
+<span style="color: #b22222;">//</span><span style="color: #b22222;">&#21487;&#20197;&#19981;&#25351;&#23450;&#31532;1&#32500;&#30340;&#38271;&#24230;,&#31532;2&#32500;&#19981;&#33021;&#30465;</span>
+<span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[][4]={{1,2,3,4}, {5,6,7,8}, {9,10,11,12}};
 <span style="color: #228b22;">int</span> <span style="color: #a0522d;">a</span>[][4]={1,2,3,4,5,6,7,8,9,10,11,12};
 </pre>
 
@@ -1586,7 +1587,8 @@ strncpy(&#23383;&#31526;&#25968;&#32452;1, &#23383;&#31526;&#25968;&#32452;2/&#2
 关键字: register
 存储空间: 寄存器
 说明: 有一些变量使用频繁,为提高执行效率,允许将局部变量的值存放在cup寄存器中
-现在优化的编译系统能够识别使用频繁的变量,自动将这些变量放在寄存器中,而不需要程序设计者指定
+现在优化的编译系统能够识别使用频繁的变量,自动将这些变量放在寄存器中,
+而不需要程序设计者指定
 </pre>
 
 </li>
@@ -1598,7 +1600,8 @@ strncpy(&#23383;&#31526;&#25968;&#32452;1, &#23383;&#31526;&#25968;&#32452;2/&#2
 关键字: 无
 存储空间: 静态存储区
 说明: 外部变量的有效范围限于定义处到文件结束.
-如果需要在外部变量定义之前引用该外部变量,应该在引用之前用extern对该变量作外部变量声明,表示把该外部变量的作用域扩展到此位置.
+如果需要在外部变量定义之前引用该外部变量,应该在引用之前用extern
+对该变量作外部变量声明,表示把该外部变量的作用域扩展到此位置.
 如果需要在某个文件中引用在其他文件中定义的外部变量,同样需要作外部变量声明
 </pre>
 
@@ -1610,7 +1613,8 @@ strncpy(&#23383;&#31526;&#25968;&#32452;1, &#23383;&#31526;&#25968;&#32452;2/&#2
 <pre class="example">[static+全局变量]
 关键字: static
 存储空间: 静态存储区
-说明: 如果不希望外部变量被其他文件引用(即仅限于本文件中使用),在外部变量前加一个static
+说明: 如果不希望外部变量被其他文件引用(即仅限于本文件中使用),
+在外部变量前加一个static
 </pre>
 
 </li>
@@ -1810,7 +1814,8 @@ p=&amp;a[2];
 
 
 <pre class="example">1. p+i并非将p的值(地址)简单地加i,而是加上i个数组元素所占用的字节数
-2. p2-p1的结果,其意义是p2所指的元素与p1所指的元素之间差多少个元素,代表了p2与p1的相对距离
+2. p2-p1的结果,其意义是p2所指的元素与p1所指的元素之间差多少个元素,
+   代表了p2与p1的相对距离
 </pre>
 
 </li>
@@ -3088,7 +3093,7 @@ i = ftell(fp);
 </div>
 
 <div id="postamble">
-<p class="date">Date: 2014-09-02T23:58+0800</p>
+<p class="date">Date: 2014-09-07T11:06+0800</p>
 <p class="author">Author: 王超</p>
 <p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
 <a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
