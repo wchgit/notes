@@ -1,0 +1,1350 @@
+#+OPTIONS: ^:nil
+* python对象
+** python对象
+python对象拥有三个特性
++ 身份 使用内建函数id()得到这个值
++ 类型 使用内建函数type()得到对象类型
++ 值
+** 标准类型
+数字、整形、布尔型、长整形、浮点型、复数型、字符串、列表、元组、字典
+** 其他内建类型
+类型、None、文件、集合、函数/方法、模块、类
+*** 类型本身也是对象
+#+BEGIN_SRC python
+>>> type(42)
+<type 'int'>
+>>> type(type(42))
+<type 'type'>
+#+END_SRC
+*** 测试值为false的对象
++ None False "" [] () {} 所有值为零的数
++ 如果是用户自己创建的类实例，如果nonzero(__nonzero__())或length(__len__())的值为零，其布尔值也是false
+** 标准类型运算符
+*** 值比较
+== != > >= < <=
+*** 对象身份比较
+变量名是对象的引用，对象身份比较用于判断两个引用是否指向同一个对象。使用is和is not比较两个对象的身份。
+#+BEGIN_SRC python
+>>> a = 3
+>>> b = 3
+>>> a is b
+True
+>>> a = 3.5
+>>> b = 3.5
+>>> a is b
+False
+>>> a = 3.5
+>>> b = a
+>>> a is b
+True
+>>> a = b = 3.5
+>>> a is b
+True
+#+END_SRC
+*** 逻辑运算符
++ and
++ or
++ not
+** 标准类型的内建函数
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 函数            | 功能                                                                                   |
+|-----------------+----------------------------------------------------------------------------------------|
+| cmp(obj1, obj2) | 比较obj1和obj2的值，返回大于零(obj1>obj2)、小于零(obj1<obj2)、等于零(obj1==obj2)的整数 |
+| repr(obj)       | 返回一个对象的字符串表示                                                               |
+| str(obj)        | 返回一个对象可读性好的字符串表示                                                           |
+| type(obj)       | 得到一个对象的类型                                                                     |
+** 类型工厂函数
+python2.2统一了类型和类，所有的内建类型现在也都是类。
+原来的内建转换函数像int()、str()现在都成了工厂函数。
+它们看上去有点像函数，实际上它们是类。
+** 标准类型的分类
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 数据类型 | 存储模型  | 更新模型 | 访问模型  |
+|----------+-----------+----------+-----------|
+| 数字     | Scalar    | 不可更改 | 直接访问  |
+| 字符串   | Scalar    | 不可更改 | 顺序访问  |
+| 列表     | Container | 可更改   | 顺序访问  |
+| 元组     | Container | 不可更改 | 顺序访问  |
+| 字典     | Container | 可更改   | 映射访问  |
+** 不支持的类型
++ char
++ byte
+
+* 数字
+** 整形
++ 布尔型
++ 标准整形 八进制以0开始，十六进制以0x开始
++ 长整形 以L结尾
+标准整形超出范围会自动转化为长整形
+#+BEGIN_SRC python
+>>> 9999 ** 8
+99920027994400699944002799920001L
+#+END_SRC
+** 双精度浮点数
+** 复数
+复数的内建属性
++ real 实部
++ imag 虚部
++ conjugate() 共轭
+#+BEGIN_SRC python
+>>> a = 3+5j
+>>> a.real
+3.0
+>>> a.imag
+5.0
+>>> a.conjugate()
+(3-5j)
+#+END_SRC
+** 运算符
+*** 混合模式
+#+BEGIN_SRC python
+if 有一个操作数是复数：
+    另一个操作数被转换为复数
+elif 有一个操作数是浮点数：
+    另一个操作数被转换为浮点数
+elif 有一个操作数是长整数：
+    另一个操作数被转换为长整数
+else
+    两者必然都是不同整数，无需转换
+#+END_SRC
+*** 算数运算符
++ 传统除法
+#+BEGIN_SRC python
+>>> 1/2
+0
+>>> 1.0/2.0
+0.5
+#+END_SRC
++ 真正的除法
+#+BEGIN_SRC python
+>>> from __future__ import division
+>>> 1/2
+0.5
+>>> 1.0/2.0
+0.5
+#+END_SRC
++ 地板除
+#+BEGIN_SRC python
+>>> 1 // 2
+0
+>>> 1.0 // 2.0
+0.0
+#+END_SRC
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 表达式         | 结果                                 |
+|----------------+--------------------------------------|
+| +expr          | 结果符号不变                         |
+| -expr          | 对结果符号取负                       |
+|----------------+--------------------------------------|
+| expr1 * expr2  | 表达式1 乘 表达式2                   |
+| expr1 / expr2  | 表达式1 除以 表达式2(传统除或真正除) |
+| expr1 // expr2 | 表达式1 地板除以 表达式2             |
+| expr1 % expr2  | 表达式1 对表达式2 取余               |
+| expr1 + expr2  | 表达式1 加 表达式2                   |
+| expr1 - expr2  | 表达式1 减 表达式2                   |
+** 用于数字类型的内建函数
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 函数                     | 功能                                                                                 |
+|--------------------------+--------------------------------------------------------------------------------------|
+| abs(num)　　　　　　　　 | 返回num的绝对值                                                                      |
+| coerce(num1, num2) 　　  | 将num1和num2转换为同一类型,然后以一个元组的形式返回。                                |
+| divmod(num1, num2) 　　  | 除法-取余运算的结合。返回一个元组(num1/num2,num1%num2)。                             |
+| pow(num1, num2, mod=1)   | 取num1的num2次方,如果提供mod参数,则计算结果再对mod进行取余运算                       |
+| round(flt, ndig=0) 　　  | 接受一个浮点数flt并对其四舍五入,保存ndig位小数。若不提供ndig参数,则默认小数点后0位。 |
+** 仅用于整数的函数
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 函数　　     | 　　操作                                                                                          |
+|--------------+---------------------------------------------------------------------------------------------------|
+| hex(num) 　  | 将数字转换成十六进制数并以字符串形式返回                                                          |
+| oct(num) 　  | 将数字转换成八进制数并以字符串形式返回                                                            |
+| chr(num) 　  | 将ASCII值的数字转换成ASCII字符,范围只能是0 <= num <= 255。                                        |
+| ord(chr)　　 | 接受一个ASCII或Unicode字符(长度为1的字符串),返回相应的ASCII或Unicode值。                          |
+| unichr(num)  | 接受Unicode码值,返回其对应的Unicode字符。所接受的码值范围依赖于你的Python是构建于UCS‐2还是UCS‐4。 |
+** bool
+用户自己定义的对象，若无__onozero__()默认值是True
+#+BEGIN_SRC python
+>>> class C: pass
+... 
+>>> c = C()
+>>> bool(c)
+True
+
+>>> class C:
+...     def __nonzero__(self):
+...             return False
+... 
+>>> c = C()
+>>> bool(c)
+False
+#+END_SRC
+* 序列：字符串、列表和元组
+** 序列类型操作符
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 序列操作符　　　  | 作用                                 |
+|-------------------+--------------------------------------|
+| seq[ind]　　　　  | 获得下标为 ind 的元素                |
+| seq[ind1:ind2]　  | 获得下标从 ind1 到 ind2 间的元素集合 |
+| seq * expr　　　  | 序列重复 expr 次                     |
+| seq1 + seq2　　　 | 连接序列 seq1 和 seq2                |
+| obj in seq　　　  | 判断 obj 元素是否包含在 seq 中       |
+| obj not in seq　  | 判断 obj 元素是否不包含在 seq 中     |
+** 序列类型转换工厂函数
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 函数         | 含义                                                                                                 |
+|--------------+------------------------------------------------------------------------------------------------------|
+| list(iter)   | 把可迭代对象转换为列表                                                                               |
+| tuple(iter)  | 把一个可迭代对象转换成一个元组对象                                                                                                     |
+| str(obj)     | 把 obj 对象转换成字符串(对象的字符串表示法)                                                          |
+| unicode(obj) | 把对象转换成 Unicode 字符串(使用默认编码)                                                            |
+| basestring() | 抽象工厂函数,其作用仅仅是为 str 和 unicode 函数提供父类,所以不能被实例化,也不能被调用(详见第 6.2 节) |
+** 序列类型可用的内置函数
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 函数名                                              | 功能                                                                                                                                |
+|-----------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------|
+| enumerate(iter)                                     | 接受一个可迭代对象作为参数,返回一个 enumerate 对象(同时也是一个迭代器),该对象生成由 iter 每个元素的 index 值和 item 值组成的元组    |
+| len(seq)                                            | 返回 seq 的长度                                                                                                                     |
+| max(iter,key=None) or max(arg0,arg1...,key=None)    | 返回 iter 或(arg0,arg1,...)中的最大值,如果指定了 key,这个key必须是一个可以传给 sort()方法的,用于比较的回调函数.                     |
+| min(iter, key=None) or min(arg0, arg1.... key=None) | 返回iter里面的最小值;或者返回(arg0,arg2,...)里面的最小值;如果指定了 key,这个 key 必须是一个可以传给sort()方法的,用于比较的回调函数. |
+| reversed(seq)                                       | 接受一个序列作为参数,返回一个以逆序访问的迭代器                                                                                     |
+| sorted(iter,func=None,key=None,reverse=False)       | 接受一个可迭代对象作为参数,返回一个有序的列表;可选参数func,key 和 reverse 的含义跟 list.sort()内建函数的参数含义一样.               |
+| sum(seq, init=0)                                    | 返回seq和可选参数init的总和,其效果等同于reduce(operator.add,seq,init)                                                               |
+| zip([it0, it1,... itN])                             | 返回一个列表,其第一个元素是 it0,it1,...这些元素的第一个元素组成的一个元组,第二个...,类推.                                           |
+** 字符串
++ Python 里面单引号和双引号的作用是相同的，这一点Python不同于其他类Shell的脚本语言。
++ 符串是不可变类型,就是说改变一个字符串的元素需要新建一个新的字符串。
++ Python实际上有3类字符串.通常意义的字符串(str)和Unicode字符串(unicode)实际上都是抽象类basestring的子类。basestring是不能实例化的。
++ 除了使用加号连接字符串，还可以编译时连接字符串
+#+BEGIN_SRC python
+>>> s = "hello " 'world'
+>>> s
+'hello world'
+#+END_SRC
+*** 只适用字符串的操作符
+**** 格式化操作符%
+字符串格式化符号
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 格式化字符 | 转换方式                                                             |
+|------------+----------------------------------------------------------------------|
+| %c         | 转换成字符(ASCII 码值,或者长度为一的字符串)                          |
+| %r         | 优先用 repr()函数进行字符串转换                                      |
+| %s         | 优先用 str()函数进行字符串转换                                       |
+| %d / %i    | 转成有符号十进制数                                                   |
+| %u         | 转成无符号十进制数                                                   |
+| %o         | 转成无符号八进制数                                                   |
+| %x / %X    | (Unsigned)转成无符号十六进制数(x/X 代表转换后的十六进制字符的大小写) |
+| %e / %E    | 转成科学计数法(e/E 控制输出 e/E)                                     |
+| %f / %F    | 转成浮点数(小数部分自然截断)                                         |
+| %g / %G    | %e和%f / %E和%F 的简写                                               |
+| %%         | 输出%                                                                     |
+格式化辅助指令
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 符号  | 作用                                                                             |
+|-------+----------------------------------------------------------------------------------|
+| *     | 定义宽度或者小数点精度                                                           |
+| -     | 用做左对齐                                                                       |
+| +     | 在正数前面显示加号( + )                                                          |
+| <sp>  | 在正数前面显示空格                                                               |
+| #     | 在八进制数前面显示零('0'),在十六进制前面显示'0x'或者'0X'(取决于用的是'x'还是'X') |
+| 0     | 显示的数字前面填充‘0’而不是默认的空格                                          |
+| %     | '%%'输出一个单一的'%'                                                            |
+| (var) | 映射变量(字典参数)                                                               |
+| m.n   | m 是显示的最小总宽度,n 是小数点后的位数(如果可用的话)                                                                                 |
+example
+#+BEGIN_SRC python
+>>> dic = {'a':'abc'}
+>>> '%(a)s'%dic
+'abc'
+>>> '%.2f'%1234.56789
+'1234.57'
+#+END_SRC
+**** 原始字符串操作符r
+不对特殊或不能打印的字符进行转义
+**** unicode字符串操作符u 
+*** 字符串内建函数
+#+BEGIN_SRC python
+string.capitalize()
+string.center(width)
+string.count(str, beg=0,end=len(string))
+string.decode(encoding='UTF-8',errors='strict')
+string.encode(encoding='UTF-8',errors='strict')
+string.endswith(obj, beg=0,end=len(string))
+string.expandtabs(tabsize=8)
+string.find(str, beg=0,end=len(string))
+string.index(str, beg=0,end=len(string))
+string.isalnum()
+string.isalpha()
+string.isdecimal()
+string.isdigit()
+string.islower()
+string.isnumeric()
+string.isspace()
+string.istitle()
+string.isupper()
+string.join(seq)
+string.ljust(width)
+string.lower()
+string.lstrip()
+string.partition(str)
+string.replace(str1, str2,num=string.count(str1))
+string.rfind(str, beg=0,end=len(string))
+string.rindex( str, beg=0,end=len(string))
+string.rjust(width)
+string.rpartition(str)
+string.rstrip()
+string.split(str="", num=string.count(str))
+string.splitlines(num=string.count('\n'))
+string.startswith(obj, beg=0,end=len(string))
+string.strip([obj])
+string.swapcase()
+string.title()
+string.translate(str, del="")
+string.upper()
+string.zfill(width)
+#+END_SRC
+*** unicode
+使用unicode的原则
++ 程序中出现字符串时一定要加个前缀 u.
++ 不要用 str()函数,用 unicode()代替.
++ 不要用过时的 string 模块 -- 如果传给它的是非 ASCII 字符,它会把一切搞砸。
++ 不到必须时不要在你的程序里面编解码 unicode 字符.只在你要写入文件或数据库或者网络时,才调用 encode()函数;相应地,只在你需要把数据读回来的时候才调用 decode()函数.
+** 列表
+*** 列表的内建函数
+#+BEGIN_SRC python
+list.append(obj)
+list.count(obj)
+list.extend(seq)
+list.index(obj, i=0,j=len(list))
+list.insert(index, obj)
+list.pop(index=-1)
+list.remove(obj)
+list.reverse()
+list.sort(func=None,key=None,reverse=False)
+#+END_SRC
+** 元组
++ 组和列表相比有一个很重要的区别,元组是一种不可变类型。正因为这个原因,元组能做一些列表不能做的事情，如用做一个字典的 key。
++ 虽然元组是不可变的，但是元组中的可变对象的内容还是可以改变的，如
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+>>> tup = ('a', 3, [5])
+>>> tup
+('a', 3, [5])
+>>> tup[2][0] = 8
+>>> tup
+('a', 3, [8])
+#+END_SRC
+#+END_QUOTE
++ 所有多对象的、逗号分隔的、没有明确用符号(如方括号/圆括号)定义的集合默认都是元组类型。如
+#+BEGIN_QUOTE
+所有函数返回的多对象都是元组
+#+BEGIN_SRC python
+>>> 'a', 3, [5]
+('a', 3, [5])
+#+END_SRC
+#+END_QUOTE
++ 只有一个元素的元组需要在元组分割符里面加一个逗号(,)用以防止跟普通的分组操作符混淆
++ 不可变对象的值是不可改变的，这就意味着它们通过 hash 算法得到的值总是一个值。因此元组可以作为自检的键，而列表不能。
+
+** 浅拷贝和深拷贝
++ 序列类型对象的默认拷贝类型是浅拷贝,并可以以下几种方式实施
+  1. 完全切片操作[:]
+  2. 利用工厂函数,比如 list(),dict()等
+  3. 使用 copy 模块的 copy 函数
++ 序列拷贝时，对于不可变类型的元素会创建一个新的对象，而对于可变类型的元素只是复制了其引用
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+>>> lst = ['name',[1]]
+>>> lst1 = lst[:]               #完全切片操作，浅拷贝
+>>> lst2 = list(lst)            #利用工厂函数，浅拷贝
+>>> lst1[0] = 'wch'             #对于不可变类型的元素
+>>> lst1,lst2
+(['wch', [1]], ['name', [1]])
+>>> lst1[1][0] = 7              #对于可变类型的元素
+>>> lst1,lst2
+(['wch', [7]], ['name', [7]])
+#+END_SRC
+#+END_QUOTE
++ 要得到一个完全拷贝或者说深拷贝，需要 copy.deepcopy()函数
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+>>> import copy
+>>> lst = ['name',[1]]
+>>> lst1 = copy.deepcopy(lst)   #深拷贝
+>>> lst2 = copy.deepcopy(lst)   #深拷贝
+>>> lst1[0] = 'wch'             #对于不可变类型的元素
+>>> lst1,lst2
+(['wch', [1]], ['name', [1]])
+>>> lst1[1][0] = 7              #对于可变类型的元素
+>>> lst1,lst2
+(['wch', [7]], ['name', [1]])
+#+END_SRC
+#+END_QUOTE
+* 映射和集合类型
+** 字典
++ 字典是 Python 语言中唯一的映射类型
++ 映射类型中的数据是无序排列的
+*** 创建字典
+#+BEGIN_SRC python
++ dic = {'x':1, 'y':2}
++ dic = dict((['x', 1], ['y', 2]))
++ dic = {}.fromkeys(('x', 'y'), -1)
+#+END_SRC
+*** 访问字典中的值
++ 使用[key]访问字典中的值
++ 如果字典中没有对应的键，将产生KeyError错误
+*** 字典的键
++ 不允许一个键对应多个值，当有键发生冲突时，取最近的赋值
++ 键必须是可哈希的
++ 所有不可变类型都可以做键
++ 实现了__hash__()的可变类型也可以做键
++ 对于数字，值相等的数字表示相同的键，1和1.0的哈希值是相同的，它们是相同的键
+** 映射类型相关函数
+*** dict()
++ 如果不提供参数，生成空字典
++ 如果参数是可以迭代的，可迭代的元素必须包含两个子元素，第一个子元素做key，第二个子元素做value
++ 如果参数是另一个映射对象，将生成该对象的浅拷贝。在这种情况下，更快的方法是使用dic.copy()方法
+*** 映射类型的内建方法
+#+BEGIN_SRC python
+dict.clear ()
+dict.copy ()
+dict.fromkeys (seq,val=None)
+dict.get(key,default=None)
+dict.has_key(key)
+dict.items()
+dict.keys()
+dict.iterkeys()
+dict.itervalues()
+dict.iteritems()
+dict.popc(key[, default])
+dict.setdefault(key,default=None)
+dict.update(dict2)
+dict.values()
+#+END_SRC
+** 集合
+集合有两种不同的类型
++ 可变集合(set)
+  + 可以添加和删除元素
+  + 不是可哈希的
++ 不可变集合(frozenset)
+  + 不可以添加和删除元素
+  + 可哈希
+*** 创建集合
+创建集合的唯一方法是用工厂方法set()和frozenset()
+** 集合类型的内建方法
+适用于所有集合的方法
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 方法                      | 操作符  |
+|---------------------------+---------|
+| s.issubset(t)             | < <= in |
+| s.issuperset(t)           | > >=    |
+| s.union(t)                | 竖线    |
+| s.intersection(t)         | &       |
+| s.difference(t)           | -       |
+| s.symmetric_difference(t) | ^       |
+| s.copy()                  |         |
+只适用于可变集合的方法
+#+BEGIN_SRC python
++ s.update(t)
++ s.intersection_update(t)
++ s.difference_update(t)
++ s.symmetric_difference_update(t)
++ s.add(obj)
++ s.remove(obj)
++ s.discard(obj)
++ s.pop()
++ s.clear()
+#+END_SRC
+* 条件和循环
+** 条件和循环拾遗
++ 如果一个复合语句(if,while,for)的代码块仅仅包含一行代码，那么它可以和前面的语句写在同一行上。但是不推荐这样做。
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+if cond : func()
+#+END_SRC
+#+END_QUOTE
++ python里没有switch/case语句，但完全可以用其他python结构替代它
+  + if elif elif ... else
+  + if xxx in ('a','b','c') ... else: ...
+  + 可以把可能的case和相应的值定义在字典中
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+msgs = {'create': 'create item',
+        'delete': 'delete item',
+        'update': 'update item'}
+default = 'invalid choice... try again!'
+action = msgs.get(user.cmd, default)
+#+END_SRC
+#+END_QUOTE
++ python中没有三元操作符:?，其替代品是
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+x if c else y
+如
+smaller = x if x<y else y
+#+END_SRC
+#+END_QUOTE
++ for循环既可以访问序列，也可以访问迭代器。for循环访问迭代器和访问序列的方法差不多，唯一的区别是for语句会为迭代器做一些额外的事，如调用next()方法和捕获StopIteration异常
++ while和for后也可以跟else语句，else子句只在循环完成后执行，也就是说break语句也会跳过else块
+** 迭代器
+迭代器为那些功能上和序列相似的对象提供了接口，
+使得你可以迭代不是序列但表现出序列行为的对象
+*** 如何迭代
++ 迭代器就是有一个 next() 方法的对象，当你或是一个循环机制(例如 for 语句)需要下一个项时, 调用迭代器的 next() 方法就可以获得它
++ 条目全部取出后, 会引发一个 StopIteration 异常, 这并不表示错误发生, 只是告诉外部调用者, 迭代完成
++ 迭代器也有一些限制. 例如你不能向后移动, 不能回到开始, 也不能复制一个迭代器
++ 除了序列之外，字典和文件是另外两个可迭代的python数据类型
+  + 字典的迭代会遍历它的key (for key in dic)
+  + 文件对象生成的迭代器会自动调用readline()方法 (for line in fin)
++ 在迭代可变对象时不要修改对象
+*** 创建迭代器
++ iter(obj) obj可以是序列，也可以是实现了__iter__()和next()方法的类
++ iter(func, sentinel) 会重复地执行func，直到迭代器的下个值等于sentinel
+** 列表解析
+#+BEGIN_SRC python
+[expr for iter_var in iterable]
+[expr for iter_var in iterable if cond_expr] #条件过滤
+[expr for iter_var in iterable for iter_var2 in iterable2] #双重循环
+#+END_SRC
+** 生成器
+生成器与列表解析非常相似，语法基本相同，
+不过它不真正创建数字列表，而是返回一个生成器，
+每次计算出一个条目后，yield这个条目，并暂停代码的执行。
+#+BEGIN_SRC python
+(expr for iter_var in iterable if cond_expr)
+#+END_SRC
+
+* 文件和输入输出
+** 文件内建函数open()和file()
+#+BEGIN_SRC python
+file_object = open(file_name, access_mode='r', buffering=-1)
+#+END_SRC
+file()和open()具有相同的功能，可以任意替换。它们返回的是文件对象。
+*** 文件对象的访问模式
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 文件模式 | 操作                                           |
+| r        | 以读方式打开                                   |
+| rU 或 Ua | 以读方式打开, 同时提供通用换行符支持 (PEP 278) |
+| w        | 以写方式打开 (必要时清空)                      |
+| a        | 以追加模式打开 (从 EOF 开始, 必要时创建新文件) |
+| r+       | 以读写模式打开                                 |
+| w+       | 以读写模式打开 (参见 w )                       |
+| a+       | 以读写模式打开 (参见 a )                       |
+| rb       | 以二进制读模式打开                             |
+| wb       | 以二进制写模式打开 (参见 w )                   |
+| ab       | 以二进制追加模式打开 (参见 a )                 |
+| rb+      | 以二进制读写模式打开 (参见 r+ )                |
+| wb+      | 以二进制读写模式打开 (参见 w+ )                |
+| ab+      | 以二进制读写模式打开 (参见 a+ )                |
+*** 缓冲方式
+buffering用于指示访问文件所采用的缓冲方式
++ 0表示不缓冲
++ 1表示只缓冲一行数据
++ 任何其它大于 1 的值代表使用给定值作为缓冲区大小
++ 不提供该参数或者给定负值代表使用系统默认缓冲机制
+  + 对任何类电报机( tty )设备使用行缓冲
+  + 其它设备使用正常缓冲
++ 一般情况下使用系统默认方式即可.
+*** 通用换行符支持
+不同平台用来表示行结束的符号是不同的, 例如\n,\r,或者\r\n，
+当你使用'U'标志打开文件的时候, 所有的行分割符通过Python的输入方法(例如read*())返回时都会被替换为换行符NEWLINE(\n)
+在编译 Python 的时候,UNS 默认是打开的
+** 文件内建方法
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 文件对象的方法                  | 操作                                                                                                                                                                                                                                             |
+|---------------------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| file.close()                    | 关闭文件                                                                                                                                                                                                                                         |
+| file.fileno()                   | 返回文件的描述符(file descriptor ,FD, 整数值)                                                                                                                                                                                                    |
+| file.flush()                    | 刷新文件的内部缓冲区                                                                                                                                                                                                                             |
+| file.isatty()                   | 判断 file 是否是一个类 tty 设备                                                                                                                                                                                                                  |
+| file.next()                     | 返回文件的下一行(类似于 file.readline() ), 或在没有其它行时引发 StopIteration 异常                                                                                                                                                               |
+| file.read(size=-1)              | 从文件读取 size 个字节, 当未给定 size 或给定负值的时候, 读取剩余的所有字节, 然后作为字符串返回                                                                                                                                                   |
+| file.readinto (buf, size)       | 从文件读取 size 个字节到 buf 缓冲器(已不支持)                                                                                                                                                                                                    |
+| file.readline(size=-1)          | 从文件中读取并返回一行(包括行结束符), 或返回最大 size个字符                                                                                                                                                                                      |
+| file.readlines(sizhint=0)       | 读取文件的所有行并作为一个列表返回(包含所有的行结束符); 如果给定 sizhint 且大于 0 , 那么将返回总和大约为sizhint 字节的行(大小由缓冲器容量的下一个值决定)(比如说缓冲器的大小只能为 4K 的倍数,如果 sizhint 为 15k,则最后返回的可能是 16k———译者按) |
+| file.xreadlines ()              | 用于迭代, 可以替换 readlines() 的一个更高效的方法                                                                                                                                                                                                |
+| file.seek(off, whence=0)        | 在文件中移动文件指针, 从 whence ( 0 代表文件起始, 1 代表当前位置, 2 代表文件末尾)偏移 off 字节                                                                                                                                                   |
+| file.tell()                     | 返回当前在文件中的位置                                                                                                                                                                                                                           |
+| file.truncate(size=file.tell()) | 截取文件到最大 size 字节, 默认为当前文件位置                                                                                                                                                                                                     |
+| file.write(str)                 | 向文件写入字符串                                                                                                                                                                                                                                 |
+| file.writelines(seq)            | 向文件写入字符串序列 seq ; seq 应该是一个返回字符串的可迭代对象; 在 2.2 前, 它只是字符串的列表                                                                                                                                                   |
+
+** 文件内建属性
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 文件对象的属性 | 描述                                                                                                                                         |
+|----------------+----------------------------------------------------------------------------------------------------------------------------------------------|
+| file.closed    | True 表示文件已经被关闭, 否则为 False                                                                                                        |
+| file.encoding  | 文件所使用的编码 - 当 Unicode 字符串被写入数据时, 它们将自动使用 file.encoding 转换为字节字符串; 若 file.encoding 为 None 时使用系统默认编码 |
+| file.mode      | 文件打开时使用的访问模式                                                                                                                     |
+| file.name      | 文件名                                                                                                                                       |
+| file.newlines  | 未读取到行分隔符时为 None , 只有一种行分隔符时为一个字符串, 当文件有多种类型的行结束符时,则为一个包含所有当前所遇到的行结束符的列表          |
+
+** 文件系统
+*** os.path
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 函数         | 描述                                |
+|--------------+-------------------------------------|
+| basename()   | 去掉目录路径, 返回文件名            |
+| dirname()    | 去掉文件名, 返回目录路径            |
+| join()       | 将分离的各部分组合成一个路径名      |
+| split()      | 返回 (dirname(), basename()) 元组   |
+| splitdrive() | 返回 (drivename, pathname) 元组     |
+| splitext()   | 返回 (filename, extension) 元组信息 |
+|--------------+-------------------------------------|
+| getatime()   | 返回最近访问时间                    |
+| getctime()   | 返回文件创建时间                    |
+| getmtime()   | 返回最近文件修改时间                |
+| getsize()    | 返回文件大小(以字节为单位)          |
+|--------------+-------------------------------------|
+| exists()     | 指定路径(文件或目录)是否存在        |
+| isabs()      | 指定路径是否为绝对路径              |
+| isdir()      | 指定路径是否存在且为一个目录        |
+| isfile()     | 指定路径是否存在且为一个文件        |
+| islink()     | 指定路径是否存在且为一个符号链接    |
+| ismount()    | 指定路径是否存在且为一个挂载点      |
+| samefile()   | 两个路径名是否指向同个文件          |
+
+*** os
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 函数                 | 描述                                                       |
+|----------------------+------------------------------------------------------------|
+| mkfifo()/mknod()     | 创建命名管道/创建文件系统节点                              |
+| remove()/unlink()    | Delete file 删除文件                                       |
+| rename()/renames()   | 重命名文件                                                 |
+| stat ()              | 返回文件信息                                               |
+| symlink()            | 创建符号链接                                               |
+| utime()              | 更新时间戳                                                 |
+| tmpfile()            | 创建并打开('w+b')一个新的临时文件                          |
+| walk()               | 生成一个目录树下的所有文件名                               |
+|----------------------+------------------------------------------------------------|
+| chdir()/fchdir()     | 改变当前工作目录/通过一个文件描述符改变当前工作目录        |
+| chroot()             | 改变当前进程的根目录                                       |
+| listdir()            | 列出指定目录的文件                                         |
+| getcwd()/getcwdu()   | 返回当前工作目录/功能相同, 但返回一个 Unicode 对象         |
+| mkdir()/makedirs()   | 创建目录/创建多层目录                                      |
+| rmdir()/removedirs() | 删除目录/删除多层目录                                      |
+|----------------------+------------------------------------------------------------|
+| access()             | 检验权限模式                                               |
+| chmod()              | 改变权限模式                                               |
+| chown()/lchown()     | 改变 owner 和 group ID/功能相同, 但不会跟踪链接            |
+|----------------------+------------------------------------------------------------|
+| umask()              | 设置默认权限模式                                           |
+| open()               | 底层的操作系统 open (对于文件, 使用标准的内建 open() 函数) |
+| read()/write()       | 根据文件描述符读取/写入数据                                |
+| dup()/dup2()         | 复制文件描述符号/功能相同, 但是是复制到另一个文件描述符    |
+|----------------------+------------------------------------------------------------|
+| makedev()            | 从 major 和 minor 设备号创建一个原始设备号                 |
+| major()/minor()      | 从原始设备号获得 major/minor 设备号                        |
+* 错误和异常
+** 检测和处理异常
+#+BEGIN_SRC python
+try:
+    try_suite     #监控这里的异常
+except Exception[, reason]:
+    except_suite  #异常处理代码
+#+END_SRC
++ 在程序运行时, 解释器尝试执行try块里的所有代码, 如果代码块完成后没有异常发生, 执行流就会忽略except语句继续执行。
++ 一旦一个异常被引发, 剩余代码将被忽略, 解释器将逐级向上搜索处理器, 一旦找到,就开始执行处理器中的代码。
++ 如果到达最顶层仍然没有找到对应处理器, 那么就认为这个异常是未处理的, Python 解释器会显示出跟踪返回消息, 然后退出
++ reason是一个包含诊断信息的Exception类的实例，可以通过str(reason)打印错误原因
+*** 带有多个except的try语句
+#+BEGIN_SRC python
+ry:
+    try_suite
+except Exception1[, reason1]:
+    suite_for_exception_Exception1
+except Exception2[, reason2]:
+    suite_for_exception_Exception2
+#+END_SRC
++ 同样, 首先尝试执行 try 子句, 如果没有错误, 忽略所有的 except 从句继续执行. 如果发生异常, 解释器将在这一串处理器(except 子句)中查找匹配的异常. 如果找到对应的处理器,执行流将跳转到这里
+*** 处理多个异常的except语句
+#+BEGIN_SRC python
+except (Exc1[, Exc2[, ... ExcN]])[, reason]:
+    suite_for_exceptions_Exc1_to_ExcN
+#+END_SRC
++ except语句可以处理任意多个异常,它们被放入一个元组里
+*** 捕获所有异常
+#+BEGIN_SRC python
+try:
+    ...
+except Exception, e:
+    ...
+#+END_SRC
++ 一个不正确的使用方法就是说把一大段程序放入一个 try 块中, 再用一个通用的 except 语句 "过滤"掉任何致命的错误, 忽略它们。
++ try-except的作用是提供一个可以提示错误或处理错误的机制, 而不是一个错误过滤器
+*** else子句
+#+BEGIN_SRC python
+try:
+    try_suite     #监控这里的异常
+except Exception[, reason]:
+    except_suite  #异常处理代码
+else:
+    ...
+#+END_SRC
++ 在try范围中没有异常被检测到时，执行else子句
+*** finally子句
++ finally 子句是无论异常是否发生,是否捕捉都会执行的一段代码
+** with语句
+#+BEGIN_SRC python
+with context_expr [as var]:
+    with_suite
+例如：
+with open('/etc/passwd', 'r') as f:
+    for eachLine in f:
+        ...
+#+END_SRC
++ with会完成准备工作；发生异常时，会执行清理的代码；代码完成时，自动关闭文件；
++ with语句仅能工作于支持上下文管理协议的对象
++ 支持上下文管理协议的成员
+   + file
+   + decimal.Context
+   + thread.LockType
+   + threading.Lock
+   + threading.RLock
+   + threading.Condition
+   + threading.Semaphore
+   + threading.BoundedSemaphore
+** 触发异常
+#+BEGIN_SRC python
+raise [SomeException [, args [, traceback]]]
+#+END_SRC
++ 第一个参数,SomeExcpetion,是触发异常的名字.如果有,它必须是一个字符串,类或实例
++ 第二个符号为可选的args来传给异常，args是在异常时打印的信息，这可以是一个单独的对象也可以是一个对象的元组.当异常发生时,异常的参数总是作为一个元组传入
++ traceback,同样是可选的(实际上很少用它),如果有的话,则是当异常触发时新生成的追踪对象
+*** raise常见用法
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| raise 语法             | 描述                                               |
+|------------------------+----------------------------------------------------|
+| raise                  | 重新触发前一个异常,如果之前没有异常,触发 TypeError |
+| raise string           | (过时的) 触发字符串异常                            |
+| raise exclass          | 触发一个异常,从 exclass 生成一个实例               |
+| raise exclass()        | 同上                                               |
+|------------------------+----------------------------------------------------|
+| raise string, args     | 提供异常参数 args,可以是一个参数也可以元组         |
+| raise exclass, args    | 同上                                               |
+| raise exclass(args)    | 同上                                               |
+|------------------------+----------------------------------------------------|
+| raise string, args, tb | 但提供一个追踪对象tb供使用                         |
+| raise exclass,args, tb | 同上                                               |
+** 断言
+#+BEGIN_SRC python
+assert expression[, arguments]
+#+END_SRC
++ 断言语句等价于这样的 Python 表达式,如果断言成功不采取任何措施(类似语句),否则触发AssertionError(断言错误)的异常
+** 标准异常
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| BaseException             | 所有异常的基类                                     |
+|---------------------------+----------------------------------------------------|
+| SystemExit                | python解释器请求退出                               |
+| KeyboardInterrupt         | 用户中断执行(通常是输入^C)                         |
+| Exception                 | 常规错误的基类                                     |
+| StopIteration             | 迭代器没有更多的值                                 |
+| GeneratorExit             | 生成器(generator)发生异常来通知退出                |
+| StandardError             | 所有的内建标准异常的基类                           |
+| ArithmeticError           | 所有数值计算错误的基类                             |
+| FloatingPointError        | 浮点计算错误                                       |
+| OverflowError             | 数值运算超出最大限制                               |
+| ZeroDivisionError         | 除(或取模)零 (所有数据类型)                        |
+| AssertionError            | 断言语句失败                                       |
+| AttributeError            | 对象没有这个属性                                   |
+| EOFError                  | 没有内建输入,到达 EOF 标记                         |
+| EnvironmentErrord         | 操作系统错误的基类                                 |
+| IOError                   | 输入/输出操作失败                                  |
+| OSError                   | 操作系统错误                                       |
+| WindowsError              | Windows 系统调用失败                               |
+| ImportError               | 导入模块/对象失败                                  |
+| LookupError               | 无效数据查询的基类                                 |
+| IndexError                | 序列中没有没有此索引(index)                        |
+| KeyError                  | 映射中没有这个键                                   |
+| MemoryError               | 内存溢出错误(对于 Python 解释器不是致命的)         |
+| NameError                 | 未声明/初始化对象 (没有属性)                       |
+| UnboundLocalErrorh        | 访问未初始化的本地变量                             |
+| ReferenceError            | 弱引用(Weak reference)试图访问已经垃圾回收了的对象 |
+| RuntimeError              | 一般的运行时错误                                   |
+| NotImplementedErrord      | 尚未实现的方法                                     |
+| SyntaxError               | Python语法错误                                     |
+| IndentationError          | 缩进错误                                           |
+| TabErrorg                 | Tab和空格混用                                      |
+| SystemError               | 一般的解释器系统错误                               |
+| TypeError                 | 对类型无效的操作                                   |
+| ValueError                | 传入无效的参数                                     |
+| UnicodeError              | Unicode 相关的错误                                 |
+| UnicodeDecodeError        | Unicode 解码时的错误                               |
+| UnicodeEncodeError        | Unicode 编码时错误                                 |
+| UnicodeTranslateErrorf    | Unicode 转换时错误                                 |
+| Warning                   | 警告的基类                                         |
+| DeprecationWarning        | 关于被弃用的特征的警告                             |
+| FutureWarning             | 关于构造将来语义会有改变的警告                     |
+| OverflowWarning           | 旧的关于自动提升为长整型(long)的警告               |
+| PendingDeprecationWarning | 关于特性将会被废弃的警告                           |
+| RuntimeWarning            | 可疑的运行时行为(runtime behavior)的警告           |
+| SyntaxWarning             | 可疑的语法的警告                                   |
+| UserWarning               | 用户代码生成的警告                                 |
++ SystemExit,KeyboardInterrupt和Exception派生自BaseException
++ 其他素有内建异常都派生自Exception
+* 函数和函数式编程
+** 函数拾遗
++ 当没有显式地返回元素或者如果返回None时,python会返回一个None
++ 如果函数返回多个对象,python把他们聚集起来并以一个元组返回
++ 关键字参数的概念仅仅针对函数的调用。这种理念是让调用者通过函数调用中的参数名字来区分参数。这样规范允许参数缺失或者不按顺序,因为解释器能通过给出的关键字来匹配参数的值。
++ 默认参数就是声明了默认值的参数。因为给参数赋予了默认值,所以在函数调用时,不向该参数传入值也是允许的
++ Python 同样允许程序员执行一个没有显式定义参数的函数,相应的方法是通过一个把元组(非关键字参数)或字典(关键字参数)作为参数组传递给函数
+  #+BEGIN_SRC python
+  func(positional_args, 
+       keyword_args,
+       *tuple_grp_nonkw_args,
+       **dict_grp_kw_args)
+  #+END_SRC
++ Python 也不允许在函数未声明之前,对其进行引用或者调用
+  #+BEGIN_SRC python
+  #注意一种情况
+  def foo():
+      print 'in foo()'
+      bar()
+  def bar():
+      print 'in bar()'
+  foo()
+  #这段代码是正确的因为即使对bar()进行的调用出现在 bar()的定义之前, 
+  #但foo()本身不是在 bar()声明之前被调用的。
+  #换句话说,我们声明 foo(),然后再声明 bar(),接着调用 foo(),
+  #但是到那时,bar()已经存在了,所以调用成功
+  #+END_SRC
++ 在函数体内创建另外一个函数对象是完全合法的。这种函数叫做内部/内嵌函数
++ 如果内部函数的定义包含了在外部函数里定义的对象的引用(这个对象甚至可以是在外部函数之外),内部函数会变成被称为闭包(closure)
++ 在python中，函数就像其他对象，是可以被引用的，可以作为参数传入函数,作为列表和字典等等容器对象的元素
+  #+BEGIN_SRC python
+  >>> def foo():
+  ... print 'in foo()'
+  ...
+  >>> def bar(argfunc):
+  ... argfunc()
+  ...
+  >>> bar(foo)
+  in foo()
+  #+END_SRC
+** TODO 装饰器
+** 参数
++ 位置参数没有任何默认值的话,传入函数的参数数目必须和声明的参数数目一致
++ 可以不按位置地将关键字参数传入函数,给出关键字来匹配其在参数列表中的合适的位置
++ 默认参数
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+def func(posargs, defarg1=dval1, defarg2=dval2,...):
+    ...
+#+END_SRC
+#+END_QUOTE
++ 可变长的参数必须在位置和默认参数之后
++ 非关键字变长参数
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+def function_name([formal_args,] *vargs_tuple):
+    ...
+#+END_SRC
+#+END_QUOTE
++ 关键字变长参数
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+def function_name([formal_args,][*vargs_tuple,] **vargs_dict):
+    ...
+#+END_SRC
+#+END_QUOTE
++ 在函数调用中，可以将非关键字参数放在元组中，将关键字参数放在字典中
+#+BEGIN_QUOTE
+#+BEGIN_SRC pytho
+>>> aTuple = (6, 7, 8)
+>>> aDict = {'z': 9}
+>>> newfoo(1, 2, 3, x=4, y=5, *aTuple, **aDict)
+#+END_SRC
+#+END_QUOTE
+** 函数式编程
+*** lambda
+#+BEGIN_SRC python
+lambda [arg1[, arg2, ... argN]]: expression
+等价于
+def func([arg1[, arg2, ... argN]]):
+    return expression
+#+END_SRC
+*** 内建函数apply() filter() map() reduce()
+#+BEGIN_SRC python
+#用可选的参数来调用 func,nkw 为非关键字参数,kw关键字参数;
+#返回值是函数调用的返回值
+apply(func[, nkw][, kw])
+
+#调用一个布尔函数 func 来迭代遍历每个 seq 中的元素;
+#返回一个使 func 返回值为 ture 的元素的序列。
+filter(func, seq)
+
+#将函数 func 作用于给定序列(s)的每个元素,并用一个列表来提供返回值
+#如果func为None,返回一个含有每个序列中元素集合的n个元组的列表
+map(func, seq1[,seq2...])
+
+#将二元函数作用于 seq 序列的元素,每次携带一对(先前的结果以及下一个序列元素),
+#连续的将现有的结果和下一个值作用在获得的随后的结果上,最后减少我们的序列为一个单一的返回值;
+#如果初始值 init 给定,第一个比较会是 init 和第一个序列元素而不是序列的头两个元素。
+reduce(func, seq[, init])
+#+END_SRC
++ 现在函数调用的语法允许变长参数，因此apply()将来会被逐步淘汰
++ 对于map函数，其中提供了多少个seq，func就应接受多少个参数
++ 对于reduce函数，如果没有提供init，函数首先取seq的前两个元素合并，如果提供了init，函数首先取init和seq的第一个元素计算结果
+** 变量作用域
+*** global
+在局部作用域中，为了明确地引用一个已命名的全局变量,必须使用 global 语句
+*** 闭包
++ 如果在一个内部函数里,对在外部作用域(但不是在全局作用域)的变量进行引用,那么内部函数就被认为是闭包
++ 定义在外部函数内的但由内部函数引用或者使用的变量被称为自由变量
+
+** 生成器
+与迭代器相似，生成器对象有next()方法，当没有更多值返回时抛出StopIteration异常
+#+BEGIN_SRC python
+def simpleGen():
+    yield 1
+    yield '2 --> punch!'
+>>> myG = simpleGen()
+>>> myG.next()
+1
+>>> myG.next()
+'2 --> punch!'
+>>> myG.next()
+Traceback (most recent call last):
+File "", line 1, in ?
+myG.next() StopIteration
+#+END_SRC
+* 模块
++ 模块的文件名就是模块的名字加上扩展名.py
++ 与其他可以导入类的语言不同,在python中导入的是模块或模块属性
+** 搜索路径
++ 通过PYTHONPATH环境变量设置搜索路径
++ sys.path保存了搜索路径的列表,通过sys.path.append()方法添加搜索路径
++ sys.modules是一个字典,使用sys.modules保存了当前导入的模块和这些模块的路径
+** 名称空间
+在程序执行期间有两个或三个活动的名称空间
+1. 局部名称空间(在执行期间是不断变化的)
+2. 全局名称空间
+3. 内建名称空间
+*** 名称空间的加载顺序
+1. python解释器首先加载内建名称空间(由__builtins__模块中的名字构成),
+2. 随后加载执行模块的全局名称空间,它会在模块开始执行后变为活动名称空间,
+3. 如果在执行期间调用了一个函数,那么将创建出局部名称空间.
+可以通过globals()或locals()内建函数判断一个名字所属的名称空间.
+*** 名称查找
+访问一个属性时,解释器必须在三个名称空间中的一个找他它
+1. 首先在局部名称空间找
+2. 如果没有找到,继续在全局名称空间找
+3. 如果没有找到,将在内建名称空间找
+如果所有尝试都失败了,将产生NameError错误
+** 导入模块
+#+BEGIN_SRC python
+import module
+
+#不推荐,最好一行导入一个模块
+import module1[, module2[,... moduleN]]
+
+#导入指定的模块属性(把指定名称导入到当前作用域)
+from module import name1[, name2[,... nameN]] 
+
+#替换模块的原始名称
+import module as other_name
+from module import name as other_name
+#+END_SRC
+*** 模块导入的特性
++ 被导入模块的顶层代码会被执行
++ 一个模块可以被多次导入,但是只会被加载(执行)一次
++ 使用from-import可以把名字导入到当前名称空间里去
++ 使用from-import,对这些变量的改变只影响它在当前空间中的拷贝,对原始空间没有影响
++ 对于那些在新版本中可能会成为标准的新特性,可以通过from __future__import name导入,但是不能直接import __future__
++ 属性名前加下划线,可以阻止属性在"from module import * "时被导入,不过如果导入的是模块,或显式地导入某个属性(如foo._bar),这个隐藏数据的方法就不起作用了
+** 内建函数
+*** __import__()
+__import__()是导入模块的函数,import语句就是调用这个函数来完成工作
+#+BEGIN_SRC python
+__import__(module_name[, globals[, locals[, fromlist]]])
+#+END_SRC
++ module_name变量是要导入模块的名称
++ globals 是包含当前全局符号表的名字的字典,
++ locals 是包含局部符号表的名字的字典
++ fromlist 是一个使用 from-import 语句所导入符号的列表
++ globals, locals, 以及fromlist参数都是可选的,默认分别为globals(),locals()和[]
+*** globals()和locals()
+globals() 和 locals() 内建函数分别返回调用者全局和局部名称空间的字典
+*** reload()
+reload() 内建函数可以重新导入一个已经导入的模块
+#+BEGIN_SRC python
+reload(module)
+#+END_SRC
++ reload的参数必须是模块对象,不能是代表模块的字符串
++ reload会导致模块被再次执行
+** 包
+#+BEGIN_EXAMPLE
+phtone/
+    __init__.py
+    common_utils.py
+    mobile/
+        __init__.py
+        analog.py
+        digital.py
+#+END_EXAMPLE
+*** 导入子包
+#+BEGIN_SRC python
+import phone.mobile.analog
+phone.mobile.analog.dial()
+
+from phone import mobile
+mobile.analog.dial()
+
+from phone.mobile import analog
+analog.dial()
+
+from phone.mobile.analog import dial
+dial()
+#+END_SRC
+*** __init__.py
++ __init__.py文件是初始化模块,from-import语句导入子包时需要用到它
++ 如果没有用到,它们可以是空文件
++ 使用from package.module import *导入所有属性时,会查找__init__.py中__all__变量,该变量是一个模块名字符串列表,包含执行这条语句时应该导入的模块的名字
+*** 相对导入
+#+BEGIN_SRC python
+假设在digital.py文件中导入
+from phone.mobile.analog import dial  #绝对导入
+from .analog import dial #相对导入
+from ..common_util import setup  #相对导入
+#+END_SRC
++ import语句总是绝对导入的,即这些名字必须通过搜索路径来访问
++ 所以相对导入只应用于from-import语句
+
+* 面向对象编程
+** 类
+*** 创建类
+#+BEGIN_SRC python
+class ClassName(bases):
+    'class documentation string'
+    class_suite #类体
+#+END_SRC
+*** 类属性
+**** 类的数据属性
+也就是静态数据属性,类的数据属性通过类名访问
+#+BEGIN_SRC python
+>> class C(object):
+... foo = 100
+>>> print C.foo
+#+END_SRC
+**** 方法 
+尽管方法是类的属性,但是方法只能由类的实例来调用
+#+BEGIN_SRC python
+>>> class MyClass(object):
+...    def myNoActionMethod(self):
+...        pass
+>>> mc = MyClass()
+>>> mc.myNoActionMethod()
+#+END_SRC
+*** 查看类的属性
++ dir(classname) 返回对象属性的名字列表
++ classname.__dict__ 返回字典,键是属性名,值是属性对象的数据值
+*** 特殊的类属性
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 特殊属性   | 涵义                     |
+|------------+--------------------------|
+| __name__   | 类的名字(字符串)         |
+| __doc__    | 类的文档字符串           |
+| __bases__  | 类的所有父类构成的元组   |
+| __dict__   | 类的属性                 |
+| __module__ | 类定义所在的模块         |
+| __class__  | 实例对应的类(仅新式类中) |
+** 实例
+*** 创建实例
+#+BEGIN_SRC python
+>>> class MyClass(object):
+# define class 定义类
+... pass
+>>> mc = MyClass() #得到实例
+#+END_SRC
++ 创建实例不用new,而是类似于函数调用的方式
++ python会首先创建该实例,而后调用__init__()方法,也即__init__()方法是在创建实例后调用的第一个方法,用于在开始使用实例之前做些准备工作
+*** 实例属性
++ 实例仅拥有数据属性(方法严格来说是类属性)
++ 当一个实例被释放后,它的属性同时也被清除了
++ 设置实例的属性可以在实例创建后任意时间进行(__init__()是最早的可以设置实例属性的地方)
++ python允许动态创建实例属性
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+>>> class MyClass(object):
+...     pass
+... 
+>>> mc = MyClass()
+>>> mc.name = 'wch'
+>>> mc.name
+'wch'
+#+END_SRC
+#+END_QUOTE
+*** 查看实例属性
++ dir(instance)
++ instance.__dict__
+*** 特殊实例属性
+#+ATTR_HTML: border="2" rules="all" frame="border"
+| 特殊属性  | 涵义         |
+|-----------+--------------|
+| __class__ | 实例所属的类 |
+| __dict__  | 实例的属性   |
+*** 类数据属性 vs 实例数据属性
++ 类和实例都是名字空间:类是类属性的名字空间,实例则是实例属性的
++ 用类来访问类数据属性,如果实例没有同名的属性,也可以用实例来访问
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+>>> class C(object):       #定义类
+...     version = 1.2      #静态成员
+...
+>>> c = C()                #实例化
+>>> C.version              #通过类来访问
+1.2
+>>> c.version              #通过实例来访问
+1.2
+>>> C.version += 0.1       #通过类(只能这样)来更新
+>>> C.version              #类访问
+1.3
+>>> c.version              #实例访问它,其值已被改变
+1.3
+#+END_SRC
+#+END_QUOTE
++ 任何对实例属性的赋值都会创建一个实例属性(如果不存在的话)并且对其赋值,因此, *不能使用实例访问类数据属性来更新它的值*
+#+BEGIN_SRC python
+>>> class Foo(object):
+...     x = 1.5
+...
+>>> foo = Foo()
+>>> foo.x               #访问的是类属性
+1.5
+>>> foo.x = 1.7         #试着更新类属性,实际上创建了一个新的实例属性
+>>> foo.x               
+1.7
+>>> Foo.x               #类属性依然没有改变
+1.5
+>>> del foo.x           #删除实例属性
+>>> foo.x               #又可以访问到类属性
+1.5
+
+#+END_SRC
+** 方法
++ 方法是类的属性
++ 方法只能被类的实例调用
++ 方法定义中的第一个参数都是变量self,表示调用此方法的实例对象
+*** 静态方法和类方法
++ 使用类名来调用静态方法和类方法
++ 类方法的第一个参数是类,而不是实例
++ 使用函数修饰符将一个函数变为静态方法或类方法
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+class TestStaticMethod:
+    @staticmethod
+    def foo():
+        print 'calling static method foo()'
+
+class TestClassMethod:
+    @classmethod
+    def foo(cls):
+        print 'calling class method foo()'
+        print 'foo() is part of class:', cls.__name__
+#+END_SRC
+#+END_QUOTE
++ 使用staticmethod()和classmethod()内建函数将一个函数变为静态方法或类方法
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+class TestStaticMethod:
+    def foo():
+        print 'calling static method foo()'
+    foo = staticmethod(foo)
+
+class TestClassMethod:
+    def foo(cls):
+        print 'calling class method foo()'
+        print 'foo() is part of class:', cls.__name__
+    foo = classmethod(foo)
+#+END_SRC
+#+END_QUOTE
+** 继承
+*** 创建子类
+#+BEGIN_SRC python
+class SubClassName (ParentClass1[, ParentClass2, ...]):
+    ...
+#+END_SRC
+*** 继承
++ 一个子类可以继承它的基类的任何属性,不管是数据属性还是方法
++ __bases__属性是一个包含父类的元组
++ 子类可以覆盖基类的方法
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+class P(object):
+    def foo(self):
+        print 'Hi, I am P-foo()'
+
+class C(P):
+    def foo(self):
+        print 'Hi, I am C-foo()'
+#+END_SRC
+#+END_QUOTE
++ 子类覆盖基类的方法后,访问基类方法的几种办法
+#+BEGIN_QUOTE
+#+BEGIN_SRC python
+>>> P.foo(c)
+
+class C(P):
+    def foo(self):
+        P.foo(self)
+        print 'Hi, I am C-foo()'
+
+class C(P):
+    def foo(self):
+        super(C, self).foo()
+        print 'Hi, I am C-foo()'
+#+END_SRC
+#+END_QUOTE
+
+** 内建函数
+#+BEGIN_SRC python
+#如果类sub是类sup的子类,则返回True,否则,返回False
+issubclass(sub, sup)
+
+#如果实例obj1是类obj2(或其子类)的一个实例,返回True;
+#如果obj1是obj2的类型,返回True;否则,返回False
+isinstance(obj1, obj2)
+
+#如果obj有属性attr(用字符串给出),返回True,否则,返回False
+hasattr(obj, attr)
+
+#获取obj的attr属性;类似于obj.attr;若obj没有attr属性但提供了默认值,则返回默认值;
+#否则,引发一个AttributeError异常
+getattr(obj, attr[, default])
+
+#设置obj的attr属性值为val,若属性已存在则替换,若属性不存在则创建;类似于obj.attr=val
+setattr(obj, attr, val)
+
+#从obj中删除属性attr(以字符串给出);类似于del obj.attr
+delattr(obj, attr)
+
+#返回obj的属性的一个列表;如果没有给定obj,则显示局部名字空间空间中的属性,等同于locals().keys()
+dir(obj=None)
+
+#返回obj的属性及其值的一个字典;如果没有给出obj,显示局部名字空间字典(属性及其值),等同于locals()
+vars(obj=None)
+
+#返回一个表示父类类型的代理对象;
+#如果obj为None,返回非绑定的super对象;
+#如果obj是一个类或者类型,issubclass(obj,type)必为True;
+#如果obj是一个实例,isinstance(obj,type)就必为True
+super(type, obj=None)
+#+END_SRC
+** 私有化
++ 默认情况下,属性在Python中都是公有的
++ 名字由双下划线开始的属性不能直接访问
++ 但可以通过_ClassName__attributename来间接访问
+
+* 执行环境
+** 执行代码对象(或代码字符串)
++ 代码对象
++ 可调用对象
+  - 每个可调用对象的核心都是代码对象
+  - 代码对象不包含任何关于它们执行环境的信息,而可调用对象可以包装一个代码对象并提供额外的信息(如函数,方法等)
+*** 内建函数
+#+BEGIN_SRC python
+#如果obj可调用,返回True,否则返回False
+callable(obj)
+
+#创建type类型的代码对象,type可取的值如下
+#  'eval' 可求值的表达式,和eval()一起使用
+#  'single' 单一可执行语句,和exec一起使用
+#  'exec' 可执行语句组,和exec一起使用
+#file是代码存放的地方(通常设为"")
+#string是代码字符串
+compile(string,file, type)
+
+#对obj进行求值
+#obj是代码对象,或字符串表达式
+#可以给出全局或者/和局部的名字空间
+eval(obj, globals=globals(),locals=locals())
+
+#执行obj
+#obj可以是代码对象,或者字符串,或文件对象
+exec obj
+
+#等同于eval(raw_input(prompt=”))
+input(prompt='')
+#+END_SRC
+#+BEGIN_SRC python
+>>> single_code = compile('print "Hello world!"', '', 'single')
+>>> single_code
+<code object ? at 120998, file "", line 0>
+>>> exec single_code
+Hello world!
+#+END_SRC
+** 执行其他python程序
+*** 导入
+第一次导入模块会执行模块最高级代码,将不希望执行的部分放入if __name__ == '__main__'语句中
+*** exec
+#+BEGIN_SRC python
+f = open(filename, 'r')
+exec f 
+f.close()
+#+END_SRC
+*** execfile()
+execfile()实现了上例中的功能
+#+BEGIN_SRC python
+execfile(filename, globals=globals(), locals=locals())
+#+END_SRC 
+** 执行其他非python程序
+#+BEGIN_SRC python
+#执行程序cmd(字符串),等待程序结束,返回退出代码(windows下,始终为0)
+system(cmd)
+
+#创建一个和父进程并行的子进程,返回两次,一次给父进程一次给子进程
+fork()
+
+execl(file, arg0,arg1,...)        # 用参数列表arg0, arg1等等执行文件
+execle(file, arg0,arg1,... env)   # 同execl,但提供了环境变量字典env
+execlp(cmd, arg0,arg1,...)        # execl,但在用户搜索路径下搜索完全文件路径名
+execlpe(cmd, arg0, arg1,... env)  # 同execlp,但提供了环境变量字典env
+execv(file, arglist)              # 除了使用参数向量列表,其他的和execl()相同
+execve(file,arglist, env)         # 同execv,但提供了环境变量字典env
+execvp(cmd, arglist)              # 同execl,但在用户搜索路径下搜索完全文件路径名
+execvpe(cmd,arglist, env)         # 同execvp,但提供了环境变量字典env
+
+# spawn*()家族类似exec*()家族,也含有8个函数
+#spawn*()在一个新的进程中执行路径,args作为参数,也许还有环境变量的字典 env;
+#模式(mode)是个显示不同操作模式的魔术
+spawn*(mode, file, args[, env])
+
+wait()                #等待子进程完成[通常和 fock 和 exec*()一起使用]
+waitpid(pid,options)  #等待指定的子进程完成[通常和 fock 和 exec*()一起使用]
+
+#执行字符串cmd,返回一个类文件对象作为运行程序通信句柄,默认为读取模式和默认系统缓冲
+popen(cmd, mode='r',buffering=-1)
+#+END_SRC
++ system()保留了现有标准文件,任何的命令(程序)的输出都会传到标准输出.system()通常和不会产生输出的命令一起使用
++ popen()的例子
+#+BEGIN_SRC python
+>>> import os
+>>> f = os.popen('uname -a')
+>>> data = f.readline()
+>>> f.close()
+>>> print data,
+Linux solo 2.2.13 #1 Mon Nov 8 15:08:22 CET 1999 i586 unknown
+#+END_SRC
++ 调用fork()的原始进程称为父进程,而作为该调用结果新创建的进程则称为子进程。当子进程返回的时候,其返回值永远是0;当父进程返回时,其返回值永远是子进程的进程标识符.
++ fork()的经典用法
+#+BEGIN_SRC python
+ret = os.fork()           #产生两个进程,都返回
+if ret == 0:              #子进程返回的PID是0
+    child_suite           #子进程的代码
+else:                     #父进程返回是子进程的PID
+    parent_suite          #父进程的代码
+#+END_SRC
+** 结束执行
+*** sys.exit()
+#+BEGIN_SRC python
+sys.exit(status=0)
+#+END_SRC
+调用sys.exit()时会引发SystemExit异常
+**** sys.exitfunc()
+sys.exitfunc()默认是不可用的,可以改写它进行退出前的扫尾工作。当调用了sys.exit(),会在解释器退出之前执行这个函数
+*** os._exit()
+#+BEGIN_SRC python
+os._exit(status)
+#+END_SRC
+不执行任何清理便立即退出python
+*** os.kill()
+给进程发送信号

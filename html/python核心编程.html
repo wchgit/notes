@@ -1,0 +1,3538 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>python核心编程</title>
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8"/>
+<meta name="title" content="python核心编程"/>
+<meta name="generator" content="Org-mode"/>
+<meta name="generated" content="2014-09-08T12:45+0800"/>
+<meta name="author" content="王超"/>
+<meta name="description" content=""/>
+<meta name="keywords" content=""/>
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  html { font-family: Times, serif; font-size: 12pt; }
+  .title  { text-align: center; }
+  .todo   { color: red; }
+  .done   { color: green; }
+  .tag    { background-color: #add8e6; font-weight:normal }
+  .target { }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .right  {margin-left:auto; margin-right:0px;  text-align:right;}
+  .left   {margin-left:0px;  margin-right:auto; text-align:left;}
+  .center {margin-left:auto; margin-right:auto; text-align:center;}
+  p.verse { margin-left: 3% }
+  pre {
+	border: 1pt solid #AEBDCC;
+	background-color: #F3F5F7;
+	padding: 5pt;
+	font-family: courier, monospace;
+        font-size: 90%;
+        overflow:auto;
+  }
+  table { border-collapse: collapse; }
+  td, th { vertical-align: top;  }
+  th.right  { text-align:center;  }
+  th.left   { text-align:center;   }
+  th.center { text-align:center; }
+  td.right  { text-align:right;  }
+  td.left   { text-align:left;   }
+  td.center { text-align:center; }
+  dt { font-weight: bold; }
+  div.figure { padding: 0.5em; }
+  div.figure p { text-align: center; }
+  div.inlinetask {
+    padding:10px;
+    border:2px solid gray;
+    margin:10px;
+    background: #ffffcc;
+  }
+  textarea { overflow-x: auto; }
+  .linenr { font-size:smaller }
+  .code-highlighted {background-color:#ffff00;}
+  .org-info-js_info-navigation { border-style:none; }
+  #org-info-js_console-label { font-size:10px; font-weight:bold;
+                               white-space:nowrap; }
+  .org-info-js_search-highlight {background-color:#ffff00; color:#000000;
+                                 font-weight:bold; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2013 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+
+</head>
+<body>
+
+<div id="preamble">
+
+</div>
+
+<div id="content">
+<h1 class="title">python核心编程</h1>
+
+
+<div id="table-of-contents">
+<h2>Table of Contents</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#sec-1">1 python对象</a>
+<ul>
+<li><a href="#sec-1-1">1.1 python对象</a></li>
+<li><a href="#sec-1-2">1.2 标准类型</a></li>
+<li><a href="#sec-1-3">1.3 其他内建类型</a>
+<ul>
+<li><a href="#sec-1-3-1">1.3.1 类型本身也是对象</a></li>
+<li><a href="#sec-1-3-2">1.3.2 测试值为false的对象</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-4">1.4 标准类型运算符</a>
+<ul>
+<li><a href="#sec-1-4-1">1.4.1 值比较</a></li>
+<li><a href="#sec-1-4-2">1.4.2 对象身份比较</a></li>
+<li><a href="#sec-1-4-3">1.4.3 逻辑运算符</a></li>
+</ul>
+</li>
+<li><a href="#sec-1-5">1.5 标准类型的内建函数</a></li>
+<li><a href="#sec-1-6">1.6 类型工厂函数</a></li>
+<li><a href="#sec-1-7">1.7 标准类型的分类</a></li>
+<li><a href="#sec-1-8">1.8 不支持的类型</a></li>
+</ul>
+</li>
+<li><a href="#sec-2">2 数字</a>
+<ul>
+<li><a href="#sec-2-1">2.1 整形</a></li>
+<li><a href="#sec-2-2">2.2 双精度浮点数</a></li>
+<li><a href="#sec-2-3">2.3 复数</a></li>
+<li><a href="#sec-2-4">2.4 运算符</a>
+<ul>
+<li><a href="#sec-2-4-1">2.4.1 混合模式</a></li>
+<li><a href="#sec-2-4-2">2.4.2 算数运算符</a></li>
+</ul>
+</li>
+<li><a href="#sec-2-5">2.5 用于数字类型的内建函数</a></li>
+<li><a href="#sec-2-6">2.6 仅用于整数的函数</a></li>
+<li><a href="#sec-2-7">2.7 bool</a></li>
+</ul>
+</li>
+<li><a href="#sec-3">3 序列：字符串、列表和元组</a>
+<ul>
+<li><a href="#sec-3-1">3.1 序列类型操作符</a></li>
+<li><a href="#sec-3-2">3.2 序列类型转换工厂函数</a></li>
+<li><a href="#sec-3-3">3.3 序列类型可用的内置函数</a></li>
+<li><a href="#sec-3-4">3.4 字符串</a>
+<ul>
+<li><a href="#sec-3-4-1">3.4.1 只适用字符串的操作符</a></li>
+<li><a href="#sec-3-4-2">3.4.2 字符串内建函数</a></li>
+<li><a href="#sec-3-4-3">3.4.3 unicode</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-5">3.5 列表</a>
+<ul>
+<li><a href="#sec-3-5-1">3.5.1 列表的内建函数</a></li>
+</ul>
+</li>
+<li><a href="#sec-3-6">3.6 元组</a></li>
+<li><a href="#sec-3-7">3.7 浅拷贝和深拷贝</a></li>
+</ul>
+</li>
+<li><a href="#sec-4">4 映射和集合类型</a>
+<ul>
+<li><a href="#sec-4-1">4.1 字典</a>
+<ul>
+<li><a href="#sec-4-1-1">4.1.1 创建字典</a></li>
+<li><a href="#sec-4-1-2">4.1.2 访问字典中的值</a></li>
+<li><a href="#sec-4-1-3">4.1.3 字典的键</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-2">4.2 映射类型相关函数</a>
+<ul>
+<li><a href="#sec-4-2-1">4.2.1 dict()</a></li>
+<li><a href="#sec-4-2-2">4.2.2 映射类型的内建方法</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-3">4.3 集合</a>
+<ul>
+<li><a href="#sec-4-3-1">4.3.1 创建集合</a></li>
+</ul>
+</li>
+<li><a href="#sec-4-4">4.4 集合类型的内建方法</a></li>
+</ul>
+</li>
+<li><a href="#sec-5">5 条件和循环</a>
+<ul>
+<li><a href="#sec-5-1">5.1 条件和循环拾遗</a></li>
+<li><a href="#sec-5-2">5.2 迭代器</a>
+<ul>
+<li><a href="#sec-5-2-1">5.2.1 如何迭代</a></li>
+<li><a href="#sec-5-2-2">5.2.2 创建迭代器</a></li>
+</ul>
+</li>
+<li><a href="#sec-5-3">5.3 列表解析</a></li>
+<li><a href="#sec-5-4">5.4 生成器</a></li>
+</ul>
+</li>
+<li><a href="#sec-6">6 文件和输入输出</a>
+<ul>
+<li><a href="#sec-6-1">6.1 文件内建函数open()和file()</a>
+<ul>
+<li><a href="#sec-6-1-1">6.1.1 文件对象的访问模式</a></li>
+<li><a href="#sec-6-1-2">6.1.2 缓冲方式</a></li>
+<li><a href="#sec-6-1-3">6.1.3 通用换行符支持</a></li>
+</ul>
+</li>
+<li><a href="#sec-6-2">6.2 文件内建方法</a></li>
+<li><a href="#sec-6-3">6.3 文件内建属性</a></li>
+<li><a href="#sec-6-4">6.4 文件系统</a>
+<ul>
+<li><a href="#sec-6-4-1">6.4.1 os.path</a></li>
+<li><a href="#sec-6-4-2">6.4.2 os</a></li>
+</ul></li>
+</ul>
+</li>
+<li><a href="#sec-7">7 错误和异常</a>
+<ul>
+<li><a href="#sec-7-1">7.1 检测和处理异常</a>
+<ul>
+<li><a href="#sec-7-1-1">7.1.1 带有多个except的try语句</a></li>
+<li><a href="#sec-7-1-2">7.1.2 处理多个异常的except语句</a></li>
+<li><a href="#sec-7-1-3">7.1.3 捕获所有异常</a></li>
+<li><a href="#sec-7-1-4">7.1.4 else子句</a></li>
+<li><a href="#sec-7-1-5">7.1.5 finally子句</a></li>
+</ul>
+</li>
+<li><a href="#sec-7-2">7.2 with语句</a></li>
+<li><a href="#sec-7-3">7.3 触发异常</a>
+<ul>
+<li><a href="#sec-7-3-1">7.3.1 raise常见用法</a></li>
+</ul>
+</li>
+<li><a href="#sec-7-4">7.4 断言</a></li>
+<li><a href="#sec-7-5">7.5 标准异常</a></li>
+</ul>
+</li>
+<li><a href="#sec-8">8 函数和函数式编程</a>
+<ul>
+<li><a href="#sec-8-1">8.1 函数拾遗</a></li>
+<li><a href="#sec-8-2">8.2 装饰器</a></li>
+<li><a href="#sec-8-3">8.3 参数</a></li>
+<li><a href="#sec-8-4">8.4 函数式编程</a>
+<ul>
+<li><a href="#sec-8-4-1">8.4.1 lambda</a></li>
+<li><a href="#sec-8-4-2">8.4.2 内建函数apply() filter() map() reduce()</a></li>
+</ul>
+</li>
+<li><a href="#sec-8-5">8.5 变量作用域</a>
+<ul>
+<li><a href="#sec-8-5-1">8.5.1 global</a></li>
+<li><a href="#sec-8-5-2">8.5.2 闭包</a></li>
+</ul>
+</li>
+<li><a href="#sec-8-6">8.6 生成器</a></li>
+</ul>
+</li>
+<li><a href="#sec-9">9 模块</a>
+<ul>
+<li><a href="#sec-9-1">9.1 搜索路径</a></li>
+<li><a href="#sec-9-2">9.2 名称空间</a>
+<ul>
+<li><a href="#sec-9-2-1">9.2.1 名称空间的加载顺序</a></li>
+<li><a href="#sec-9-2-2">9.2.2 名称查找</a></li>
+</ul>
+</li>
+<li><a href="#sec-9-3">9.3 导入模块</a>
+<ul>
+<li><a href="#sec-9-3-1">9.3.1 模块导入的特性</a></li>
+</ul>
+</li>
+<li><a href="#sec-9-4">9.4 内建函数</a>
+<ul>
+<li><a href="#sec-9-4-1">9.4.1 __import__()</a></li>
+<li><a href="#sec-9-4-2">9.4.2 globals()和locals()</a></li>
+<li><a href="#sec-9-4-3">9.4.3 reload()</a></li>
+</ul>
+</li>
+<li><a href="#sec-9-5">9.5 包</a>
+<ul>
+<li><a href="#sec-9-5-1">9.5.1 导入子包</a></li>
+<li><a href="#sec-9-5-2">9.5.2 __init__.py</a></li>
+<li><a href="#sec-9-5-3">9.5.3 相对导入</a></li>
+</ul></li>
+</ul>
+</li>
+<li><a href="#sec-10">10 面向对象编程</a>
+<ul>
+<li><a href="#sec-10-1">10.1 类</a>
+<ul>
+<li><a href="#sec-10-1-1">10.1.1 创建类</a></li>
+<li><a href="#sec-10-1-2">10.1.2 类属性</a></li>
+<li><a href="#sec-10-1-3">10.1.3 查看类的属性</a></li>
+<li><a href="#sec-10-1-4">10.1.4 特殊的类属性</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-2">10.2 实例</a>
+<ul>
+<li><a href="#sec-10-2-1">10.2.1 创建实例</a></li>
+<li><a href="#sec-10-2-2">10.2.2 实例属性</a></li>
+<li><a href="#sec-10-2-3">10.2.3 查看实例属性</a></li>
+<li><a href="#sec-10-2-4">10.2.4 特殊实例属性</a></li>
+<li><a href="#sec-10-2-5">10.2.5 类数据属性 vs 实例数据属性</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-3">10.3 方法</a>
+<ul>
+<li><a href="#sec-10-3-1">10.3.1 静态方法和类方法</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-4">10.4 继承</a>
+<ul>
+<li><a href="#sec-10-4-1">10.4.1 创建子类</a></li>
+<li><a href="#sec-10-4-2">10.4.2 继承</a></li>
+</ul>
+</li>
+<li><a href="#sec-10-5">10.5 内建函数</a></li>
+<li><a href="#sec-10-6">10.6 私有化</a></li>
+</ul>
+</li>
+<li><a href="#sec-11">11 执行环境</a>
+<ul>
+<li><a href="#sec-11-1">11.1 执行代码对象(或代码字符串)</a>
+<ul>
+<li><a href="#sec-11-1-1">11.1.1 内建函数</a></li>
+</ul>
+</li>
+<li><a href="#sec-11-2">11.2 执行其他python程序</a>
+<ul>
+<li><a href="#sec-11-2-1">11.2.1 导入</a></li>
+<li><a href="#sec-11-2-2">11.2.2 exec</a></li>
+<li><a href="#sec-11-2-3">11.2.3 execfile()</a></li>
+</ul>
+</li>
+<li><a href="#sec-11-3">11.3 执行其他非python程序</a></li>
+<li><a href="#sec-11-4">11.4 结束执行</a>
+<ul>
+<li><a href="#sec-11-4-1">11.4.1 sys.exit()</a></li>
+<li><a href="#sec-11-4-2">11.4.2 os._exit()</a></li>
+<li><a href="#sec-11-4-3">11.4.3 os.kill()</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+
+<div id="outline-container-1" class="outline-2">
+<h2 id="sec-1"><span class="section-number-2">1</span> python对象</h2>
+<div class="outline-text-2" id="text-1">
+
+
+</div>
+
+<div id="outline-container-1-1" class="outline-3">
+<h3 id="sec-1-1"><span class="section-number-3">1.1</span> python对象</h3>
+<div class="outline-text-3" id="text-1-1">
+
+<p>python对象拥有三个特性
+</p><ul>
+<li>身份 使用内建函数id()得到这个值
+</li>
+<li>类型 使用内建函数type()得到对象类型
+</li>
+<li>值
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-2" class="outline-3">
+<h3 id="sec-1-2"><span class="section-number-3">1.2</span> 标准类型</h3>
+<div class="outline-text-3" id="text-1-2">
+
+<p>数字、整形、布尔型、长整形、浮点型、复数型、字符串、列表、元组、字典
+</p></div>
+
+</div>
+
+<div id="outline-container-1-3" class="outline-3">
+<h3 id="sec-1-3"><span class="section-number-3">1.3</span> 其他内建类型</h3>
+<div class="outline-text-3" id="text-1-3">
+
+<p>类型、None、文件、集合、函数/方法、模块、类
+</p>
+</div>
+
+<div id="outline-container-1-3-1" class="outline-4">
+<h4 id="sec-1-3-1"><span class="section-number-4">1.3.1</span> 类型本身也是对象</h4>
+<div class="outline-text-4" id="text-1-3-1">
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #483d8b;">type</span>(42)
+&lt;<span style="color: #483d8b;">type</span> <span style="color: #8b2252;">'int'</span>&gt;
+&gt;&gt;&gt; <span style="color: #483d8b;">type</span>(<span style="color: #483d8b;">type</span>(42))
+&lt;<span style="color: #483d8b;">type</span> <span style="color: #8b2252;">'type'</span>&gt;
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-3-2" class="outline-4">
+<h4 id="sec-1-3-2"><span class="section-number-4">1.3.2</span> 测试值为false的对象</h4>
+<div class="outline-text-4" id="text-1-3-2">
+
+<ul>
+<li>None False "" [] () {} 所有值为零的数
+</li>
+<li>如果是用户自己创建的类实例，如果nonzero(__nonzero__())或length(__len__())的值为零，其布尔值也是false
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-4" class="outline-3">
+<h3 id="sec-1-4"><span class="section-number-3">1.4</span> 标准类型运算符</h3>
+<div class="outline-text-3" id="text-1-4">
+
+
+</div>
+
+<div id="outline-container-1-4-1" class="outline-4">
+<h4 id="sec-1-4-1"><span class="section-number-4">1.4.1</span> 值比较</h4>
+<div class="outline-text-4" id="text-1-4-1">
+
+<p>== != &gt; &gt;= &lt; &lt;=
+</p></div>
+
+</div>
+
+<div id="outline-container-1-4-2" class="outline-4">
+<h4 id="sec-1-4-2"><span class="section-number-4">1.4.2</span> 对象身份比较</h4>
+<div class="outline-text-4" id="text-1-4-2">
+
+<p>变量名是对象的引用，对象身份比较用于判断两个引用是否指向同一个对象。使用is和is not比较两个对象的身份。
+</p>
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a0522d;">a</span> = 3
+&gt;&gt;&gt; <span style="color: #a0522d;">b</span> = 3
+&gt;&gt;&gt; a <span style="color: #a020f0;">is</span> b
+<span style="color: #008b8b;">True</span>
+&gt;&gt;&gt; <span style="color: #a0522d;">a</span> = 3.5
+&gt;&gt;&gt; <span style="color: #a0522d;">b</span> = 3.5
+&gt;&gt;&gt; a <span style="color: #a020f0;">is</span> b
+<span style="color: #008b8b;">False</span>
+&gt;&gt;&gt; <span style="color: #a0522d;">a</span> = 3.5
+&gt;&gt;&gt; <span style="color: #a0522d;">b</span> = a
+&gt;&gt;&gt; a <span style="color: #a020f0;">is</span> b
+<span style="color: #008b8b;">True</span>
+&gt;&gt;&gt; <span style="color: #a0522d;">a</span> = <span style="color: #a0522d;">b</span> = 3.5
+&gt;&gt;&gt; a <span style="color: #a020f0;">is</span> b
+<span style="color: #008b8b;">True</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-4-3" class="outline-4">
+<h4 id="sec-1-4-3"><span class="section-number-4">1.4.3</span> 逻辑运算符</h4>
+<div class="outline-text-4" id="text-1-4-3">
+
+<ul>
+<li>and
+</li>
+<li>or
+</li>
+<li>not
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-1-5" class="outline-3">
+<h3 id="sec-1-5"><span class="section-number-3">1.5</span> 标准类型的内建函数</h3>
+<div class="outline-text-3" id="text-1-5">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">函数</th><th scope="col" class="left">功能</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">cmp(obj1, obj2)</td><td class="left">比较obj1和obj2的值，返回大于零(obj1&gt;obj2)、小于零(obj1&lt;obj2)、等于零(obj1==obj2)的整数</td></tr>
+<tr><td class="left">repr(obj)</td><td class="left">返回一个对象的字符串表示</td></tr>
+<tr><td class="left">str(obj)</td><td class="left">返回一个对象可读性好的字符串表示</td></tr>
+<tr><td class="left">type(obj)</td><td class="left">得到一个对象的类型</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-6" class="outline-3">
+<h3 id="sec-1-6"><span class="section-number-3">1.6</span> 类型工厂函数</h3>
+<div class="outline-text-3" id="text-1-6">
+
+<p>python2.2统一了类型和类，所有的内建类型现在也都是类。
+原来的内建转换函数像int()、str()现在都成了工厂函数。
+它们看上去有点像函数，实际上它们是类。
+</p></div>
+
+</div>
+
+<div id="outline-container-1-7" class="outline-3">
+<h3 id="sec-1-7"><span class="section-number-3">1.7</span> 标准类型的分类</h3>
+<div class="outline-text-3" id="text-1-7">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" /><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">数据类型</th><th scope="col" class="left">存储模型</th><th scope="col" class="left">更新模型</th><th scope="col" class="left">访问模型</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">数字</td><td class="left">Scalar</td><td class="left">不可更改</td><td class="left">直接访问</td></tr>
+<tr><td class="left">字符串</td><td class="left">Scalar</td><td class="left">不可更改</td><td class="left">顺序访问</td></tr>
+<tr><td class="left">列表</td><td class="left">Container</td><td class="left">可更改</td><td class="left">顺序访问</td></tr>
+<tr><td class="left">元组</td><td class="left">Container</td><td class="left">不可更改</td><td class="left">顺序访问</td></tr>
+<tr><td class="left">字典</td><td class="left">Container</td><td class="left">可更改</td><td class="left">映射访问</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-1-8" class="outline-3">
+<h3 id="sec-1-8"><span class="section-number-3">1.8</span> 不支持的类型</h3>
+<div class="outline-text-3" id="text-1-8">
+
+<ul>
+<li>char
+</li>
+<li>byte
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2" class="outline-2">
+<h2 id="sec-2"><span class="section-number-2">2</span> 数字</h2>
+<div class="outline-text-2" id="text-2">
+
+
+</div>
+
+<div id="outline-container-2-1" class="outline-3">
+<h3 id="sec-2-1"><span class="section-number-3">2.1</span> 整形</h3>
+<div class="outline-text-3" id="text-2-1">
+
+<ul>
+<li>布尔型
+</li>
+<li>标准整形 八进制以0开始，十六进制以0x开始
+</li>
+<li>长整形 以L结尾
+</li>
+</ul>
+
+<p>标准整形超出范围会自动转化为长整形
+</p>
+
+
+<pre class="src src-python">&gt;&gt;&gt; 9999 ** 8
+99920027994400699944002799920001L
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-2" class="outline-3">
+<h3 id="sec-2-2"><span class="section-number-3">2.2</span> 双精度浮点数</h3>
+<div class="outline-text-3" id="text-2-2">
+
+</div>
+
+</div>
+
+<div id="outline-container-2-3" class="outline-3">
+<h3 id="sec-2-3"><span class="section-number-3">2.3</span> 复数</h3>
+<div class="outline-text-3" id="text-2-3">
+
+<p>复数的内建属性
+</p><ul>
+<li>real 实部
+</li>
+<li>imag 虚部
+</li>
+<li>conjugate() 共轭
+</li>
+</ul>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a0522d;">a</span> = 3+5j
+&gt;&gt;&gt; a.real
+3.0
+&gt;&gt;&gt; a.imag
+5.0
+&gt;&gt;&gt; a.conjugate()
+(3-5j)
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-4" class="outline-3">
+<h3 id="sec-2-4"><span class="section-number-3">2.4</span> 运算符</h3>
+<div class="outline-text-3" id="text-2-4">
+
+
+</div>
+
+<div id="outline-container-2-4-1" class="outline-4">
+<h4 id="sec-2-4-1"><span class="section-number-4">2.4.1</span> 混合模式</h4>
+<div class="outline-text-4" id="text-2-4-1">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">if</span> &#26377;&#19968;&#20010;&#25805;&#20316;&#25968;&#26159;&#22797;&#25968;&#65306;
+    &#21478;&#19968;&#20010;&#25805;&#20316;&#25968;&#34987;&#36716;&#25442;&#20026;&#22797;&#25968;
+<span style="color: #a020f0;">elif</span> &#26377;&#19968;&#20010;&#25805;&#20316;&#25968;&#26159;&#28014;&#28857;&#25968;&#65306;
+    &#21478;&#19968;&#20010;&#25805;&#20316;&#25968;&#34987;&#36716;&#25442;&#20026;&#28014;&#28857;&#25968;
+<span style="color: #a020f0;">elif</span> &#26377;&#19968;&#20010;&#25805;&#20316;&#25968;&#26159;&#38271;&#25972;&#25968;&#65306;
+    &#21478;&#19968;&#20010;&#25805;&#20316;&#25968;&#34987;&#36716;&#25442;&#20026;&#38271;&#25972;&#25968;
+<span style="color: #a020f0;">else</span>
+    &#20004;&#32773;&#24517;&#28982;&#37117;&#26159;&#19981;&#21516;&#25972;&#25968;&#65292;&#26080;&#38656;&#36716;&#25442;
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-4-2" class="outline-4">
+<h4 id="sec-2-4-2"><span class="section-number-4">2.4.2</span> 算数运算符</h4>
+<div class="outline-text-4" id="text-2-4-2">
+
+<ul>
+<li>传统除法
+</li>
+</ul>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; 1/2
+0
+&gt;&gt;&gt; 1.0/2.0
+0.5
+</pre>
+
+<ul>
+<li>真正的除法
+</li>
+</ul>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a020f0;">from</span> __future__ <span style="color: #a020f0;">import</span> division
+&gt;&gt;&gt; 1/2
+0.5
+&gt;&gt;&gt; 1.0/2.0
+0.5
+</pre>
+
+<ul>
+<li>地板除
+</li>
+</ul>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; 1 // 2
+0
+&gt;&gt;&gt; 1.0 // 2.0
+0.0
+</pre>
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">表达式</th><th scope="col" class="left">结果</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">+expr</td><td class="left">结果符号不变</td></tr>
+<tr><td class="left">-expr</td><td class="left">对结果符号取负</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">expr1 * expr2</td><td class="left">表达式1 乘 表达式2</td></tr>
+<tr><td class="left">expr1 / expr2</td><td class="left">表达式1 除以 表达式2(传统除或真正除)</td></tr>
+<tr><td class="left">expr1 // expr2</td><td class="left">表达式1 地板除以 表达式2</td></tr>
+<tr><td class="left">expr1 % expr2</td><td class="left">表达式1 对表达式2 取余</td></tr>
+<tr><td class="left">expr1 + expr2</td><td class="left">表达式1 加 表达式2</td></tr>
+<tr><td class="left">expr1 - expr2</td><td class="left">表达式1 减 表达式2</td></tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-2-5" class="outline-3">
+<h3 id="sec-2-5"><span class="section-number-3">2.5</span> 用于数字类型的内建函数</h3>
+<div class="outline-text-3" id="text-2-5">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">函数</th><th scope="col" class="left">功能</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">abs(num)　　　　　　　　</td><td class="left">返回num的绝对值</td></tr>
+<tr><td class="left">coerce(num1, num2) 　　</td><td class="left">将num1和num2转换为同一类型,然后以一个元组的形式返回。</td></tr>
+<tr><td class="left">divmod(num1, num2) 　　</td><td class="left">除法-取余运算的结合。返回一个元组(num1/num2,num1%num2)。</td></tr>
+<tr><td class="left">pow(num1, num2, mod=1)</td><td class="left">取num1的num2次方,如果提供mod参数,则计算结果再对mod进行取余运算</td></tr>
+<tr><td class="left">round(flt, ndig=0) 　　</td><td class="left">接受一个浮点数flt并对其四舍五入,保存ndig位小数。若不提供ndig参数,则默认小数点后0位。</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-6" class="outline-3">
+<h3 id="sec-2-6"><span class="section-number-3">2.6</span> 仅用于整数的函数</h3>
+<div class="outline-text-3" id="text-2-6">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">函数　　</th><th scope="col" class="left">　　操作</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">hex(num) 　</td><td class="left">将数字转换成十六进制数并以字符串形式返回</td></tr>
+<tr><td class="left">oct(num) 　</td><td class="left">将数字转换成八进制数并以字符串形式返回</td></tr>
+<tr><td class="left">chr(num) 　</td><td class="left">将ASCII值的数字转换成ASCII字符,范围只能是0 &lt;= num &lt;= 255。</td></tr>
+<tr><td class="left">ord(chr)　　</td><td class="left">接受一个ASCII或Unicode字符(长度为1的字符串),返回相应的ASCII或Unicode值。</td></tr>
+<tr><td class="left">unichr(num)</td><td class="left">接受Unicode码值,返回其对应的Unicode字符。所接受的码值范围依赖于你的Python是构建于UCS‐2还是UCS‐4。</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-2-7" class="outline-3">
+<h3 id="sec-2-7"><span class="section-number-3">2.7</span> bool</h3>
+<div class="outline-text-3" id="text-2-7">
+
+<p>用户自己定义的对象，若无__onozero__()默认值是True
+</p>
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a020f0;">class</span> <span style="color: #228b22;">C</span>: <span style="color: #a020f0;">pass</span>
+... 
+&gt;&gt;&gt; <span style="color: #a0522d;">c</span> = C()
+&gt;&gt;&gt; <span style="color: #483d8b;">bool</span>(c)
+<span style="color: #008b8b;">True</span>
+
+&gt;&gt;&gt; <span style="color: #a020f0;">class</span> <span style="color: #228b22;">C</span>:
+...     <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">__nonzero__</span>(<span style="color: #a020f0;">self</span>):
+...             <span style="color: #a020f0;">return</span> <span style="color: #008b8b;">False</span>
+... 
+&gt;&gt;&gt; <span style="color: #a0522d;">c</span> = C()
+&gt;&gt;&gt; <span style="color: #483d8b;">bool</span>(c)
+<span style="color: #008b8b;">False</span>
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3" class="outline-2">
+<h2 id="sec-3"><span class="section-number-2">3</span> 序列：字符串、列表和元组</h2>
+<div class="outline-text-2" id="text-3">
+
+
+</div>
+
+<div id="outline-container-3-1" class="outline-3">
+<h3 id="sec-3-1"><span class="section-number-3">3.1</span> 序列类型操作符</h3>
+<div class="outline-text-3" id="text-3-1">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">序列操作符　　　</th><th scope="col" class="left">作用</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">seq[ind]　　　　</td><td class="left">获得下标为 ind 的元素</td></tr>
+<tr><td class="left">seq[ind1:ind2]　</td><td class="left">获得下标从 ind1 到 ind2 间的元素集合</td></tr>
+<tr><td class="left">seq * expr　　　</td><td class="left">序列重复 expr 次</td></tr>
+<tr><td class="left">seq1 + seq2　　　</td><td class="left">连接序列 seq1 和 seq2</td></tr>
+<tr><td class="left">obj in seq　　　</td><td class="left">判断 obj 元素是否包含在 seq 中</td></tr>
+<tr><td class="left">obj not in seq　</td><td class="left">判断 obj 元素是否不包含在 seq 中</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-2" class="outline-3">
+<h3 id="sec-3-2"><span class="section-number-3">3.2</span> 序列类型转换工厂函数</h3>
+<div class="outline-text-3" id="text-3-2">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">函数</th><th scope="col" class="left">含义</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">list(iter)</td><td class="left">把可迭代对象转换为列表</td></tr>
+<tr><td class="left">tuple(iter)</td><td class="left">把一个可迭代对象转换成一个元组对象</td></tr>
+<tr><td class="left">str(obj)</td><td class="left">把 obj 对象转换成字符串(对象的字符串表示法)</td></tr>
+<tr><td class="left">unicode(obj)</td><td class="left">把对象转换成 Unicode 字符串(使用默认编码)</td></tr>
+<tr><td class="left">basestring()</td><td class="left">抽象工厂函数,其作用仅仅是为 str 和 unicode 函数提供父类,所以不能被实例化,也不能被调用(详见第 6.2 节)</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-3" class="outline-3">
+<h3 id="sec-3-3"><span class="section-number-3">3.3</span> 序列类型可用的内置函数</h3>
+<div class="outline-text-3" id="text-3-3">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">函数名</th><th scope="col" class="left">功能</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">enumerate(iter)</td><td class="left">接受一个可迭代对象作为参数,返回一个 enumerate 对象(同时也是一个迭代器),该对象生成由 iter 每个元素的 index 值和 item 值组成的元组</td></tr>
+<tr><td class="left">len(seq)</td><td class="left">返回 seq 的长度</td></tr>
+<tr><td class="left">max(iter,key=None) or max(arg0,arg1&hellip;,key=None)</td><td class="left">返回 iter 或(arg0,arg1,&hellip;)中的最大值,如果指定了 key,这个key必须是一个可以传给 sort()方法的,用于比较的回调函数.</td></tr>
+<tr><td class="left">min(iter, key=None) or min(arg0, arg1&hellip;. key=None)</td><td class="left">返回iter里面的最小值;或者返回(arg0,arg2,&hellip;)里面的最小值;如果指定了 key,这个 key 必须是一个可以传给sort()方法的,用于比较的回调函数.</td></tr>
+<tr><td class="left">reversed(seq)</td><td class="left">接受一个序列作为参数,返回一个以逆序访问的迭代器</td></tr>
+<tr><td class="left">sorted(iter,func=None,key=None,reverse=False)</td><td class="left">接受一个可迭代对象作为参数,返回一个有序的列表;可选参数func,key 和 reverse 的含义跟 list.sort()内建函数的参数含义一样.</td></tr>
+<tr><td class="left">sum(seq, init=0)</td><td class="left">返回seq和可选参数init的总和,其效果等同于reduce(operator.add,seq,init)</td></tr>
+<tr><td class="left">zip([it0, it1,&hellip; itN])</td><td class="left">返回一个列表,其第一个元素是 it0,it1,&hellip;这些元素的第一个元素组成的一个元组,第二个&hellip;,类推.</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-4" class="outline-3">
+<h3 id="sec-3-4"><span class="section-number-3">3.4</span> 字符串</h3>
+<div class="outline-text-3" id="text-3-4">
+
+<ul>
+<li>Python 里面单引号和双引号的作用是相同的，这一点Python不同于其他类Shell的脚本语言。
+</li>
+<li>符串是不可变类型,就是说改变一个字符串的元素需要新建一个新的字符串。
+</li>
+<li>Python实际上有3类字符串.通常意义的字符串(str)和Unicode字符串(unicode)实际上都是抽象类basestring的子类。basestring是不能实例化的。
+</li>
+<li>除了使用加号连接字符串，还可以编译时连接字符串
+</li>
+</ul>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a0522d;">s</span> = <span style="color: #8b2252;">"hello "</span> <span style="color: #8b2252;">'world'</span>
+&gt;&gt;&gt; s
+<span style="color: #8b2252;">'hello world'</span>
+</pre>
+
+
+</div>
+
+<div id="outline-container-3-4-1" class="outline-4">
+<h4 id="sec-3-4-1"><span class="section-number-4">3.4.1</span> 只适用字符串的操作符</h4>
+<div class="outline-text-4" id="text-3-4-1">
+
+<ul>
+<li id="sec-3-4-1-1">格式化操作符%<br/>
+字符串格式化符号
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">格式化字符</th><th scope="col" class="left">转换方式</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">%c</td><td class="left">转换成字符(ASCII 码值,或者长度为一的字符串)</td></tr>
+<tr><td class="left">%r</td><td class="left">优先用 repr()函数进行字符串转换</td></tr>
+<tr><td class="left">%s</td><td class="left">优先用 str()函数进行字符串转换</td></tr>
+<tr><td class="left">%d / %i</td><td class="left">转成有符号十进制数</td></tr>
+<tr><td class="left">%u</td><td class="left">转成无符号十进制数</td></tr>
+<tr><td class="left">%o</td><td class="left">转成无符号八进制数</td></tr>
+<tr><td class="left">%x / %X</td><td class="left">(Unsigned)转成无符号十六进制数(x/X 代表转换后的十六进制字符的大小写)</td></tr>
+<tr><td class="left">%e / %E</td><td class="left">转成科学计数法(e/E 控制输出 e/E)</td></tr>
+<tr><td class="left">%f / %F</td><td class="left">转成浮点数(小数部分自然截断)</td></tr>
+<tr><td class="left">%g / %G</td><td class="left">%e和%f / %E和%F 的简写</td></tr>
+<tr><td class="left">%%</td><td class="left">输出%</td></tr>
+</tbody>
+</table>
+
+格式化辅助指令
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">符号</th><th scope="col" class="left">作用</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">*</td><td class="left">定义宽度或者小数点精度</td></tr>
+<tr><td class="left">-</td><td class="left">用做左对齐</td></tr>
+<tr><td class="left">+</td><td class="left">在正数前面显示加号( + )</td></tr>
+<tr><td class="left">&lt;sp&gt;</td><td class="left">在正数前面显示空格</td></tr>
+<tr><td class="left">#</td><td class="left">在八进制数前面显示零('0'),在十六进制前面显示'0x'或者'0X'(取决于用的是'x'还是'X')</td></tr>
+<tr><td class="left">0</td><td class="left">显示的数字前面填充‘0’而不是默认的空格</td></tr>
+<tr><td class="left">%</td><td class="left">'%%'输出一个单一的'%'</td></tr>
+<tr><td class="left">(var)</td><td class="left">映射变量(字典参数)</td></tr>
+<tr><td class="left">m.n</td><td class="left">m 是显示的最小总宽度,n 是小数点后的位数(如果可用的话)</td></tr>
+</tbody>
+</table>
+
+example
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a0522d;">dic</span> = {<span style="color: #8b2252;">'a'</span>:<span style="color: #8b2252;">'abc'</span>}
+&gt;&gt;&gt; <span style="color: #8b2252;">'%(a)s'</span>%dic
+<span style="color: #8b2252;">'abc'</span>
+&gt;&gt;&gt; <span style="color: #8b2252;">'%.2f'</span>%1234.56789
+<span style="color: #8b2252;">'1234.57'</span>
+</pre>
+
+</li>
+</ul>
+<ul>
+<li id="sec-3-4-1-2">原始字符串操作符r<br/>
+不对特殊或不能打印的字符进行转义
+</li>
+</ul>
+<ul>
+<li id="sec-3-4-1-3">unicode字符串操作符u<br/>
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-3-4-2" class="outline-4">
+<h4 id="sec-3-4-2"><span class="section-number-4">3.4.2</span> 字符串内建函数</h4>
+<div class="outline-text-4" id="text-3-4-2">
+
+
+
+
+<pre class="src src-python">string.capitalize()
+string.center(width)
+string.count(<span style="color: #483d8b;">str</span>, beg=0,end=<span style="color: #483d8b;">len</span>(string))
+string.decode(encoding=<span style="color: #8b2252;">'UTF-8'</span>,errors=<span style="color: #8b2252;">'strict'</span>)
+string.encode(encoding=<span style="color: #8b2252;">'UTF-8'</span>,errors=<span style="color: #8b2252;">'strict'</span>)
+string.endswith(obj, beg=0,end=<span style="color: #483d8b;">len</span>(string))
+string.expandtabs(tabsize=8)
+string.find(<span style="color: #483d8b;">str</span>, beg=0,end=<span style="color: #483d8b;">len</span>(string))
+string.index(<span style="color: #483d8b;">str</span>, beg=0,end=<span style="color: #483d8b;">len</span>(string))
+string.isalnum()
+string.isalpha()
+string.isdecimal()
+string.isdigit()
+string.islower()
+string.isnumeric()
+string.isspace()
+string.istitle()
+string.isupper()
+string.join(seq)
+string.ljust(width)
+string.lower()
+string.lstrip()
+string.partition(<span style="color: #483d8b;">str</span>)
+string.replace(str1, str2,num=string.count(str1))
+string.rfind(<span style="color: #483d8b;">str</span>, beg=0,end=<span style="color: #483d8b;">len</span>(string))
+string.rindex( <span style="color: #483d8b;">str</span>, beg=0,end=<span style="color: #483d8b;">len</span>(string))
+string.rjust(width)
+string.rpartition(<span style="color: #483d8b;">str</span>)
+string.rstrip()
+string.split(<span style="color: #483d8b;">str</span>=<span style="color: #8b2252;">""</span>, num=string.count(<span style="color: #483d8b;">str</span>))
+string.splitlines(num=string.count(<span style="color: #8b2252;">'\n'</span>))
+string.startswith(obj, beg=0,end=<span style="color: #483d8b;">len</span>(string))
+string.strip([obj])
+string.swapcase()
+string.title()
+string.translate(<span style="color: #483d8b;">str</span>, <span style="color: #a020f0;">del</span>=<span style="color: #8b2252;">""</span>)
+string.upper()
+string.zfill(width)
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-3-4-3" class="outline-4">
+<h4 id="sec-3-4-3"><span class="section-number-4">3.4.3</span> unicode</h4>
+<div class="outline-text-4" id="text-3-4-3">
+
+<p>使用unicode的原则
+</p><ul>
+<li>程序中出现字符串时一定要加个前缀 u.
+</li>
+<li>不要用 str()函数,用 unicode()代替.
+</li>
+<li>不要用过时的 string 模块 &ndash; 如果传给它的是非 ASCII 字符,它会把一切搞砸。
+</li>
+<li>不到必须时不要在你的程序里面编解码 unicode 字符.只在你要写入文件或数据库或者网络时,才调用 encode()函数;相应地,只在你需要把数据读回来的时候才调用 decode()函数.
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3-5" class="outline-3">
+<h3 id="sec-3-5"><span class="section-number-3">3.5</span> 列表</h3>
+<div class="outline-text-3" id="text-3-5">
+
+
+</div>
+
+<div id="outline-container-3-5-1" class="outline-4">
+<h4 id="sec-3-5-1"><span class="section-number-4">3.5.1</span> 列表的内建函数</h4>
+<div class="outline-text-4" id="text-3-5-1">
+
+
+
+
+<pre class="src src-python"><span style="color: #483d8b;">list</span>.append(obj)
+<span style="color: #483d8b;">list</span>.count(obj)
+<span style="color: #483d8b;">list</span>.extend(seq)
+<span style="color: #483d8b;">list</span>.index(obj, i=0,j=<span style="color: #483d8b;">len</span>(<span style="color: #483d8b;">list</span>))
+<span style="color: #483d8b;">list</span>.insert(index, obj)
+<span style="color: #483d8b;">list</span>.pop(index=-1)
+<span style="color: #483d8b;">list</span>.remove(obj)
+<span style="color: #483d8b;">list</span>.reverse()
+<span style="color: #483d8b;">list</span>.sort(func=<span style="color: #008b8b;">None</span>,key=<span style="color: #008b8b;">None</span>,reverse=<span style="color: #008b8b;">False</span>)
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-3-6" class="outline-3">
+<h3 id="sec-3-6"><span class="section-number-3">3.6</span> 元组</h3>
+<div class="outline-text-3" id="text-3-6">
+
+<ul>
+<li>组和列表相比有一个很重要的区别,元组是一种不可变类型。正因为这个原因,元组能做一些列表不能做的事情，如用做一个字典的 key。
+</li>
+<li>虽然元组是不可变的，但是元组中的可变对象的内容还是可以改变的，如
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a0522d;">tup</span> = (<span style="color: #8b2252;">'a'</span>, 3, [5])
+&gt;&gt;&gt; tup
+(<span style="color: #8b2252;">'a'</span>, 3, [5])
+&gt;&gt;&gt; tup[2][0] = 8
+&gt;&gt;&gt; tup
+(<span style="color: #8b2252;">'a'</span>, 3, [8])
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>所有多对象的、逗号分隔的、没有明确用符号(如方括号/圆括号)定义的集合默认都是元组类型。如
+</li>
+</ul>
+
+<blockquote>
+
+<p>所有函数返回的多对象都是元组
+</p>
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #8b2252;">'a'</span>, 3, [5]
+(<span style="color: #8b2252;">'a'</span>, 3, [5])
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>只有一个元素的元组需要在元组分割符里面加一个逗号(,)用以防止跟普通的分组操作符混淆
+</li>
+<li>不可变对象的值是不可改变的，这就意味着它们通过 hash 算法得到的值总是一个值。因此元组可以作为自检的键，而列表不能。
+</li>
+</ul>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-3-7" class="outline-3">
+<h3 id="sec-3-7"><span class="section-number-3">3.7</span> 浅拷贝和深拷贝</h3>
+<div class="outline-text-3" id="text-3-7">
+
+<ul>
+<li>序列类型对象的默认拷贝类型是浅拷贝,并可以以下几种方式实施
+<ol>
+<li>完全切片操作[:]
+</li>
+<li>利用工厂函数,比如 list(),dict()等
+</li>
+<li>使用 copy 模块的 copy 函数
+</li>
+</ol>
+
+</li>
+<li>序列拷贝时，对于不可变类型的元素会创建一个新的对象，而对于可变类型的元素只是复制了其引用
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a0522d;">lst</span> = [<span style="color: #8b2252;">'name'</span>,[1]]
+&gt;&gt;&gt; <span style="color: #a0522d;">lst1</span> = lst[:]               <span style="color: #b22222;">#</span><span style="color: #b22222;">&#23436;&#20840;&#20999;&#29255;&#25805;&#20316;&#65292;&#27973;&#25335;&#36125;</span>
+&gt;&gt;&gt; <span style="color: #a0522d;">lst2</span> = <span style="color: #483d8b;">list</span>(lst)            <span style="color: #b22222;">#</span><span style="color: #b22222;">&#21033;&#29992;&#24037;&#21378;&#20989;&#25968;&#65292;&#27973;&#25335;&#36125;</span>
+&gt;&gt;&gt; <span style="color: #a0522d;">lst1</span>[0] = <span style="color: #8b2252;">'wch'</span>             <span style="color: #b22222;">#</span><span style="color: #b22222;">&#23545;&#20110;&#19981;&#21487;&#21464;&#31867;&#22411;&#30340;&#20803;&#32032;</span>
+&gt;&gt;&gt; lst1,lst2
+([<span style="color: #8b2252;">'wch'</span>, [1]], [<span style="color: #8b2252;">'name'</span>, [1]])
+&gt;&gt;&gt; lst1[1][0] = 7              <span style="color: #b22222;">#</span><span style="color: #b22222;">&#23545;&#20110;&#21487;&#21464;&#31867;&#22411;&#30340;&#20803;&#32032;</span>
+&gt;&gt;&gt; lst1,lst2
+([<span style="color: #8b2252;">'wch'</span>, [7]], [<span style="color: #8b2252;">'name'</span>, [7]])
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>要得到一个完全拷贝或者说深拷贝，需要 copy.deepcopy()函数
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a020f0;">import</span> copy
+&gt;&gt;&gt; <span style="color: #a0522d;">lst</span> = [<span style="color: #8b2252;">'name'</span>,[1]]
+&gt;&gt;&gt; <span style="color: #a0522d;">lst1</span> = copy.deepcopy(lst)   <span style="color: #b22222;">#</span><span style="color: #b22222;">&#28145;&#25335;&#36125;</span>
+&gt;&gt;&gt; <span style="color: #a0522d;">lst2</span> = copy.deepcopy(lst)   <span style="color: #b22222;">#</span><span style="color: #b22222;">&#28145;&#25335;&#36125;</span>
+&gt;&gt;&gt; <span style="color: #a0522d;">lst1</span>[0] = <span style="color: #8b2252;">'wch'</span>             <span style="color: #b22222;">#</span><span style="color: #b22222;">&#23545;&#20110;&#19981;&#21487;&#21464;&#31867;&#22411;&#30340;&#20803;&#32032;</span>
+&gt;&gt;&gt; lst1,lst2
+([<span style="color: #8b2252;">'wch'</span>, [1]], [<span style="color: #8b2252;">'name'</span>, [1]])
+&gt;&gt;&gt; lst1[1][0] = 7              <span style="color: #b22222;">#</span><span style="color: #b22222;">&#23545;&#20110;&#21487;&#21464;&#31867;&#22411;&#30340;&#20803;&#32032;</span>
+&gt;&gt;&gt; lst1,lst2
+([<span style="color: #8b2252;">'wch'</span>, [7]], [<span style="color: #8b2252;">'name'</span>, [1]])
+</pre>
+
+
+</blockquote>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4" class="outline-2">
+<h2 id="sec-4"><span class="section-number-2">4</span> 映射和集合类型</h2>
+<div class="outline-text-2" id="text-4">
+
+
+</div>
+
+<div id="outline-container-4-1" class="outline-3">
+<h3 id="sec-4-1"><span class="section-number-3">4.1</span> 字典</h3>
+<div class="outline-text-3" id="text-4-1">
+
+<ul>
+<li>字典是 Python 语言中唯一的映射类型
+</li>
+<li>映射类型中的数据是无序排列的
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-4-1-1" class="outline-4">
+<h4 id="sec-4-1-1"><span class="section-number-4">4.1.1</span> 创建字典</h4>
+<div class="outline-text-4" id="text-4-1-1">
+
+
+
+
+<pre class="src src-python">+ <span style="color: #a0522d;">dic</span> = {<span style="color: #8b2252;">'x'</span>:1, <span style="color: #8b2252;">'y'</span>:2}
++ <span style="color: #a0522d;">dic</span> = <span style="color: #483d8b;">dict</span>(([<span style="color: #8b2252;">'x'</span>, 1], [<span style="color: #8b2252;">'y'</span>, 2]))
++ <span style="color: #a0522d;">dic</span> = {}.fromkeys((<span style="color: #8b2252;">'x'</span>, <span style="color: #8b2252;">'y'</span>), -1)
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-1-2" class="outline-4">
+<h4 id="sec-4-1-2"><span class="section-number-4">4.1.2</span> 访问字典中的值</h4>
+<div class="outline-text-4" id="text-4-1-2">
+
+<ul>
+<li>使用[key]访问字典中的值
+</li>
+<li>如果字典中没有对应的键，将产生KeyError错误
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-1-3" class="outline-4">
+<h4 id="sec-4-1-3"><span class="section-number-4">4.1.3</span> 字典的键</h4>
+<div class="outline-text-4" id="text-4-1-3">
+
+<ul>
+<li>不允许一个键对应多个值，当有键发生冲突时，取最近的赋值
+</li>
+<li>键必须是可哈希的
+</li>
+<li>所有不可变类型都可以做键
+</li>
+<li>实现了__hash__()的可变类型也可以做键
+</li>
+<li>对于数字，值相等的数字表示相同的键，1和1.0的哈希值是相同的，它们是相同的键
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4-2" class="outline-3">
+<h3 id="sec-4-2"><span class="section-number-3">4.2</span> 映射类型相关函数</h3>
+<div class="outline-text-3" id="text-4-2">
+
+
+</div>
+
+<div id="outline-container-4-2-1" class="outline-4">
+<h4 id="sec-4-2-1"><span class="section-number-4">4.2.1</span> dict()</h4>
+<div class="outline-text-4" id="text-4-2-1">
+
+<ul>
+<li>如果不提供参数，生成空字典
+</li>
+<li>如果参数是可以迭代的，可迭代的元素必须包含两个子元素，第一个子元素做key，第二个子元素做value
+</li>
+<li>如果参数是另一个映射对象，将生成该对象的浅拷贝。在这种情况下，更快的方法是使用dic.copy()方法
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-4-2-2" class="outline-4">
+<h4 id="sec-4-2-2"><span class="section-number-4">4.2.2</span> 映射类型的内建方法</h4>
+<div class="outline-text-4" id="text-4-2-2">
+
+
+
+
+<pre class="src src-python"><span style="color: #483d8b;">dict</span>.clear ()
+<span style="color: #483d8b;">dict</span>.copy ()
+<span style="color: #483d8b;">dict</span>.fromkeys (seq,val=<span style="color: #008b8b;">None</span>)
+<span style="color: #483d8b;">dict</span>.get(key,default=<span style="color: #008b8b;">None</span>)
+<span style="color: #483d8b;">dict</span>.has_key(key)
+<span style="color: #483d8b;">dict</span>.items()
+<span style="color: #483d8b;">dict</span>.keys()
+<span style="color: #483d8b;">dict</span>.iterkeys()
+<span style="color: #483d8b;">dict</span>.itervalues()
+<span style="color: #483d8b;">dict</span>.iteritems()
+<span style="color: #483d8b;">dict</span>.popc(key[, default])
+<span style="color: #483d8b;">dict</span>.setdefault(key,default=<span style="color: #008b8b;">None</span>)
+<span style="color: #483d8b;">dict</span>.update(dict2)
+<span style="color: #483d8b;">dict</span>.values()
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-4-3" class="outline-3">
+<h3 id="sec-4-3"><span class="section-number-3">4.3</span> 集合</h3>
+<div class="outline-text-3" id="text-4-3">
+
+<p>集合有两种不同的类型
+</p><ul>
+<li>可变集合(set)
+<ul>
+<li>可以添加和删除元素
+</li>
+<li>不是可哈希的
+</li>
+</ul>
+
+</li>
+<li>不可变集合(frozenset)
+<ul>
+<li>不可以添加和删除元素
+</li>
+<li>可哈希
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-4-3-1" class="outline-4">
+<h4 id="sec-4-3-1"><span class="section-number-4">4.3.1</span> 创建集合</h4>
+<div class="outline-text-4" id="text-4-3-1">
+
+<p>创建集合的唯一方法是用工厂方法set()和frozenset()
+</p></div>
+</div>
+
+</div>
+
+<div id="outline-container-4-4" class="outline-3">
+<h3 id="sec-4-4"><span class="section-number-3">4.4</span> 集合类型的内建方法</h3>
+<div class="outline-text-3" id="text-4-4">
+
+<p>适用于所有集合的方法
+</p><table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">方法</th><th scope="col" class="left">操作符</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">s.issubset(t)</td><td class="left">&lt; &lt;= in</td></tr>
+<tr><td class="left">s.issuperset(t)</td><td class="left">&gt; &gt;=</td></tr>
+<tr><td class="left">s.union(t)</td><td class="left">竖线</td></tr>
+<tr><td class="left">s.intersection(t)</td><td class="left">&amp;</td></tr>
+<tr><td class="left">s.difference(t)</td><td class="left">-</td></tr>
+<tr><td class="left">s.symmetric_difference(t)</td><td class="left">^</td></tr>
+<tr><td class="left">s.copy()</td><td class="left"></td></tr>
+</tbody>
+</table>
+
+只适用于可变集合的方法
+
+
+
+<pre class="src src-python">+ s.update(t)
++ s.intersection_update(t)
++ s.difference_update(t)
++ s.symmetric_difference_update(t)
++ s.add(obj)
++ s.remove(obj)
++ s.discard(obj)
++ s.pop()
++ s.clear()
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5" class="outline-2">
+<h2 id="sec-5"><span class="section-number-2">5</span> 条件和循环</h2>
+<div class="outline-text-2" id="text-5">
+
+
+</div>
+
+<div id="outline-container-5-1" class="outline-3">
+<h3 id="sec-5-1"><span class="section-number-3">5.1</span> 条件和循环拾遗</h3>
+<div class="outline-text-3" id="text-5-1">
+
+<ul>
+<li>如果一个复合语句(if,while,for)的代码块仅仅包含一行代码，那么它可以和前面的语句写在同一行上。但是不推荐这样做。
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">if</span> cond : func()
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>python里没有switch/case语句，但完全可以用其他python结构替代它
+<ul>
+<li>if elif elif &hellip; else
+</li>
+<li>if xxx in ('a','b','c') &hellip; else: &hellip;
+</li>
+<li>可以把可能的case和相应的值定义在字典中
+</li>
+</ul>
+
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python"><span style="color: #a0522d;">msgs</span> = {<span style="color: #8b2252;">'create'</span>: <span style="color: #8b2252;">'create item'</span>,
+        <span style="color: #8b2252;">'delete'</span>: <span style="color: #8b2252;">'delete item'</span>,
+        <span style="color: #8b2252;">'update'</span>: <span style="color: #8b2252;">'update item'</span>}
+<span style="color: #a0522d;">default</span> = <span style="color: #8b2252;">'invalid choice... try again!'</span>
+<span style="color: #a0522d;">action</span> = msgs.get(user.cmd, default)
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>python中没有三元操作符:?，其替代品是
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python">x <span style="color: #a020f0;">if</span> c <span style="color: #a020f0;">else</span> y
+&#22914;
+<span style="color: #a0522d;">smaller</span> = x <span style="color: #a020f0;">if</span> x&lt;y <span style="color: #a020f0;">else</span> y
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>for循环既可以访问序列，也可以访问迭代器。for循环访问迭代器和访问序列的方法差不多，唯一的区别是for语句会为迭代器做一些额外的事，如调用next()方法和捕获StopIteration异常
+</li>
+<li>while和for后也可以跟else语句，else子句只在循环完成后执行，也就是说break语句也会跳过else块
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-5-2" class="outline-3">
+<h3 id="sec-5-2"><span class="section-number-3">5.2</span> 迭代器</h3>
+<div class="outline-text-3" id="text-5-2">
+
+<p>迭代器为那些功能上和序列相似的对象提供了接口，
+使得你可以迭代不是序列但表现出序列行为的对象
+</p>
+</div>
+
+<div id="outline-container-5-2-1" class="outline-4">
+<h4 id="sec-5-2-1"><span class="section-number-4">5.2.1</span> 如何迭代</h4>
+<div class="outline-text-4" id="text-5-2-1">
+
+<ul>
+<li>迭代器就是有一个 next() 方法的对象，当你或是一个循环机制(例如 for 语句)需要下一个项时, 调用迭代器的 next() 方法就可以获得它
+</li>
+<li>条目全部取出后, 会引发一个 StopIteration 异常, 这并不表示错误发生, 只是告诉外部调用者, 迭代完成
+</li>
+<li>迭代器也有一些限制. 例如你不能向后移动, 不能回到开始, 也不能复制一个迭代器
+</li>
+<li>除了序列之外，字典和文件是另外两个可迭代的python数据类型
+<ul>
+<li>字典的迭代会遍历它的key (for key in dic)
+</li>
+<li>文件对象生成的迭代器会自动调用readline()方法 (for line in fin)
+</li>
+</ul>
+
+</li>
+<li>在迭代可变对象时不要修改对象
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-5-2-2" class="outline-4">
+<h4 id="sec-5-2-2"><span class="section-number-4">5.2.2</span> 创建迭代器</h4>
+<div class="outline-text-4" id="text-5-2-2">
+
+<ul>
+<li>iter(obj) obj可以是序列，也可以是实现了__iter__()和next()方法的类
+</li>
+<li>iter(func, sentinel) 会重复地执行func，直到迭代器的下个值等于sentinel
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-5-3" class="outline-3">
+<h3 id="sec-5-3"><span class="section-number-3">5.3</span> 列表解析</h3>
+<div class="outline-text-3" id="text-5-3">
+
+
+
+
+<pre class="src src-python">[expr <span style="color: #a020f0;">for</span> iter_var <span style="color: #a020f0;">in</span> iterable]
+[expr <span style="color: #a020f0;">for</span> iter_var <span style="color: #a020f0;">in</span> iterable <span style="color: #a020f0;">if</span> cond_expr] <span style="color: #b22222;">#</span><span style="color: #b22222;">&#26465;&#20214;&#36807;&#28388;</span>
+[expr <span style="color: #a020f0;">for</span> iter_var <span style="color: #a020f0;">in</span> iterable <span style="color: #a020f0;">for</span> iter_var2 <span style="color: #a020f0;">in</span> iterable2] <span style="color: #b22222;">#</span><span style="color: #b22222;">&#21452;&#37325;&#24490;&#29615;</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-5-4" class="outline-3">
+<h3 id="sec-5-4"><span class="section-number-3">5.4</span> 生成器</h3>
+<div class="outline-text-3" id="text-5-4">
+
+<p>生成器与列表解析非常相似，语法基本相同，
+不过它不真正创建数字列表，而是返回一个生成器，
+每次计算出一个条目后，yield这个条目，并暂停代码的执行。
+</p>
+
+
+<pre class="src src-python">(expr <span style="color: #a020f0;">for</span> iter_var <span style="color: #a020f0;">in</span> iterable <span style="color: #a020f0;">if</span> cond_expr)
+</pre>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-6" class="outline-2">
+<h2 id="sec-6"><span class="section-number-2">6</span> 文件和输入输出</h2>
+<div class="outline-text-2" id="text-6">
+
+
+</div>
+
+<div id="outline-container-6-1" class="outline-3">
+<h3 id="sec-6-1"><span class="section-number-3">6.1</span> 文件内建函数open()和file()</h3>
+<div class="outline-text-3" id="text-6-1">
+
+
+
+
+<pre class="src src-python"><span style="color: #a0522d;">file_object</span> = <span style="color: #483d8b;">open</span>(file_name, access_mode=<span style="color: #8b2252;">'r'</span>, buffering=-1)
+</pre>
+
+<p>
+file()和open()具有相同的功能，可以任意替换。它们返回的是文件对象。
+</p>
+</div>
+
+<div id="outline-container-6-1-1" class="outline-4">
+<h4 id="sec-6-1-1"><span class="section-number-4">6.1.1</span> 文件对象的访问模式</h4>
+<div class="outline-text-4" id="text-6-1-1">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<tbody>
+<tr><td class="left">文件模式</td><td class="left">操作</td></tr>
+<tr><td class="left">r</td><td class="left">以读方式打开</td></tr>
+<tr><td class="left">rU 或 Ua</td><td class="left">以读方式打开, 同时提供通用换行符支持 (PEP 278)</td></tr>
+<tr><td class="left">w</td><td class="left">以写方式打开 (必要时清空)</td></tr>
+<tr><td class="left">a</td><td class="left">以追加模式打开 (从 EOF 开始, 必要时创建新文件)</td></tr>
+<tr><td class="left">r+</td><td class="left">以读写模式打开</td></tr>
+<tr><td class="left">w+</td><td class="left">以读写模式打开 (参见 w )</td></tr>
+<tr><td class="left">a+</td><td class="left">以读写模式打开 (参见 a )</td></tr>
+<tr><td class="left">rb</td><td class="left">以二进制读模式打开</td></tr>
+<tr><td class="left">wb</td><td class="left">以二进制写模式打开 (参见 w )</td></tr>
+<tr><td class="left">ab</td><td class="left">以二进制追加模式打开 (参见 a )</td></tr>
+<tr><td class="left">rb+</td><td class="left">以二进制读写模式打开 (参见 r+ )</td></tr>
+<tr><td class="left">wb+</td><td class="left">以二进制读写模式打开 (参见 w+ )</td></tr>
+<tr><td class="left">ab+</td><td class="left">以二进制读写模式打开 (参见 a+ )</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-1-2" class="outline-4">
+<h4 id="sec-6-1-2"><span class="section-number-4">6.1.2</span> 缓冲方式</h4>
+<div class="outline-text-4" id="text-6-1-2">
+
+<p>buffering用于指示访问文件所采用的缓冲方式
+</p><ul>
+<li>0表示不缓冲
+</li>
+<li>1表示只缓冲一行数据
+</li>
+<li>任何其它大于 1 的值代表使用给定值作为缓冲区大小
+</li>
+<li>不提供该参数或者给定负值代表使用系统默认缓冲机制
+<ul>
+<li>对任何类电报机( tty )设备使用行缓冲
+</li>
+<li>其它设备使用正常缓冲
+</li>
+</ul>
+
+</li>
+<li>一般情况下使用系统默认方式即可.
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-6-1-3" class="outline-4">
+<h4 id="sec-6-1-3"><span class="section-number-4">6.1.3</span> 通用换行符支持</h4>
+<div class="outline-text-4" id="text-6-1-3">
+
+<p>不同平台用来表示行结束的符号是不同的, 例如\n,\r,或者\r\n，
+当你使用'U'标志打开文件的时候, 所有的行分割符通过Python的输入方法(例如read*())返回时都会被替换为换行符NEWLINE(\n)
+在编译 Python 的时候,UNS 默认是打开的
+</p></div>
+</div>
+
+</div>
+
+<div id="outline-container-6-2" class="outline-3">
+<h3 id="sec-6-2"><span class="section-number-3">6.2</span> 文件内建方法</h3>
+<div class="outline-text-3" id="text-6-2">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">文件对象的方法</th><th scope="col" class="left">操作</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">file.close()</td><td class="left">关闭文件</td></tr>
+<tr><td class="left">file.fileno()</td><td class="left">返回文件的描述符(file descriptor ,FD, 整数值)</td></tr>
+<tr><td class="left">file.flush()</td><td class="left">刷新文件的内部缓冲区</td></tr>
+<tr><td class="left">file.isatty()</td><td class="left">判断 file 是否是一个类 tty 设备</td></tr>
+<tr><td class="left">file.next()</td><td class="left">返回文件的下一行(类似于 file.readline() ), 或在没有其它行时引发 StopIteration 异常</td></tr>
+<tr><td class="left">file.read(size=-1)</td><td class="left">从文件读取 size 个字节, 当未给定 size 或给定负值的时候, 读取剩余的所有字节, 然后作为字符串返回</td></tr>
+<tr><td class="left">file.readinto (buf, size)</td><td class="left">从文件读取 size 个字节到 buf 缓冲器(已不支持)</td></tr>
+<tr><td class="left">file.readline(size=-1)</td><td class="left">从文件中读取并返回一行(包括行结束符), 或返回最大 size个字符</td></tr>
+<tr><td class="left">file.readlines(sizhint=0)</td><td class="left">读取文件的所有行并作为一个列表返回(包含所有的行结束符); 如果给定 sizhint 且大于 0 , 那么将返回总和大约为sizhint 字节的行(大小由缓冲器容量的下一个值决定)(比如说缓冲器的大小只能为 4K 的倍数,如果 sizhint 为 15k,则最后返回的可能是 16k———译者按)</td></tr>
+<tr><td class="left">file.xreadlines ()</td><td class="left">用于迭代, 可以替换 readlines() 的一个更高效的方法</td></tr>
+<tr><td class="left">file.seek(off, whence=0)</td><td class="left">在文件中移动文件指针, 从 whence ( 0 代表文件起始, 1 代表当前位置, 2 代表文件末尾)偏移 off 字节</td></tr>
+<tr><td class="left">file.tell()</td><td class="left">返回当前在文件中的位置</td></tr>
+<tr><td class="left">file.truncate(size=file.tell())</td><td class="left">截取文件到最大 size 字节, 默认为当前文件位置</td></tr>
+<tr><td class="left">file.write(str)</td><td class="left">向文件写入字符串</td></tr>
+<tr><td class="left">file.writelines(seq)</td><td class="left">向文件写入字符串序列 seq ; seq 应该是一个返回字符串的可迭代对象; 在 2.2 前, 它只是字符串的列表</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6-3" class="outline-3">
+<h3 id="sec-6-3"><span class="section-number-3">6.3</span> 文件内建属性</h3>
+<div class="outline-text-3" id="text-6-3">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">文件对象的属性</th><th scope="col" class="left">描述</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">file.closed</td><td class="left">True 表示文件已经被关闭, 否则为 False</td></tr>
+<tr><td class="left">file.encoding</td><td class="left">文件所使用的编码 - 当 Unicode 字符串被写入数据时, 它们将自动使用 file.encoding 转换为字节字符串; 若 file.encoding 为 None 时使用系统默认编码</td></tr>
+<tr><td class="left">file.mode</td><td class="left">文件打开时使用的访问模式</td></tr>
+<tr><td class="left">file.name</td><td class="left">文件名</td></tr>
+<tr><td class="left">file.newlines</td><td class="left">未读取到行分隔符时为 None , 只有一种行分隔符时为一个字符串, 当文件有多种类型的行结束符时,则为一个包含所有当前所遇到的行结束符的列表</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6-4" class="outline-3">
+<h3 id="sec-6-4"><span class="section-number-3">6.4</span> 文件系统</h3>
+<div class="outline-text-3" id="text-6-4">
+
+
+</div>
+
+<div id="outline-container-6-4-1" class="outline-4">
+<h4 id="sec-6-4-1"><span class="section-number-4">6.4.1</span> os.path</h4>
+<div class="outline-text-4" id="text-6-4-1">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">函数</th><th scope="col" class="left">描述</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">basename()</td><td class="left">去掉目录路径, 返回文件名</td></tr>
+<tr><td class="left">dirname()</td><td class="left">去掉文件名, 返回目录路径</td></tr>
+<tr><td class="left">join()</td><td class="left">将分离的各部分组合成一个路径名</td></tr>
+<tr><td class="left">split()</td><td class="left">返回 (dirname(), basename()) 元组</td></tr>
+<tr><td class="left">splitdrive()</td><td class="left">返回 (drivename, pathname) 元组</td></tr>
+<tr><td class="left">splitext()</td><td class="left">返回 (filename, extension) 元组信息</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">getatime()</td><td class="left">返回最近访问时间</td></tr>
+<tr><td class="left">getctime()</td><td class="left">返回文件创建时间</td></tr>
+<tr><td class="left">getmtime()</td><td class="left">返回最近文件修改时间</td></tr>
+<tr><td class="left">getsize()</td><td class="left">返回文件大小(以字节为单位)</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">exists()</td><td class="left">指定路径(文件或目录)是否存在</td></tr>
+<tr><td class="left">isabs()</td><td class="left">指定路径是否为绝对路径</td></tr>
+<tr><td class="left">isdir()</td><td class="left">指定路径是否存在且为一个目录</td></tr>
+<tr><td class="left">isfile()</td><td class="left">指定路径是否存在且为一个文件</td></tr>
+<tr><td class="left">islink()</td><td class="left">指定路径是否存在且为一个符号链接</td></tr>
+<tr><td class="left">ismount()</td><td class="left">指定路径是否存在且为一个挂载点</td></tr>
+<tr><td class="left">samefile()</td><td class="left">两个路径名是否指向同个文件</td></tr>
+</tbody>
+</table>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-6-4-2" class="outline-4">
+<h4 id="sec-6-4-2"><span class="section-number-4">6.4.2</span> os</h4>
+<div class="outline-text-4" id="text-6-4-2">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">函数</th><th scope="col" class="left">描述</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">mkfifo()/mknod()</td><td class="left">创建命名管道/创建文件系统节点</td></tr>
+<tr><td class="left">remove()/unlink()</td><td class="left">Delete file 删除文件</td></tr>
+<tr><td class="left">rename()/renames()</td><td class="left">重命名文件</td></tr>
+<tr><td class="left">stat ()</td><td class="left">返回文件信息</td></tr>
+<tr><td class="left">symlink()</td><td class="left">创建符号链接</td></tr>
+<tr><td class="left">utime()</td><td class="left">更新时间戳</td></tr>
+<tr><td class="left">tmpfile()</td><td class="left">创建并打开('w+b')一个新的临时文件</td></tr>
+<tr><td class="left">walk()</td><td class="left">生成一个目录树下的所有文件名</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">chdir()/fchdir()</td><td class="left">改变当前工作目录/通过一个文件描述符改变当前工作目录</td></tr>
+<tr><td class="left">chroot()</td><td class="left">改变当前进程的根目录</td></tr>
+<tr><td class="left">listdir()</td><td class="left">列出指定目录的文件</td></tr>
+<tr><td class="left">getcwd()/getcwdu()</td><td class="left">返回当前工作目录/功能相同, 但返回一个 Unicode 对象</td></tr>
+<tr><td class="left">mkdir()/makedirs()</td><td class="left">创建目录/创建多层目录</td></tr>
+<tr><td class="left">rmdir()/removedirs()</td><td class="left">删除目录/删除多层目录</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">access()</td><td class="left">检验权限模式</td></tr>
+<tr><td class="left">chmod()</td><td class="left">改变权限模式</td></tr>
+<tr><td class="left">chown()/lchown()</td><td class="left">改变 owner 和 group ID/功能相同, 但不会跟踪链接</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">umask()</td><td class="left">设置默认权限模式</td></tr>
+<tr><td class="left">open()</td><td class="left">底层的操作系统 open (对于文件, 使用标准的内建 open() 函数)</td></tr>
+<tr><td class="left">read()/write()</td><td class="left">根据文件描述符读取/写入数据</td></tr>
+<tr><td class="left">dup()/dup2()</td><td class="left">复制文件描述符号/功能相同, 但是是复制到另一个文件描述符</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">makedev()</td><td class="left">从 major 和 minor 设备号创建一个原始设备号</td></tr>
+<tr><td class="left">major()/minor()</td><td class="left">从原始设备号获得 major/minor 设备号</td></tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-7" class="outline-2">
+<h2 id="sec-7"><span class="section-number-2">7</span> 错误和异常</h2>
+<div class="outline-text-2" id="text-7">
+
+
+</div>
+
+<div id="outline-container-7-1" class="outline-3">
+<h3 id="sec-7-1"><span class="section-number-3">7.1</span> 检测和处理异常</h3>
+<div class="outline-text-3" id="text-7-1">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">try</span>:
+    try_suite     <span style="color: #b22222;">#</span><span style="color: #b22222;">&#30417;&#25511;&#36825;&#37324;&#30340;&#24322;&#24120;</span>
+<span style="color: #a020f0;">except</span> <span style="color: #228b22;">Exception</span>[, reason]:
+    except_suite  <span style="color: #b22222;">#</span><span style="color: #b22222;">&#24322;&#24120;&#22788;&#29702;&#20195;&#30721;</span>
+</pre>
+
+<ul>
+<li>在程序运行时, 解释器尝试执行try块里的所有代码, 如果代码块完成后没有异常发生, 执行流就会忽略except语句继续执行。
+</li>
+<li>一旦一个异常被引发, 剩余代码将被忽略, 解释器将逐级向上搜索处理器, 一旦找到,就开始执行处理器中的代码。
+</li>
+<li>如果到达最顶层仍然没有找到对应处理器, 那么就认为这个异常是未处理的, Python 解释器会显示出跟踪返回消息, 然后退出
+</li>
+<li>reason是一个包含诊断信息的Exception类的实例，可以通过str(reason)打印错误原因
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-7-1-1" class="outline-4">
+<h4 id="sec-7-1-1"><span class="section-number-4">7.1.1</span> 带有多个except的try语句</h4>
+<div class="outline-text-4" id="text-7-1-1">
+
+
+
+
+<pre class="src src-python">ry:
+    try_suite
+<span style="color: #a020f0;">except</span> Exception1[, reason1]:
+    suite_for_exception_Exception1
+<span style="color: #a020f0;">except</span> Exception2[, reason2]:
+    suite_for_exception_Exception2
+</pre>
+
+<ul>
+<li>同样, 首先尝试执行 try 子句, 如果没有错误, 忽略所有的 except 从句继续执行. 如果发生异常, 解释器将在这一串处理器(except 子句)中查找匹配的异常. 如果找到对应的处理器,执行流将跳转到这里
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-1-2" class="outline-4">
+<h4 id="sec-7-1-2"><span class="section-number-4">7.1.2</span> 处理多个异常的except语句</h4>
+<div class="outline-text-4" id="text-7-1-2">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">except</span> (Exc1[, Exc2[, ... ExcN]])[, reason]:
+    suite_for_exceptions_Exc1_to_ExcN
+</pre>
+
+<ul>
+<li>except语句可以处理任意多个异常,它们被放入一个元组里
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-1-3" class="outline-4">
+<h4 id="sec-7-1-3"><span class="section-number-4">7.1.3</span> 捕获所有异常</h4>
+<div class="outline-text-4" id="text-7-1-3">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">try</span>:
+    ...
+<span style="color: #a020f0;">except</span> <span style="color: #228b22;">Exception</span>, e:
+    ...
+</pre>
+
+<ul>
+<li>一个不正确的使用方法就是说把一大段程序放入一个 try 块中, 再用一个通用的 except 语句 "过滤"掉任何致命的错误, 忽略它们。
+</li>
+<li>try-except的作用是提供一个可以提示错误或处理错误的机制, 而不是一个错误过滤器
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-1-4" class="outline-4">
+<h4 id="sec-7-1-4"><span class="section-number-4">7.1.4</span> else子句</h4>
+<div class="outline-text-4" id="text-7-1-4">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">try</span>:
+    try_suite     <span style="color: #b22222;">#</span><span style="color: #b22222;">&#30417;&#25511;&#36825;&#37324;&#30340;&#24322;&#24120;</span>
+<span style="color: #a020f0;">except</span> <span style="color: #228b22;">Exception</span>[, reason]:
+    except_suite  <span style="color: #b22222;">#</span><span style="color: #b22222;">&#24322;&#24120;&#22788;&#29702;&#20195;&#30721;</span>
+<span style="color: #a020f0;">else</span>:
+    ...
+</pre>
+
+<ul>
+<li>在try范围中没有异常被检测到时，执行else子句
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-1-5" class="outline-4">
+<h4 id="sec-7-1-5"><span class="section-number-4">7.1.5</span> finally子句</h4>
+<div class="outline-text-4" id="text-7-1-5">
+
+<ul>
+<li>finally 子句是无论异常是否发生,是否捕捉都会执行的一段代码
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-7-2" class="outline-3">
+<h3 id="sec-7-2"><span class="section-number-3">7.2</span> with语句</h3>
+<div class="outline-text-3" id="text-7-2">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">with</span> context_expr [<span style="color: #a020f0;">as</span> var]:
+    with_suite
+&#20363;&#22914;&#65306;
+<span style="color: #a020f0;">with</span> <span style="color: #483d8b;">open</span>(<span style="color: #8b2252;">'/etc/passwd'</span>, <span style="color: #8b2252;">'r'</span>) <span style="color: #a020f0;">as</span> f:
+    <span style="color: #a020f0;">for</span> eachLine <span style="color: #a020f0;">in</span> f:
+        ...
+</pre>
+
+<ul>
+<li>with会完成准备工作；发生异常时，会执行清理的代码；代码完成时，自动关闭文件；
+</li>
+<li>with语句仅能工作于支持上下文管理协议的对象
+</li>
+<li>支持上下文管理协议的成员
+<ul>
+<li>file
+</li>
+<li>decimal.Context
+</li>
+<li>thread.LockType
+</li>
+<li>threading.Lock
+</li>
+<li>threading.RLock
+</li>
+<li>threading.Condition
+</li>
+<li>threading.Semaphore
+</li>
+<li>threading.BoundedSemaphore
+</li>
+</ul>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-3" class="outline-3">
+<h3 id="sec-7-3"><span class="section-number-3">7.3</span> 触发异常</h3>
+<div class="outline-text-3" id="text-7-3">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">raise</span> [SomeException [, args [, traceback]]]
+</pre>
+
+<ul>
+<li>第一个参数,SomeExcpetion,是触发异常的名字.如果有,它必须是一个字符串,类或实例
+</li>
+<li>第二个符号为可选的args来传给异常，args是在异常时打印的信息，这可以是一个单独的对象也可以是一个对象的元组.当异常发生时,异常的参数总是作为一个元组传入
+</li>
+<li>traceback,同样是可选的(实际上很少用它),如果有的话,则是当异常触发时新生成的追踪对象
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-7-3-1" class="outline-4">
+<h4 id="sec-7-3-1"><span class="section-number-4">7.3.1</span> raise常见用法</h4>
+<div class="outline-text-4" id="text-7-3-1">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">raise 语法</th><th scope="col" class="left">描述</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">raise</td><td class="left">重新触发前一个异常,如果之前没有异常,触发 TypeError</td></tr>
+<tr><td class="left">raise string</td><td class="left">(过时的) 触发字符串异常</td></tr>
+<tr><td class="left">raise exclass</td><td class="left">触发一个异常,从 exclass 生成一个实例</td></tr>
+<tr><td class="left">raise exclass()</td><td class="left">同上</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">raise string, args</td><td class="left">提供异常参数 args,可以是一个参数也可以元组</td></tr>
+<tr><td class="left">raise exclass, args</td><td class="left">同上</td></tr>
+<tr><td class="left">raise exclass(args)</td><td class="left">同上</td></tr>
+</tbody>
+<tbody>
+<tr><td class="left">raise string, args, tb</td><td class="left">但提供一个追踪对象tb供使用</td></tr>
+<tr><td class="left">raise exclass,args, tb</td><td class="left">同上</td></tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-7-4" class="outline-3">
+<h3 id="sec-7-4"><span class="section-number-3">7.4</span> 断言</h3>
+<div class="outline-text-3" id="text-7-4">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">assert</span> expression[, arguments]
+</pre>
+
+<ul>
+<li>断言语句等价于这样的 Python 表达式,如果断言成功不采取任何措施(类似语句),否则触发AssertionError(断言错误)的异常
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-7-5" class="outline-3">
+<h3 id="sec-7-5"><span class="section-number-3">7.5</span> 标准异常</h3>
+<div class="outline-text-3" id="text-7-5">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">BaseException</th><th scope="col" class="left">所有异常的基类</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">SystemExit</td><td class="left">python解释器请求退出</td></tr>
+<tr><td class="left">KeyboardInterrupt</td><td class="left">用户中断执行(通常是输入^C)</td></tr>
+<tr><td class="left">Exception</td><td class="left">常规错误的基类</td></tr>
+<tr><td class="left">StopIteration</td><td class="left">迭代器没有更多的值</td></tr>
+<tr><td class="left">GeneratorExit</td><td class="left">生成器(generator)发生异常来通知退出</td></tr>
+<tr><td class="left">StandardError</td><td class="left">所有的内建标准异常的基类</td></tr>
+<tr><td class="left">ArithmeticError</td><td class="left">所有数值计算错误的基类</td></tr>
+<tr><td class="left">FloatingPointError</td><td class="left">浮点计算错误</td></tr>
+<tr><td class="left">OverflowError</td><td class="left">数值运算超出最大限制</td></tr>
+<tr><td class="left">ZeroDivisionError</td><td class="left">除(或取模)零 (所有数据类型)</td></tr>
+<tr><td class="left">AssertionError</td><td class="left">断言语句失败</td></tr>
+<tr><td class="left">AttributeError</td><td class="left">对象没有这个属性</td></tr>
+<tr><td class="left">EOFError</td><td class="left">没有内建输入,到达 EOF 标记</td></tr>
+<tr><td class="left">EnvironmentErrord</td><td class="left">操作系统错误的基类</td></tr>
+<tr><td class="left">IOError</td><td class="left">输入/输出操作失败</td></tr>
+<tr><td class="left">OSError</td><td class="left">操作系统错误</td></tr>
+<tr><td class="left">WindowsError</td><td class="left">Windows 系统调用失败</td></tr>
+<tr><td class="left">ImportError</td><td class="left">导入模块/对象失败</td></tr>
+<tr><td class="left">LookupError</td><td class="left">无效数据查询的基类</td></tr>
+<tr><td class="left">IndexError</td><td class="left">序列中没有没有此索引(index)</td></tr>
+<tr><td class="left">KeyError</td><td class="left">映射中没有这个键</td></tr>
+<tr><td class="left">MemoryError</td><td class="left">内存溢出错误(对于 Python 解释器不是致命的)</td></tr>
+<tr><td class="left">NameError</td><td class="left">未声明/初始化对象 (没有属性)</td></tr>
+<tr><td class="left">UnboundLocalErrorh</td><td class="left">访问未初始化的本地变量</td></tr>
+<tr><td class="left">ReferenceError</td><td class="left">弱引用(Weak reference)试图访问已经垃圾回收了的对象</td></tr>
+<tr><td class="left">RuntimeError</td><td class="left">一般的运行时错误</td></tr>
+<tr><td class="left">NotImplementedErrord</td><td class="left">尚未实现的方法</td></tr>
+<tr><td class="left">SyntaxError</td><td class="left">Python语法错误</td></tr>
+<tr><td class="left">IndentationError</td><td class="left">缩进错误</td></tr>
+<tr><td class="left">TabErrorg</td><td class="left">Tab和空格混用</td></tr>
+<tr><td class="left">SystemError</td><td class="left">一般的解释器系统错误</td></tr>
+<tr><td class="left">TypeError</td><td class="left">对类型无效的操作</td></tr>
+<tr><td class="left">ValueError</td><td class="left">传入无效的参数</td></tr>
+<tr><td class="left">UnicodeError</td><td class="left">Unicode 相关的错误</td></tr>
+<tr><td class="left">UnicodeDecodeError</td><td class="left">Unicode 解码时的错误</td></tr>
+<tr><td class="left">UnicodeEncodeError</td><td class="left">Unicode 编码时错误</td></tr>
+<tr><td class="left">UnicodeTranslateErrorf</td><td class="left">Unicode 转换时错误</td></tr>
+<tr><td class="left">Warning</td><td class="left">警告的基类</td></tr>
+<tr><td class="left">DeprecationWarning</td><td class="left">关于被弃用的特征的警告</td></tr>
+<tr><td class="left">FutureWarning</td><td class="left">关于构造将来语义会有改变的警告</td></tr>
+<tr><td class="left">OverflowWarning</td><td class="left">旧的关于自动提升为长整型(long)的警告</td></tr>
+<tr><td class="left">PendingDeprecationWarning</td><td class="left">关于特性将会被废弃的警告</td></tr>
+<tr><td class="left">RuntimeWarning</td><td class="left">可疑的运行时行为(runtime behavior)的警告</td></tr>
+<tr><td class="left">SyntaxWarning</td><td class="left">可疑的语法的警告</td></tr>
+<tr><td class="left">UserWarning</td><td class="left">用户代码生成的警告</td></tr>
+</tbody>
+</table>
+
+<ul>
+<li>SystemExit,KeyboardInterrupt和Exception派生自BaseException
+</li>
+<li>其他素有内建异常都派生自Exception
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-8" class="outline-2">
+<h2 id="sec-8"><span class="section-number-2">8</span> 函数和函数式编程</h2>
+<div class="outline-text-2" id="text-8">
+
+
+</div>
+
+<div id="outline-container-8-1" class="outline-3">
+<h3 id="sec-8-1"><span class="section-number-3">8.1</span> 函数拾遗</h3>
+<div class="outline-text-3" id="text-8-1">
+
+<ul>
+<li>当没有显式地返回元素或者如果返回None时,python会返回一个None
+</li>
+<li>如果函数返回多个对象,python把他们聚集起来并以一个元组返回
+</li>
+<li>关键字参数的概念仅仅针对函数的调用。这种理念是让调用者通过函数调用中的参数名字来区分参数。这样规范允许参数缺失或者不按顺序,因为解释器能通过给出的关键字来匹配参数的值。
+</li>
+<li>默认参数就是声明了默认值的参数。因为给参数赋予了默认值,所以在函数调用时,不向该参数传入值也是允许的
+</li>
+<li>Python 同样允许程序员执行一个没有显式定义参数的函数,相应的方法是通过一个把元组(非关键字参数)或字典(关键字参数)作为参数组传递给函数
+
+
+
+<pre class="src src-python">func(positional_args, 
+     keyword_args,
+     *tuple_grp_nonkw_args,
+     **dict_grp_kw_args)
+</pre>
+
+</li>
+<li>Python 也不允许在函数未声明之前,对其进行引用或者调用
+
+
+
+<pre class="src src-python"><span style="color: #b22222;">#</span><span style="color: #b22222;">&#27880;&#24847;&#19968;&#31181;&#24773;&#20917;</span>
+<span style="color: #a020f0;">def</span> <span style="color: #0000ff;">foo</span>():
+    <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'in foo()'</span>
+    bar()
+<span style="color: #a020f0;">def</span> <span style="color: #0000ff;">bar</span>():
+    <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'in bar()'</span>
+foo()
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#36825;&#27573;&#20195;&#30721;&#26159;&#27491;&#30830;&#30340;&#22240;&#20026;&#21363;&#20351;&#23545;bar()&#36827;&#34892;&#30340;&#35843;&#29992;&#20986;&#29616;&#22312; bar()&#30340;&#23450;&#20041;&#20043;&#21069;, </span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#20294;foo()&#26412;&#36523;&#19981;&#26159;&#22312; bar()&#22768;&#26126;&#20043;&#21069;&#34987;&#35843;&#29992;&#30340;&#12290;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#25442;&#21477;&#35805;&#35828;,&#25105;&#20204;&#22768;&#26126; foo(),&#28982;&#21518;&#20877;&#22768;&#26126; bar(),&#25509;&#30528;&#35843;&#29992; foo(),</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#20294;&#26159;&#21040;&#37027;&#26102;,bar()&#24050;&#32463;&#23384;&#22312;&#20102;,&#25152;&#20197;&#35843;&#29992;&#25104;&#21151;</span>
+</pre>
+
+</li>
+<li>在函数体内创建另外一个函数对象是完全合法的。这种函数叫做内部/内嵌函数
+</li>
+<li>如果内部函数的定义包含了在外部函数里定义的对象的引用(这个对象甚至可以是在外部函数之外),内部函数会变成被称为闭包(closure)
+</li>
+<li>在python中，函数就像其他对象，是可以被引用的，可以作为参数传入函数,作为列表和字典等等容器对象的元素
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">foo</span>():
+... <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'in foo()'</span>
+...
+&gt;&gt;&gt; <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">bar</span>(argfunc):
+... argfunc()
+...
+&gt;&gt;&gt; bar(foo)
+<span style="color: #a020f0;">in</span> foo()
+</pre>
+
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-8-2" class="outline-3">
+<h3 id="sec-8-2"><span class="section-number-3">8.2</span> <span class="todo TODO">TODO</span> 装饰器</h3>
+<div class="outline-text-3" id="text-8-2">
+
+</div>
+
+</div>
+
+<div id="outline-container-8-3" class="outline-3">
+<h3 id="sec-8-3"><span class="section-number-3">8.3</span> 参数</h3>
+<div class="outline-text-3" id="text-8-3">
+
+<ul>
+<li>位置参数没有任何默认值的话,传入函数的参数数目必须和声明的参数数目一致
+</li>
+<li>可以不按位置地将关键字参数传入函数,给出关键字来匹配其在参数列表中的合适的位置
+</li>
+<li>默认参数
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">def</span> <span style="color: #0000ff;">func</span>(posargs, defarg1=dval1, defarg2=dval2,...):
+    ...
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>可变长的参数必须在位置和默认参数之后
+</li>
+<li>非关键字变长参数
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">def</span> <span style="color: #0000ff;">function_name</span>([formal_args,] *vargs_tuple):
+    ...
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>关键字变长参数
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">def</span> <span style="color: #0000ff;">function_name</span>([formal_args,][*vargs_tuple,] **vargs_dict):
+    ...
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>在函数调用中，可以将非关键字参数放在元组中，将关键字参数放在字典中
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-pytho">&gt;&gt;&gt; aTuple = (6, 7, 8)
+&gt;&gt;&gt; aDict = {'z': 9}
+&gt;&gt;&gt; newfoo(1, 2, 3, x=4, y=5, *aTuple, **aDict)
+</pre>
+
+
+</blockquote>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-8-4" class="outline-3">
+<h3 id="sec-8-4"><span class="section-number-3">8.4</span> 函数式编程</h3>
+<div class="outline-text-3" id="text-8-4">
+
+
+</div>
+
+<div id="outline-container-8-4-1" class="outline-4">
+<h4 id="sec-8-4-1"><span class="section-number-4">8.4.1</span> lambda</h4>
+<div class="outline-text-4" id="text-8-4-1">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">lambda</span> [arg1[, arg2, ... argN]]: expression
+&#31561;&#20215;&#20110;
+<span style="color: #a020f0;">def</span> <span style="color: #0000ff;">func</span>([arg1[, arg2, ... argN]]):
+    <span style="color: #a020f0;">return</span> expression
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-8-4-2" class="outline-4">
+<h4 id="sec-8-4-2"><span class="section-number-4">8.4.2</span> 内建函数apply() filter() map() reduce()</h4>
+<div class="outline-text-4" id="text-8-4-2">
+
+
+
+
+<pre class="src src-python"><span style="color: #b22222;">#</span><span style="color: #b22222;">&#29992;&#21487;&#36873;&#30340;&#21442;&#25968;&#26469;&#35843;&#29992; func,nkw &#20026;&#38750;&#20851;&#38190;&#23383;&#21442;&#25968;,kw&#20851;&#38190;&#23383;&#21442;&#25968;;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#36820;&#22238;&#20540;&#26159;&#20989;&#25968;&#35843;&#29992;&#30340;&#36820;&#22238;&#20540;</span>
+<span style="color: #483d8b;">apply</span>(func[, nkw][, kw])
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#35843;&#29992;&#19968;&#20010;&#24067;&#23572;&#20989;&#25968; func &#26469;&#36845;&#20195;&#36941;&#21382;&#27599;&#20010; seq &#20013;&#30340;&#20803;&#32032;;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#36820;&#22238;&#19968;&#20010;&#20351; func &#36820;&#22238;&#20540;&#20026; ture &#30340;&#20803;&#32032;&#30340;&#24207;&#21015;&#12290;</span>
+<span style="color: #483d8b;">filter</span>(func, seq)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#23558;&#20989;&#25968; func &#20316;&#29992;&#20110;&#32473;&#23450;&#24207;&#21015;(s)&#30340;&#27599;&#20010;&#20803;&#32032;,&#24182;&#29992;&#19968;&#20010;&#21015;&#34920;&#26469;&#25552;&#20379;&#36820;&#22238;&#20540;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#22914;&#26524;func&#20026;None,&#36820;&#22238;&#19968;&#20010;&#21547;&#26377;&#27599;&#20010;&#24207;&#21015;&#20013;&#20803;&#32032;&#38598;&#21512;&#30340;n&#20010;&#20803;&#32452;&#30340;&#21015;&#34920;</span>
+<span style="color: #483d8b;">map</span>(func, seq1[,seq2...])
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#23558;&#20108;&#20803;&#20989;&#25968;&#20316;&#29992;&#20110; seq &#24207;&#21015;&#30340;&#20803;&#32032;,&#27599;&#27425;&#25658;&#24102;&#19968;&#23545;(&#20808;&#21069;&#30340;&#32467;&#26524;&#20197;&#21450;&#19979;&#19968;&#20010;&#24207;&#21015;&#20803;&#32032;),</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#36830;&#32493;&#30340;&#23558;&#29616;&#26377;&#30340;&#32467;&#26524;&#21644;&#19979;&#19968;&#20010;&#20540;&#20316;&#29992;&#22312;&#33719;&#24471;&#30340;&#38543;&#21518;&#30340;&#32467;&#26524;&#19978;,&#26368;&#21518;&#20943;&#23569;&#25105;&#20204;&#30340;&#24207;&#21015;&#20026;&#19968;&#20010;&#21333;&#19968;&#30340;&#36820;&#22238;&#20540;;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#22914;&#26524;&#21021;&#22987;&#20540; init &#32473;&#23450;,&#31532;&#19968;&#20010;&#27604;&#36739;&#20250;&#26159; init &#21644;&#31532;&#19968;&#20010;&#24207;&#21015;&#20803;&#32032;&#32780;&#19981;&#26159;&#24207;&#21015;&#30340;&#22836;&#20004;&#20010;&#20803;&#32032;&#12290;</span>
+<span style="color: #483d8b;">reduce</span>(func, seq[, init])
+</pre>
+
+<ul>
+<li>现在函数调用的语法允许变长参数，因此apply()将来会被逐步淘汰
+</li>
+<li>对于map函数，其中提供了多少个seq，func就应接受多少个参数
+</li>
+<li>对于reduce函数，如果没有提供init，函数首先取seq的前两个元素合并，如果提供了init，函数首先取init和seq的第一个元素计算结果
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-8-5" class="outline-3">
+<h3 id="sec-8-5"><span class="section-number-3">8.5</span> 变量作用域</h3>
+<div class="outline-text-3" id="text-8-5">
+
+
+</div>
+
+<div id="outline-container-8-5-1" class="outline-4">
+<h4 id="sec-8-5-1"><span class="section-number-4">8.5.1</span> global</h4>
+<div class="outline-text-4" id="text-8-5-1">
+
+<p>在局部作用域中，为了明确地引用一个已命名的全局变量,必须使用 global 语句
+</p></div>
+
+</div>
+
+<div id="outline-container-8-5-2" class="outline-4">
+<h4 id="sec-8-5-2"><span class="section-number-4">8.5.2</span> 闭包</h4>
+<div class="outline-text-4" id="text-8-5-2">
+
+<ul>
+<li>如果在一个内部函数里,对在外部作用域(但不是在全局作用域)的变量进行引用,那么内部函数就被认为是闭包
+</li>
+<li>定义在外部函数内的但由内部函数引用或者使用的变量被称为自由变量
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-8-6" class="outline-3">
+<h3 id="sec-8-6"><span class="section-number-3">8.6</span> 生成器</h3>
+<div class="outline-text-3" id="text-8-6">
+
+<p>与迭代器相似，生成器对象有next()方法，当没有更多值返回时抛出StopIteration异常
+</p>
+
+
+<pre class="src src-python"><span style="color: #a020f0;">def</span> <span style="color: #0000ff;">simpleGen</span>():
+    <span style="color: #a020f0;">yield</span> 1
+    <span style="color: #a020f0;">yield</span> <span style="color: #8b2252;">'2 --&gt; punch!'</span>
+&gt;&gt;&gt; <span style="color: #a0522d;">myG</span> = simpleGen()
+&gt;&gt;&gt; myG.<span style="color: #483d8b;">next</span>()
+1
+&gt;&gt;&gt; myG.<span style="color: #483d8b;">next</span>()
+<span style="color: #8b2252;">'2 --&gt; punch!'</span>
+&gt;&gt;&gt; myG.<span style="color: #483d8b;">next</span>()
+Traceback (most recent call last):
+File <span style="color: #8b2252;">""</span>, line 1, <span style="color: #a020f0;">in</span> ?
+myG.<span style="color: #483d8b;">next</span>() <span style="color: #228b22;">StopIteration</span>
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-9" class="outline-2">
+<h2 id="sec-9"><span class="section-number-2">9</span> 模块</h2>
+<div class="outline-text-2" id="text-9">
+
+<ul>
+<li>模块的文件名就是模块的名字加上扩展名.py
+</li>
+<li>与其他可以导入类的语言不同,在python中导入的是模块或模块属性
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-9-1" class="outline-3">
+<h3 id="sec-9-1"><span class="section-number-3">9.1</span> 搜索路径</h3>
+<div class="outline-text-3" id="text-9-1">
+
+<ul>
+<li>通过PYTHONPATH环境变量设置搜索路径
+</li>
+<li>sys.path保存了搜索路径的列表,通过sys.path.append()方法添加搜索路径
+</li>
+<li>sys.modules是一个字典,使用sys.modules保存了当前导入的模块和这些模块的路径
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-9-2" class="outline-3">
+<h3 id="sec-9-2"><span class="section-number-3">9.2</span> 名称空间</h3>
+<div class="outline-text-3" id="text-9-2">
+
+<p>在程序执行期间有两个或三个活动的名称空间
+</p><ol>
+<li>局部名称空间(在执行期间是不断变化的)
+</li>
+<li>全局名称空间
+</li>
+<li>内建名称空间
+</li>
+</ol>
+
+
+</div>
+
+<div id="outline-container-9-2-1" class="outline-4">
+<h4 id="sec-9-2-1"><span class="section-number-4">9.2.1</span> 名称空间的加载顺序</h4>
+<div class="outline-text-4" id="text-9-2-1">
+
+<ol>
+<li>python解释器首先加载内建名称空间(由__builtins__模块中的名字构成),
+</li>
+<li>随后加载执行模块的全局名称空间,它会在模块开始执行后变为活动名称空间,
+</li>
+<li>如果在执行期间调用了一个函数,那么将创建出局部名称空间.
+</li>
+</ol>
+
+<p>可以通过globals()或locals()内建函数判断一个名字所属的名称空间.
+</p></div>
+
+</div>
+
+<div id="outline-container-9-2-2" class="outline-4">
+<h4 id="sec-9-2-2"><span class="section-number-4">9.2.2</span> 名称查找</h4>
+<div class="outline-text-4" id="text-9-2-2">
+
+<p>访问一个属性时,解释器必须在三个名称空间中的一个找他它
+</p><ol>
+<li>首先在局部名称空间找
+</li>
+<li>如果没有找到,继续在全局名称空间找
+</li>
+<li>如果没有找到,将在内建名称空间找
+</li>
+</ol>
+
+<p>如果所有尝试都失败了,将产生NameError错误
+</p></div>
+</div>
+
+</div>
+
+<div id="outline-container-9-3" class="outline-3">
+<h3 id="sec-9-3"><span class="section-number-3">9.3</span> 导入模块</h3>
+<div class="outline-text-3" id="text-9-3">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">import</span> module
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#19981;&#25512;&#33616;,&#26368;&#22909;&#19968;&#34892;&#23548;&#20837;&#19968;&#20010;&#27169;&#22359;</span>
+<span style="color: #a020f0;">import</span> module1[, module2[,... moduleN]]
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#23548;&#20837;&#25351;&#23450;&#30340;&#27169;&#22359;&#23646;&#24615;(&#25226;&#25351;&#23450;&#21517;&#31216;&#23548;&#20837;&#21040;&#24403;&#21069;&#20316;&#29992;&#22495;)</span>
+<span style="color: #a020f0;">from</span> module <span style="color: #a020f0;">import</span> name1[, name2[,... nameN]] 
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#26367;&#25442;&#27169;&#22359;&#30340;&#21407;&#22987;&#21517;&#31216;</span>
+<span style="color: #a020f0;">import</span> module <span style="color: #a020f0;">as</span> other_name
+<span style="color: #a020f0;">from</span> module <span style="color: #a020f0;">import</span> name <span style="color: #a020f0;">as</span> other_name
+</pre>
+
+
+</div>
+
+<div id="outline-container-9-3-1" class="outline-4">
+<h4 id="sec-9-3-1"><span class="section-number-4">9.3.1</span> 模块导入的特性</h4>
+<div class="outline-text-4" id="text-9-3-1">
+
+<ul>
+<li>被导入模块的顶层代码会被执行
+</li>
+<li>一个模块可以被多次导入,但是只会被加载(执行)一次
+</li>
+<li>使用from-import可以把名字导入到当前名称空间里去
+</li>
+<li>使用from-import,对这些变量的改变只影响它在当前空间中的拷贝,对原始空间没有影响
+</li>
+<li>对于那些在新版本中可能会成为标准的新特性,可以通过from __future__import name导入,但是不能直接import __future__
+</li>
+<li>属性名前加下划线,可以阻止属性在"from module import * "时被导入,不过如果导入的是模块,或显式地导入某个属性(如foo._bar),这个隐藏数据的方法就不起作用了
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-9-4" class="outline-3">
+<h3 id="sec-9-4"><span class="section-number-3">9.4</span> 内建函数</h3>
+<div class="outline-text-3" id="text-9-4">
+
+
+</div>
+
+<div id="outline-container-9-4-1" class="outline-4">
+<h4 id="sec-9-4-1"><span class="section-number-4">9.4.1</span> __import__()</h4>
+<div class="outline-text-4" id="text-9-4-1">
+
+<p>__import__()是导入模块的函数,import语句就是调用这个函数来完成工作
+</p>
+
+
+<pre class="src src-python"><span style="color: #483d8b;">__import__</span>(module_name[, <span style="color: #483d8b;">globals</span>[, <span style="color: #483d8b;">locals</span>[, fromlist]]])
+</pre>
+
+<ul>
+<li>module_name变量是要导入模块的名称
+</li>
+<li>globals 是包含当前全局符号表的名字的字典,
+</li>
+<li>locals 是包含局部符号表的名字的字典
+</li>
+<li>fromlist 是一个使用 from-import 语句所导入符号的列表
+</li>
+<li>globals, locals, 以及fromlist参数都是可选的,默认分别为globals(),locals()和[]
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-9-4-2" class="outline-4">
+<h4 id="sec-9-4-2"><span class="section-number-4">9.4.2</span> globals()和locals()</h4>
+<div class="outline-text-4" id="text-9-4-2">
+
+<p>globals() 和 locals() 内建函数分别返回调用者全局和局部名称空间的字典
+</p></div>
+
+</div>
+
+<div id="outline-container-9-4-3" class="outline-4">
+<h4 id="sec-9-4-3"><span class="section-number-4">9.4.3</span> reload()</h4>
+<div class="outline-text-4" id="text-9-4-3">
+
+<p>reload() 内建函数可以重新导入一个已经导入的模块
+</p>
+
+
+<pre class="src src-python"><span style="color: #483d8b;">reload</span>(module)
+</pre>
+
+<ul>
+<li>reload的参数必须是模块对象,不能是代表模块的字符串
+</li>
+<li>reload会导致模块被再次执行
+</li>
+</ul>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-9-5" class="outline-3">
+<h3 id="sec-9-5"><span class="section-number-3">9.5</span> 包</h3>
+<div class="outline-text-3" id="text-9-5">
+
+
+
+
+<pre class="example">phtone/
+    __init__.py
+    common_utils.py
+    mobile/
+        __init__.py
+        analog.py
+        digital.py
+</pre>
+
+
+</div>
+
+<div id="outline-container-9-5-1" class="outline-4">
+<h4 id="sec-9-5-1"><span class="section-number-4">9.5.1</span> 导入子包</h4>
+<div class="outline-text-4" id="text-9-5-1">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">import</span> phone.mobile.analog
+phone.mobile.analog.dial()
+
+<span style="color: #a020f0;">from</span> phone <span style="color: #a020f0;">import</span> mobile
+mobile.analog.dial()
+
+<span style="color: #a020f0;">from</span> phone.mobile <span style="color: #a020f0;">import</span> analog
+analog.dial()
+
+<span style="color: #a020f0;">from</span> phone.mobile.analog <span style="color: #a020f0;">import</span> dial
+dial()
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-9-5-2" class="outline-4">
+<h4 id="sec-9-5-2"><span class="section-number-4">9.5.2</span> __init__.py</h4>
+<div class="outline-text-4" id="text-9-5-2">
+
+<ul>
+<li>__init__.py文件是初始化模块,from-import语句导入子包时需要用到它
+</li>
+<li>如果没有用到,它们可以是空文件
+</li>
+<li>使用from package.module import *导入所有属性时,会查找__init__.py中__all__变量,该变量是一个模块名字符串列表,包含执行这条语句时应该导入的模块的名字
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-9-5-3" class="outline-4">
+<h4 id="sec-9-5-3"><span class="section-number-4">9.5.3</span> 相对导入</h4>
+<div class="outline-text-4" id="text-9-5-3">
+
+
+
+
+<pre class="src src-python">&#20551;&#35774;&#22312;digital.py&#25991;&#20214;&#20013;&#23548;&#20837;
+<span style="color: #a020f0;">from</span> phone.mobile.analog <span style="color: #a020f0;">import</span> dial  <span style="color: #b22222;">#</span><span style="color: #b22222;">&#32477;&#23545;&#23548;&#20837;</span>
+<span style="color: #a020f0;">from</span> .analog <span style="color: #a020f0;">import</span> dial <span style="color: #b22222;">#</span><span style="color: #b22222;">&#30456;&#23545;&#23548;&#20837;</span>
+<span style="color: #a020f0;">from</span> ..common_util <span style="color: #a020f0;">import</span> setup  <span style="color: #b22222;">#</span><span style="color: #b22222;">&#30456;&#23545;&#23548;&#20837;</span>
+</pre>
+
+<ul>
+<li>import语句总是绝对导入的,即这些名字必须通过搜索路径来访问
+</li>
+<li>所以相对导入只应用于from-import语句
+</li>
+</ul>
+
+
+</div>
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-10" class="outline-2">
+<h2 id="sec-10"><span class="section-number-2">10</span> 面向对象编程</h2>
+<div class="outline-text-2" id="text-10">
+
+
+</div>
+
+<div id="outline-container-10-1" class="outline-3">
+<h3 id="sec-10-1"><span class="section-number-3">10.1</span> 类</h3>
+<div class="outline-text-3" id="text-10-1">
+
+
+</div>
+
+<div id="outline-container-10-1-1" class="outline-4">
+<h4 id="sec-10-1-1"><span class="section-number-4">10.1.1</span> 创建类</h4>
+<div class="outline-text-4" id="text-10-1-1">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">class</span> <span style="color: #228b22;">ClassName</span>(bases):
+    <span style="color: #8b2252;">'class documentation string'</span>
+    class_suite <span style="color: #b22222;">#</span><span style="color: #b22222;">&#31867;&#20307;</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-10-1-2" class="outline-4">
+<h4 id="sec-10-1-2"><span class="section-number-4">10.1.2</span> 类属性</h4>
+<div class="outline-text-4" id="text-10-1-2">
+
+<ul>
+<li id="sec-10-1-2-1">类的数据属性<br/>
+也就是静态数据属性,类的数据属性通过类名访问
+
+
+
+<pre class="src src-python">&gt;&gt; <span style="color: #a020f0;">class</span> <span style="color: #228b22;">C</span>(<span style="color: #483d8b;">object</span>):
+... <span style="color: #a0522d;">foo</span> = 100
+&gt;&gt;&gt; <span style="color: #a020f0;">print</span> C.foo
+</pre>
+
+</li>
+</ul>
+<ul>
+<li id="sec-10-1-2-2">方法<br/>
+尽管方法是类的属性,但是方法只能由类的实例来调用
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a020f0;">class</span> <span style="color: #228b22;">MyClass</span>(<span style="color: #483d8b;">object</span>):
+...    <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">myNoActionMethod</span>(<span style="color: #a020f0;">self</span>):
+...        <span style="color: #a020f0;">pass</span>
+&gt;&gt;&gt; <span style="color: #a0522d;">mc</span> = MyClass()
+&gt;&gt;&gt; mc.myNoActionMethod()
+</pre>
+
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-10-1-3" class="outline-4">
+<h4 id="sec-10-1-3"><span class="section-number-4">10.1.3</span> 查看类的属性</h4>
+<div class="outline-text-4" id="text-10-1-3">
+
+<ul>
+<li>dir(classname) 返回对象属性的名字列表
+</li>
+<li>classname.__dict__ 返回字典,键是属性名,值是属性对象的数据值
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-10-1-4" class="outline-4">
+<h4 id="sec-10-1-4"><span class="section-number-4">10.1.4</span> 特殊的类属性</h4>
+<div class="outline-text-4" id="text-10-1-4">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">特殊属性</th><th scope="col" class="left">涵义</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">__name__</td><td class="left">类的名字(字符串)</td></tr>
+<tr><td class="left">__doc__</td><td class="left">类的文档字符串</td></tr>
+<tr><td class="left">__bases__</td><td class="left">类的所有父类构成的元组</td></tr>
+<tr><td class="left">__dict__</td><td class="left">类的属性</td></tr>
+<tr><td class="left">__module__</td><td class="left">类定义所在的模块</td></tr>
+<tr><td class="left">__class__</td><td class="left">实例对应的类(仅新式类中)</td></tr>
+</tbody>
+</table>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-10-2" class="outline-3">
+<h3 id="sec-10-2"><span class="section-number-3">10.2</span> 实例</h3>
+<div class="outline-text-3" id="text-10-2">
+
+
+</div>
+
+<div id="outline-container-10-2-1" class="outline-4">
+<h4 id="sec-10-2-1"><span class="section-number-4">10.2.1</span> 创建实例</h4>
+<div class="outline-text-4" id="text-10-2-1">
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a020f0;">class</span> <span style="color: #228b22;">MyClass</span>(<span style="color: #483d8b;">object</span>):
+<span style="color: #b22222;"># </span><span style="color: #b22222;">define class &#23450;&#20041;&#31867;</span>
+... <span style="color: #a020f0;">pass</span>
+&gt;&gt;&gt; <span style="color: #a0522d;">mc</span> = MyClass() <span style="color: #b22222;">#</span><span style="color: #b22222;">&#24471;&#21040;&#23454;&#20363;</span>
+</pre>
+
+<ul>
+<li>创建实例不用new,而是类似于函数调用的方式
+</li>
+<li>python会首先创建该实例,而后调用__init__()方法,也即__init__()方法是在创建实例后调用的第一个方法,用于在开始使用实例之前做些准备工作
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-10-2-2" class="outline-4">
+<h4 id="sec-10-2-2"><span class="section-number-4">10.2.2</span> 实例属性</h4>
+<div class="outline-text-4" id="text-10-2-2">
+
+<ul>
+<li>实例仅拥有数据属性(方法严格来说是类属性)
+</li>
+<li>当一个实例被释放后,它的属性同时也被清除了
+</li>
+<li>设置实例的属性可以在实例创建后任意时间进行(__init__()是最早的可以设置实例属性的地方)
+</li>
+<li>python允许动态创建实例属性
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a020f0;">class</span> <span style="color: #228b22;">MyClass</span>(<span style="color: #483d8b;">object</span>):
+...     <span style="color: #a020f0;">pass</span>
+... 
+&gt;&gt;&gt; <span style="color: #a0522d;">mc</span> = MyClass()
+&gt;&gt;&gt; <span style="color: #a0522d;">mc.name</span> = <span style="color: #8b2252;">'wch'</span>
+&gt;&gt;&gt; mc.name
+<span style="color: #8b2252;">'wch'</span>
+</pre>
+
+
+</blockquote>
+
+
+</div>
+
+</div>
+
+<div id="outline-container-10-2-3" class="outline-4">
+<h4 id="sec-10-2-3"><span class="section-number-4">10.2.3</span> 查看实例属性</h4>
+<div class="outline-text-4" id="text-10-2-3">
+
+<ul>
+<li>dir(instance)
+</li>
+<li>instance.__dict__
+</li>
+</ul>
+
+</div>
+
+</div>
+
+<div id="outline-container-10-2-4" class="outline-4">
+<h4 id="sec-10-2-4"><span class="section-number-4">10.2.4</span> 特殊实例属性</h4>
+<div class="outline-text-4" id="text-10-2-4">
+
+<table  border="2" cellspacing="0" cellpadding="6" rules="all" frame="border">
+<colgroup><col class="left" /><col class="left" />
+</colgroup>
+<thead>
+<tr><th scope="col" class="left">特殊属性</th><th scope="col" class="left">涵义</th></tr>
+</thead>
+<tbody>
+<tr><td class="left">__class__</td><td class="left">实例所属的类</td></tr>
+<tr><td class="left">__dict__</td><td class="left">实例的属性</td></tr>
+</tbody>
+</table>
+
+</div>
+
+</div>
+
+<div id="outline-container-10-2-5" class="outline-4">
+<h4 id="sec-10-2-5"><span class="section-number-4">10.2.5</span> 类数据属性 vs 实例数据属性</h4>
+<div class="outline-text-4" id="text-10-2-5">
+
+<ul>
+<li>类和实例都是名字空间:类是类属性的名字空间,实例则是实例属性的
+</li>
+<li>用类来访问类数据属性,如果实例没有同名的属性,也可以用实例来访问
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a020f0;">class</span> <span style="color: #228b22;">C</span>(<span style="color: #483d8b;">object</span>):       <span style="color: #b22222;">#</span><span style="color: #b22222;">&#23450;&#20041;&#31867;</span>
+...     <span style="color: #a0522d;">version</span> = 1.2      <span style="color: #b22222;">#</span><span style="color: #b22222;">&#38745;&#24577;&#25104;&#21592;</span>
+...
+&gt;&gt;&gt; <span style="color: #a0522d;">c</span> = C()                <span style="color: #b22222;">#</span><span style="color: #b22222;">&#23454;&#20363;&#21270;</span>
+&gt;&gt;&gt; C.version              <span style="color: #b22222;">#</span><span style="color: #b22222;">&#36890;&#36807;&#31867;&#26469;&#35775;&#38382;</span>
+1.2
+&gt;&gt;&gt; c.version              <span style="color: #b22222;">#</span><span style="color: #b22222;">&#36890;&#36807;&#23454;&#20363;&#26469;&#35775;&#38382;</span>
+1.2
+&gt;&gt;&gt; <span style="color: #a0522d;">C.version</span> += 0.1       <span style="color: #b22222;">#</span><span style="color: #b22222;">&#36890;&#36807;&#31867;(&#21482;&#33021;&#36825;&#26679;)&#26469;&#26356;&#26032;</span>
+&gt;&gt;&gt; C.version              <span style="color: #b22222;">#</span><span style="color: #b22222;">&#31867;&#35775;&#38382;</span>
+1.3
+&gt;&gt;&gt; c.version              <span style="color: #b22222;">#</span><span style="color: #b22222;">&#23454;&#20363;&#35775;&#38382;&#23427;,&#20854;&#20540;&#24050;&#34987;&#25913;&#21464;</span>
+1.3
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>任何对实例属性的赋值都会创建一个实例属性(如果不存在的话)并且对其赋值,因此, <b>不能使用实例访问类数据属性来更新它的值</b>
+</li>
+</ul>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a020f0;">class</span> <span style="color: #228b22;">Foo</span>(<span style="color: #483d8b;">object</span>):
+...     <span style="color: #a0522d;">x</span> = 1.5
+...
+&gt;&gt;&gt; <span style="color: #a0522d;">foo</span> = Foo()
+&gt;&gt;&gt; foo.x               <span style="color: #b22222;">#</span><span style="color: #b22222;">&#35775;&#38382;&#30340;&#26159;&#31867;&#23646;&#24615;</span>
+1.5
+&gt;&gt;&gt; <span style="color: #a0522d;">foo.x</span> = 1.7         <span style="color: #b22222;">#</span><span style="color: #b22222;">&#35797;&#30528;&#26356;&#26032;&#31867;&#23646;&#24615;,&#23454;&#38469;&#19978;&#21019;&#24314;&#20102;&#19968;&#20010;&#26032;&#30340;&#23454;&#20363;&#23646;&#24615;</span>
+&gt;&gt;&gt; foo.x               
+1.7
+&gt;&gt;&gt; Foo.x               <span style="color: #b22222;">#</span><span style="color: #b22222;">&#31867;&#23646;&#24615;&#20381;&#28982;&#27809;&#26377;&#25913;&#21464;</span>
+1.5
+&gt;&gt;&gt; <span style="color: #a020f0;">del</span> foo.x           <span style="color: #b22222;">#</span><span style="color: #b22222;">&#21024;&#38500;&#23454;&#20363;&#23646;&#24615;</span>
+&gt;&gt;&gt; foo.x               <span style="color: #b22222;">#</span><span style="color: #b22222;">&#21448;&#21487;&#20197;&#35775;&#38382;&#21040;&#31867;&#23646;&#24615;</span>
+1.5
+
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-10-3" class="outline-3">
+<h3 id="sec-10-3"><span class="section-number-3">10.3</span> 方法</h3>
+<div class="outline-text-3" id="text-10-3">
+
+<ul>
+<li>方法是类的属性
+</li>
+<li>方法只能被类的实例调用
+</li>
+<li>方法定义中的第一个参数都是变量self,表示调用此方法的实例对象
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-10-3-1" class="outline-4">
+<h4 id="sec-10-3-1"><span class="section-number-4">10.3.1</span> 静态方法和类方法</h4>
+<div class="outline-text-4" id="text-10-3-1">
+
+<ul>
+<li>使用类名来调用静态方法和类方法
+</li>
+<li>类方法的第一个参数是类,而不是实例
+</li>
+<li>使用函数修饰符将一个函数变为静态方法或类方法
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">class</span> <span style="color: #228b22;">TestStaticMethod</span>:
+    <span style="color: #228b22;">@staticmethod</span>
+    <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">foo</span>():
+        <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'calling static method foo()'</span>
+
+<span style="color: #a020f0;">class</span> <span style="color: #228b22;">TestClassMethod</span>:
+    <span style="color: #228b22;">@classmethod</span>
+    <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">foo</span>(cls):
+        <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'calling class method foo()'</span>
+        <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'foo() is part of class:'</span>, cls.<span style="color: #483d8b;">__name__</span>
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>使用staticmethod()和classmethod()内建函数将一个函数变为静态方法或类方法
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">class</span> <span style="color: #228b22;">TestStaticMethod</span>:
+    <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">foo</span>():
+        <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'calling static method foo()'</span>
+    <span style="color: #a0522d;">foo</span> = <span style="color: #483d8b;">staticmethod</span>(foo)
+
+<span style="color: #a020f0;">class</span> <span style="color: #228b22;">TestClassMethod</span>:
+    <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">foo</span>(cls):
+        <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'calling class method foo()'</span>
+        <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'foo() is part of class:'</span>, cls.<span style="color: #483d8b;">__name__</span>
+    <span style="color: #a0522d;">foo</span> = <span style="color: #483d8b;">classmethod</span>(foo)
+</pre>
+
+
+</blockquote>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-10-4" class="outline-3">
+<h3 id="sec-10-4"><span class="section-number-3">10.4</span> 继承</h3>
+<div class="outline-text-3" id="text-10-4">
+
+
+</div>
+
+<div id="outline-container-10-4-1" class="outline-4">
+<h4 id="sec-10-4-1"><span class="section-number-4">10.4.1</span> 创建子类</h4>
+<div class="outline-text-4" id="text-10-4-1">
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">class</span> <span style="color: #228b22;">SubClassName</span> (ParentClass1[, ParentClass2, ...]):
+    ...
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-10-4-2" class="outline-4">
+<h4 id="sec-10-4-2"><span class="section-number-4">10.4.2</span> 继承</h4>
+<div class="outline-text-4" id="text-10-4-2">
+
+<ul>
+<li>一个子类可以继承它的基类的任何属性,不管是数据属性还是方法
+</li>
+<li>__bases__属性是一个包含父类的元组
+</li>
+<li>子类可以覆盖基类的方法
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python"><span style="color: #a020f0;">class</span> <span style="color: #228b22;">P</span>(<span style="color: #483d8b;">object</span>):
+    <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">foo</span>(<span style="color: #a020f0;">self</span>):
+        <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'Hi, I am P-foo()'</span>
+
+<span style="color: #a020f0;">class</span> <span style="color: #228b22;">C</span>(P):
+    <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">foo</span>(<span style="color: #a020f0;">self</span>):
+        <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'Hi, I am C-foo()'</span>
+</pre>
+
+
+</blockquote>
+
+
+<ul>
+<li>子类覆盖基类的方法后,访问基类方法的几种办法
+</li>
+</ul>
+
+<blockquote>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; P.foo(c)
+
+<span style="color: #a020f0;">class</span> <span style="color: #228b22;">C</span>(P):
+    <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">foo</span>(<span style="color: #a020f0;">self</span>):
+        P.foo(<span style="color: #a020f0;">self</span>)
+        <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'Hi, I am C-foo()'</span>
+
+<span style="color: #a020f0;">class</span> <span style="color: #228b22;">C</span>(P):
+    <span style="color: #a020f0;">def</span> <span style="color: #0000ff;">foo</span>(<span style="color: #a020f0;">self</span>):
+        <span style="color: #483d8b;">super</span>(C, <span style="color: #a020f0;">self</span>).foo()
+        <span style="color: #a020f0;">print</span> <span style="color: #8b2252;">'Hi, I am C-foo()'</span>
+</pre>
+
+
+</blockquote>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-10-5" class="outline-3">
+<h3 id="sec-10-5"><span class="section-number-3">10.5</span> 内建函数</h3>
+<div class="outline-text-3" id="text-10-5">
+
+
+
+
+<pre class="src src-python"><span style="color: #b22222;">#</span><span style="color: #b22222;">&#22914;&#26524;&#31867;sub&#26159;&#31867;sup&#30340;&#23376;&#31867;,&#21017;&#36820;&#22238;True,&#21542;&#21017;,&#36820;&#22238;False</span>
+<span style="color: #483d8b;">issubclass</span>(sub, sup)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#22914;&#26524;&#23454;&#20363;obj1&#26159;&#31867;obj2(&#25110;&#20854;&#23376;&#31867;)&#30340;&#19968;&#20010;&#23454;&#20363;,&#36820;&#22238;True;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#22914;&#26524;obj1&#26159;obj2&#30340;&#31867;&#22411;,&#36820;&#22238;True;&#21542;&#21017;,&#36820;&#22238;False</span>
+<span style="color: #483d8b;">isinstance</span>(obj1, obj2)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#22914;&#26524;obj&#26377;&#23646;&#24615;attr(&#29992;&#23383;&#31526;&#20018;&#32473;&#20986;),&#36820;&#22238;True,&#21542;&#21017;,&#36820;&#22238;False</span>
+<span style="color: #483d8b;">hasattr</span>(obj, attr)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#33719;&#21462;obj&#30340;attr&#23646;&#24615;;&#31867;&#20284;&#20110;obj.attr;&#33509;obj&#27809;&#26377;attr&#23646;&#24615;&#20294;&#25552;&#20379;&#20102;&#40664;&#35748;&#20540;,&#21017;&#36820;&#22238;&#40664;&#35748;&#20540;;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#21542;&#21017;,&#24341;&#21457;&#19968;&#20010;AttributeError&#24322;&#24120;</span>
+<span style="color: #483d8b;">getattr</span>(obj, attr[, default])
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#35774;&#32622;obj&#30340;attr&#23646;&#24615;&#20540;&#20026;val,&#33509;&#23646;&#24615;&#24050;&#23384;&#22312;&#21017;&#26367;&#25442;,&#33509;&#23646;&#24615;&#19981;&#23384;&#22312;&#21017;&#21019;&#24314;;&#31867;&#20284;&#20110;obj.attr=val</span>
+<span style="color: #483d8b;">setattr</span>(obj, attr, val)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#20174;obj&#20013;&#21024;&#38500;&#23646;&#24615;attr(&#20197;&#23383;&#31526;&#20018;&#32473;&#20986;);&#31867;&#20284;&#20110;del obj.attr</span>
+<span style="color: #483d8b;">delattr</span>(obj, attr)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#36820;&#22238;obj&#30340;&#23646;&#24615;&#30340;&#19968;&#20010;&#21015;&#34920;;&#22914;&#26524;&#27809;&#26377;&#32473;&#23450;obj,&#21017;&#26174;&#31034;&#23616;&#37096;&#21517;&#23383;&#31354;&#38388;&#31354;&#38388;&#20013;&#30340;&#23646;&#24615;,&#31561;&#21516;&#20110;locals().keys()</span>
+<span style="color: #483d8b;">dir</span>(obj=<span style="color: #008b8b;">None</span>)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#36820;&#22238;obj&#30340;&#23646;&#24615;&#21450;&#20854;&#20540;&#30340;&#19968;&#20010;&#23383;&#20856;;&#22914;&#26524;&#27809;&#26377;&#32473;&#20986;obj,&#26174;&#31034;&#23616;&#37096;&#21517;&#23383;&#31354;&#38388;&#23383;&#20856;(&#23646;&#24615;&#21450;&#20854;&#20540;),&#31561;&#21516;&#20110;locals()</span>
+<span style="color: #483d8b;">vars</span>(obj=<span style="color: #008b8b;">None</span>)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#36820;&#22238;&#19968;&#20010;&#34920;&#31034;&#29238;&#31867;&#31867;&#22411;&#30340;&#20195;&#29702;&#23545;&#35937;;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#22914;&#26524;obj&#20026;None,&#36820;&#22238;&#38750;&#32465;&#23450;&#30340;super&#23545;&#35937;;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#22914;&#26524;obj&#26159;&#19968;&#20010;&#31867;&#25110;&#32773;&#31867;&#22411;,issubclass(obj,type)&#24517;&#20026;True;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#22914;&#26524;obj&#26159;&#19968;&#20010;&#23454;&#20363;,isinstance(obj,type)&#23601;&#24517;&#20026;True</span>
+<span style="color: #483d8b;">super</span>(<span style="color: #483d8b;">type</span>, obj=<span style="color: #008b8b;">None</span>)
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-10-6" class="outline-3">
+<h3 id="sec-10-6"><span class="section-number-3">10.6</span> 私有化</h3>
+<div class="outline-text-3" id="text-10-6">
+
+<ul>
+<li>默认情况下,属性在Python中都是公有的
+</li>
+<li>名字由双下划线开始的属性不能直接访问
+</li>
+<li>但可以通过_ClassName__attributename来间接访问
+</li>
+</ul>
+
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-11" class="outline-2">
+<h2 id="sec-11"><span class="section-number-2">11</span> 执行环境</h2>
+<div class="outline-text-2" id="text-11">
+
+
+</div>
+
+<div id="outline-container-11-1" class="outline-3">
+<h3 id="sec-11-1"><span class="section-number-3">11.1</span> 执行代码对象(或代码字符串)</h3>
+<div class="outline-text-3" id="text-11-1">
+
+<ul>
+<li>代码对象
+</li>
+<li>可调用对象
+<ul>
+<li>每个可调用对象的核心都是代码对象
+</li>
+<li>代码对象不包含任何关于它们执行环境的信息,而可调用对象可以包装一个代码对象并提供额外的信息(如函数,方法等)
+</li>
+</ul>
+
+</li>
+</ul>
+
+
+</div>
+
+<div id="outline-container-11-1-1" class="outline-4">
+<h4 id="sec-11-1-1"><span class="section-number-4">11.1.1</span> 内建函数</h4>
+<div class="outline-text-4" id="text-11-1-1">
+
+
+
+
+<pre class="src src-python"><span style="color: #b22222;">#</span><span style="color: #b22222;">&#22914;&#26524;obj&#21487;&#35843;&#29992;,&#36820;&#22238;True,&#21542;&#21017;&#36820;&#22238;False</span>
+<span style="color: #483d8b;">callable</span>(obj)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#21019;&#24314;type&#31867;&#22411;&#30340;&#20195;&#30721;&#23545;&#35937;,type&#21487;&#21462;&#30340;&#20540;&#22914;&#19979;</span>
+<span style="color: #b22222;">#  </span><span style="color: #b22222;">'eval' &#21487;&#27714;&#20540;&#30340;&#34920;&#36798;&#24335;,&#21644;eval()&#19968;&#36215;&#20351;&#29992;</span>
+<span style="color: #b22222;">#  </span><span style="color: #b22222;">'single' &#21333;&#19968;&#21487;&#25191;&#34892;&#35821;&#21477;,&#21644;exec&#19968;&#36215;&#20351;&#29992;</span>
+<span style="color: #b22222;">#  </span><span style="color: #b22222;">'exec' &#21487;&#25191;&#34892;&#35821;&#21477;&#32452;,&#21644;exec&#19968;&#36215;&#20351;&#29992;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">file&#26159;&#20195;&#30721;&#23384;&#25918;&#30340;&#22320;&#26041;(&#36890;&#24120;&#35774;&#20026;"")</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">string&#26159;&#20195;&#30721;&#23383;&#31526;&#20018;</span>
+<span style="color: #483d8b;">compile</span>(string,<span style="color: #483d8b;">file</span>, <span style="color: #483d8b;">type</span>)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#23545;obj&#36827;&#34892;&#27714;&#20540;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">obj&#26159;&#20195;&#30721;&#23545;&#35937;,&#25110;&#23383;&#31526;&#20018;&#34920;&#36798;&#24335;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#21487;&#20197;&#32473;&#20986;&#20840;&#23616;&#25110;&#32773;/&#21644;&#23616;&#37096;&#30340;&#21517;&#23383;&#31354;&#38388;</span>
+<span style="color: #483d8b;">eval</span>(obj, <span style="color: #483d8b;">globals</span>=<span style="color: #483d8b;">globals</span>(),<span style="color: #483d8b;">locals</span>=<span style="color: #483d8b;">locals</span>())
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#25191;&#34892;obj</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">obj&#21487;&#20197;&#26159;&#20195;&#30721;&#23545;&#35937;,&#25110;&#32773;&#23383;&#31526;&#20018;,&#25110;&#25991;&#20214;&#23545;&#35937;</span>
+<span style="color: #a020f0;">exec</span> obj
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#31561;&#21516;&#20110;eval(raw_input(prompt=&#8221;))</span>
+<span style="color: #483d8b;">input</span>(prompt=<span style="color: #8b2252;">''</span>)
+</pre>
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a0522d;">single_code</span> = <span style="color: #483d8b;">compile</span>(<span style="color: #8b2252;">'print "Hello world!"'</span>, <span style="color: #8b2252;">''</span>, <span style="color: #8b2252;">'single'</span>)
+&gt;&gt;&gt; single_code
+&lt;code <span style="color: #483d8b;">object</span> ? at 120998, <span style="color: #483d8b;">file</span> <span style="color: #8b2252;">""</span>, line 0&gt;
+&gt;&gt;&gt; <span style="color: #a020f0;">exec</span> single_code
+Hello world!
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-11-2" class="outline-3">
+<h3 id="sec-11-2"><span class="section-number-3">11.2</span> 执行其他python程序</h3>
+<div class="outline-text-3" id="text-11-2">
+
+
+</div>
+
+<div id="outline-container-11-2-1" class="outline-4">
+<h4 id="sec-11-2-1"><span class="section-number-4">11.2.1</span> 导入</h4>
+<div class="outline-text-4" id="text-11-2-1">
+
+<p>第一次导入模块会执行模块最高级代码,将不希望执行的部分放入if __name__ == '__main__'语句中
+</p></div>
+
+</div>
+
+<div id="outline-container-11-2-2" class="outline-4">
+<h4 id="sec-11-2-2"><span class="section-number-4">11.2.2</span> exec</h4>
+<div class="outline-text-4" id="text-11-2-2">
+
+
+
+
+<pre class="src src-python"><span style="color: #a0522d;">f</span> = <span style="color: #483d8b;">open</span>(filename, <span style="color: #8b2252;">'r'</span>)
+<span style="color: #a020f0;">exec</span> f 
+f.close()
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-11-2-3" class="outline-4">
+<h4 id="sec-11-2-3"><span class="section-number-4">11.2.3</span> execfile()</h4>
+<div class="outline-text-4" id="text-11-2-3">
+
+<p>execfile()实现了上例中的功能
+</p>
+
+
+<pre class="src src-python"><span style="color: #483d8b;">execfile</span>(filename, <span style="color: #483d8b;">globals</span>=<span style="color: #483d8b;">globals</span>(), <span style="color: #483d8b;">locals</span>=<span style="color: #483d8b;">locals</span>())
+</pre>
+
+</div>
+</div>
+
+</div>
+
+<div id="outline-container-11-3" class="outline-3">
+<h3 id="sec-11-3"><span class="section-number-3">11.3</span> 执行其他非python程序</h3>
+<div class="outline-text-3" id="text-11-3">
+
+
+
+
+<pre class="src src-python"><span style="color: #b22222;">#</span><span style="color: #b22222;">&#25191;&#34892;&#31243;&#24207;cmd(&#23383;&#31526;&#20018;),&#31561;&#24453;&#31243;&#24207;&#32467;&#26463;,&#36820;&#22238;&#36864;&#20986;&#20195;&#30721;(windows&#19979;,&#22987;&#32456;&#20026;0)</span>
+system(cmd)
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#21019;&#24314;&#19968;&#20010;&#21644;&#29238;&#36827;&#31243;&#24182;&#34892;&#30340;&#23376;&#36827;&#31243;,&#36820;&#22238;&#20004;&#27425;,&#19968;&#27425;&#32473;&#29238;&#36827;&#31243;&#19968;&#27425;&#32473;&#23376;&#36827;&#31243;</span>
+fork()
+
+execl(<span style="color: #483d8b;">file</span>, arg0,arg1,...)        <span style="color: #b22222;"># </span><span style="color: #b22222;">&#29992;&#21442;&#25968;&#21015;&#34920;arg0, arg1&#31561;&#31561;&#25191;&#34892;&#25991;&#20214;</span>
+execle(<span style="color: #483d8b;">file</span>, arg0,arg1,... env)   <span style="color: #b22222;"># </span><span style="color: #b22222;">&#21516;execl,&#20294;&#25552;&#20379;&#20102;&#29615;&#22659;&#21464;&#37327;&#23383;&#20856;env</span>
+execlp(cmd, arg0,arg1,...)        <span style="color: #b22222;"># </span><span style="color: #b22222;">execl,&#20294;&#22312;&#29992;&#25143;&#25628;&#32034;&#36335;&#24452;&#19979;&#25628;&#32034;&#23436;&#20840;&#25991;&#20214;&#36335;&#24452;&#21517;</span>
+execlpe(cmd, arg0, arg1,... env)  <span style="color: #b22222;"># </span><span style="color: #b22222;">&#21516;execlp,&#20294;&#25552;&#20379;&#20102;&#29615;&#22659;&#21464;&#37327;&#23383;&#20856;env</span>
+execv(<span style="color: #483d8b;">file</span>, arglist)              <span style="color: #b22222;"># </span><span style="color: #b22222;">&#38500;&#20102;&#20351;&#29992;&#21442;&#25968;&#21521;&#37327;&#21015;&#34920;,&#20854;&#20182;&#30340;&#21644;execl()&#30456;&#21516;</span>
+execve(<span style="color: #483d8b;">file</span>,arglist, env)         <span style="color: #b22222;"># </span><span style="color: #b22222;">&#21516;execv,&#20294;&#25552;&#20379;&#20102;&#29615;&#22659;&#21464;&#37327;&#23383;&#20856;env</span>
+execvp(cmd, arglist)              <span style="color: #b22222;"># </span><span style="color: #b22222;">&#21516;execl,&#20294;&#22312;&#29992;&#25143;&#25628;&#32034;&#36335;&#24452;&#19979;&#25628;&#32034;&#23436;&#20840;&#25991;&#20214;&#36335;&#24452;&#21517;</span>
+execvpe(cmd,arglist, env)         <span style="color: #b22222;"># </span><span style="color: #b22222;">&#21516;execvp,&#20294;&#25552;&#20379;&#20102;&#29615;&#22659;&#21464;&#37327;&#23383;&#20856;env</span>
+
+<span style="color: #b22222;"># </span><span style="color: #b22222;">spawn*()&#23478;&#26063;&#31867;&#20284;exec*()&#23478;&#26063;,&#20063;&#21547;&#26377;8&#20010;&#20989;&#25968;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">spawn*()&#22312;&#19968;&#20010;&#26032;&#30340;&#36827;&#31243;&#20013;&#25191;&#34892;&#36335;&#24452;,args&#20316;&#20026;&#21442;&#25968;,&#20063;&#35768;&#36824;&#26377;&#29615;&#22659;&#21464;&#37327;&#30340;&#23383;&#20856; env;</span>
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#27169;&#24335;(mode)&#26159;&#20010;&#26174;&#31034;&#19981;&#21516;&#25805;&#20316;&#27169;&#24335;&#30340;&#39764;&#26415;</span>
+spawn*(mode, <span style="color: #483d8b;">file</span>, args[, env])
+
+wait()                <span style="color: #b22222;">#</span><span style="color: #b22222;">&#31561;&#24453;&#23376;&#36827;&#31243;&#23436;&#25104;[&#36890;&#24120;&#21644; fock &#21644; exec*()&#19968;&#36215;&#20351;&#29992;]</span>
+waitpid(pid,options)  <span style="color: #b22222;">#</span><span style="color: #b22222;">&#31561;&#24453;&#25351;&#23450;&#30340;&#23376;&#36827;&#31243;&#23436;&#25104;[&#36890;&#24120;&#21644; fock &#21644; exec*()&#19968;&#36215;&#20351;&#29992;]</span>
+
+<span style="color: #b22222;">#</span><span style="color: #b22222;">&#25191;&#34892;&#23383;&#31526;&#20018;cmd,&#36820;&#22238;&#19968;&#20010;&#31867;&#25991;&#20214;&#23545;&#35937;&#20316;&#20026;&#36816;&#34892;&#31243;&#24207;&#36890;&#20449;&#21477;&#26564;,&#40664;&#35748;&#20026;&#35835;&#21462;&#27169;&#24335;&#21644;&#40664;&#35748;&#31995;&#32479;&#32531;&#20914;</span>
+popen(cmd, mode=<span style="color: #8b2252;">'r'</span>,buffering=-1)
+</pre>
+
+<ul>
+<li>system()保留了现有标准文件,任何的命令(程序)的输出都会传到标准输出.system()通常和不会产生输出的命令一起使用
+</li>
+<li>popen()的例子
+</li>
+</ul>
+
+
+
+
+<pre class="src src-python">&gt;&gt;&gt; <span style="color: #a020f0;">import</span> os
+&gt;&gt;&gt; <span style="color: #a0522d;">f</span> = os.popen(<span style="color: #8b2252;">'uname -a'</span>)
+&gt;&gt;&gt; <span style="color: #a0522d;">data</span> = f.readline()
+&gt;&gt;&gt; f.close()
+&gt;&gt;&gt; <span style="color: #a020f0;">print</span> data,
+Linux solo 2.2.13 <span style="color: #b22222;">#</span><span style="color: #b22222;">1 Mon Nov 8 15:08:22 CET 1999 i586 unknown</span>
+</pre>
+
+<ul>
+<li>调用fork()的原始进程称为父进程,而作为该调用结果新创建的进程则称为子进程。当子进程返回的时候,其返回值永远是0;当父进程返回时,其返回值永远是子进程的进程标识符.
+</li>
+<li>fork()的经典用法
+</li>
+</ul>
+
+
+
+
+<pre class="src src-python"><span style="color: #a0522d;">ret</span> = os.fork()           <span style="color: #b22222;">#</span><span style="color: #b22222;">&#20135;&#29983;&#20004;&#20010;&#36827;&#31243;,&#37117;&#36820;&#22238;</span>
+<span style="color: #a020f0;">if</span> ret == 0:              <span style="color: #b22222;">#</span><span style="color: #b22222;">&#23376;&#36827;&#31243;&#36820;&#22238;&#30340;PID&#26159;0</span>
+    child_suite           <span style="color: #b22222;">#</span><span style="color: #b22222;">&#23376;&#36827;&#31243;&#30340;&#20195;&#30721;</span>
+<span style="color: #a020f0;">else</span>:                     <span style="color: #b22222;">#</span><span style="color: #b22222;">&#29238;&#36827;&#31243;&#36820;&#22238;&#26159;&#23376;&#36827;&#31243;&#30340;PID</span>
+    parent_suite          <span style="color: #b22222;">#</span><span style="color: #b22222;">&#29238;&#36827;&#31243;&#30340;&#20195;&#30721;</span>
+</pre>
+
+</div>
+
+</div>
+
+<div id="outline-container-11-4" class="outline-3">
+<h3 id="sec-11-4"><span class="section-number-3">11.4</span> 结束执行</h3>
+<div class="outline-text-3" id="text-11-4">
+
+
+</div>
+
+<div id="outline-container-11-4-1" class="outline-4">
+<h4 id="sec-11-4-1"><span class="section-number-4">11.4.1</span> sys.exit()</h4>
+<div class="outline-text-4" id="text-11-4-1">
+
+
+
+
+<pre class="src src-python">sys.<span style="color: #008b8b;">exit</span>(status=0)
+</pre>
+
+<p>
+调用sys.exit()时会引发SystemExit异常
+</p><ul>
+<li id="sec-11-4-1-1">sys.exitfunc()<br/>
+sys.exitfunc()默认是不可用的,可以改写它进行退出前的扫尾工作。当调用了sys.exit(),会在解释器退出之前执行这个函数
+</li>
+</ul>
+</div>
+
+</div>
+
+<div id="outline-container-11-4-2" class="outline-4">
+<h4 id="sec-11-4-2"><span class="section-number-4">11.4.2</span> os._exit()</h4>
+<div class="outline-text-4" id="text-11-4-2">
+
+
+
+
+<pre class="src src-python">os._exit(status)
+</pre>
+
+<p>
+不执行任何清理便立即退出python
+</p></div>
+
+</div>
+
+<div id="outline-container-11-4-3" class="outline-4">
+<h4 id="sec-11-4-3"><span class="section-number-4">11.4.3</span> os.kill()</h4>
+<div class="outline-text-4" id="text-11-4-3">
+
+<p>给进程发送信号
+</p></div>
+</div>
+</div>
+</div>
+</div>
+
+<div id="postamble">
+<p class="date">Date: 2014-09-08T12:45+0800</p>
+<p class="author">Author: 王超</p>
+<p class="creator"><a href="http://orgmode.org">Org</a> version 7.9.3f with <a href="http://www.gnu.org/software/emacs/">Emacs</a> version 24</p>
+<a href="http://validator.w3.org/check?uri=referer">Validate XHTML 1.0</a>
+
+</div>
+</body>
+</html>
